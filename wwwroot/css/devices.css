@@ -8,10 +8,20 @@
     border-radius: 10px;
 }
 
-.card_device .card_title {
+.card_device .card_title .form-control {
     text-align: center;
+    justify-content:center;
+    height:auto;
 }
 
-.input_group {
-    margin: 10px;
+.card_device .input_group {
+    margin-top: 20px;
+}
+.form-group{
+    margin: 20px;
+}
+.input-group-text {
+    width: 200px;
+    display: inline-block;
+    padding: 5px;
 }

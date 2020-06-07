@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj": {}
+    "D:\\Santiago\\Documentos\\GitHub\\fhir_panel\\AspStudio.csproj": {}
   },
   "projects": {
-    "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj": {
+    "D:\\Santiago\\Documentos\\GitHub\\fhir_panel\\AspStudio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj",
+        "projectUniqueName": "D:\\Santiago\\Documentos\\GitHub\\fhir_panel\\AspStudio.csproj",
         "projectName": "AspStudio",
-        "projectPath": "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj",
-        "packagesPath": "/Users/amejia/.nuget/packages/",
-        "outputPath": "/Users/amejia/qa/Proy Temperatura/AspStudio/obj/",
+        "projectPath": "D:\\Santiago\\Documentos\\GitHub\\fhir_panel\\AspStudio.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "D:\\Santiago\\Documentos\\GitHub\\fhir_panel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/amejia/.config/NuGet/NuGet.Config"
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,6 +65,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -71,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

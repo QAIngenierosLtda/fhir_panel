@@ -9,42 +9,95 @@
 </ul>
 
 <h1 class="page-header">
-    MQTT
+    Sistema
 </h1>
 
-<div class="card">
+<div class="card-sistema">
     <div class="card-body">
         <h4 class="card-title">MQTT</h4>
-        <form>
-            <div class="form-group">
-                <div class="settingsElement">
-                    <p class="switchText">Habilitar MQTT </p>
-                    <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
-                </div>
-            </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <p class="switchText">Habilitar MQTT </p>
+                            <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <p class="switchText">Retain </p>
+                            <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
 
-            <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">MQTT Broker</span></div><input type="text" class="form-control" />
-                <div class="input-group-append"></div>
-            </div>
-            <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">MQTT Port  </span></div><input type="text" class="form-control" />
-                <div class="input-group-append"></div>
-            </div>
-            <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">MQTT User     </span></div><input type="text" class="form-control" />
-                <div class="input-group-append"></div>
-            </div>
-            <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">MQTT Password</span></div><input type="text" class="form-control" />
-                <div class="input-group-append"></div>
-            </div>
-            <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">MQTT Client Id</span></div><input class="form-control" type="text" />
-                <div class="input-group-append"></div>
-            </div>
 
-            <button class="btn btn-primary" type="submit">Guardar</button>
-        </form>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Broker</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Port</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT User</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Password</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Client Id</span></div><input class="form-control" type="text" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Topic2Publish</span></div><input class="form-control" type="text" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Topic2Subscribe</span></div><input class="form-control" type="text" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Heartbeat</span></div><input class="form-control" type="text" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Publish QoS</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Subscribe QoS</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </form>
+
+
+            </div>
+            <div class="col-md-6">
+                <h4 class="card-title">Device System Managment</h4>
+                <form>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <p class="switchText">¿Reiniciar dispositivo? </p>
+                            <div class="onoffswitch"><input type="checkbox" id="reboot" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <p class="switchText">¿Restaurar a configuración de fábrica? </p>
+                            <div class="onoffswitch"><input type="checkbox" id="reset" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </form>
+            </div>
+        </div>
+        
+        
     </div>
 </div>

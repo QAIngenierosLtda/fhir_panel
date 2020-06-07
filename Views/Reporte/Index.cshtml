@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Device Page";
+}
+
+    <link href="@Url.Content("~/css/reporte.css")" rel="stylesheet" type="text/css" />
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">HOME</a></li>
+    <li class="breadcrumb-item active">REPORTES</li>
+</ul>
+
+<h1 class="page-header">
+    Vista de Reportes
+</h1>
+<!--   Querys  -->
+
+<div class="col-md-7">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">CONSULTAS</h4>
+            <br>
+            <form>
+                <h5>Consulta por páginas</h5>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input type="text" class="form-control" />
+                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">REALIZAR CONSULTA</button></div>
+                </div>
+                <br>
+                <div class="row">
+
+                </div>
+                <h5>Consulta por lote</h5>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input type="text" class="form-control" />
+                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">CONSULTAR LOTE</button></div>
+                </div>
+                <br>
+                <div class="row">
+
+                </div>
+                <h5>Consulta por usuario</h5>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input type="text" class="form-control" />
+                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">CONSULTAR USUARIO</button></div>
+                </div>
+                <div class="row">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+

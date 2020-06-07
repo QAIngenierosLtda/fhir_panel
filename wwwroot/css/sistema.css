@@ -1,14 +1,15 @@
 ﻿body {
 }
 
-.card {
-    width: 500px;
+.card-sistema {
+    width: 100%;
     margin: auto;
     padding: 20px;
     border: 2px;
     border-style: solid;
     margin-top: 10px;
     border-radius: 10px;
+    background-color:white;
 }
 
 .input-group-text {

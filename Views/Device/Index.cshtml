@@ -10,7 +10,7 @@
     <div class="row">
 
         <!-- Device Bind /unbind -->
-        <div class="card">
+        <div class="card col-md-4">
             <div class="card-body">
                 <h4 class="card-title">BIND /UNBIND</h4>
                 <form>
@@ -27,7 +27,7 @@
                         <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input type="text" class="form-control" />
                         <div class="input-group-append"></div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-top:20px;justify-content:center">
                         <button class="btn btn-success" id="bind" type="submit">BIND</button>
                         <button class="btn btn-danger" id="unbind" type="submit">UN-BIND</button>
                     </div>
@@ -39,7 +39,7 @@
         <!--    Device Basic Configuration -->
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">CONFIGURACION BASICA</h4>
+                <h4 class="card-title">CONFIGURACION BASICA </h4>
                 <form>
 
                     <div class="input-group">
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Fecha y Hora servidor </span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">Fecha y Hora servidor </span></div><input type="date" class="form-control" id="server_cur_pts" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="form-group">
@@ -60,8 +60,8 @@
                             <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" class="" name="onoffswitch" /> Sincronizar Hora dispositivo <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
                         </div>
                     </div>
-                    <div class="row" style ="margin-top:20px;">
-                        <button class="btn btn-success" id="basic_conifg" >ACTUALIZAR</button>
+                    <div class="row" style="margin-top:20px;justify-content:center">
+                        <button class="btn btn-success" id="basic_config" style="text-align:center">ACTUALIZAR</button>
                     </div>
 
                 </form>
@@ -100,8 +100,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <button class="btn btn-success" id="network">ACTUALIZAR</button>
+                    <div class="row" style="margin-top:20px;justify-content:center">
+                        <button class="btn btn-success" id="network" style="text-align:center">ACTUALIZAR</button>
                     </div>
 
                 </form>
@@ -122,29 +122,154 @@
                         <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input type="text" class="form-control" />
                         <div class="input-group-append"></div>
                     </div>
-                   
+
                     <div class="form-group">
                         <div class="settingsElement">
                             <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" class="" name="onoffswitch" /> Luz suplementaria <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <button class="btn btn-success" id="settings">ACTUALIZAR</button>
+                    <div class="row" style="margin-top:20px;justify-content:center">
+                        <button class="btn btn-success" id="settings" style="text-align:center">ACTUALIZAR</button>
                     </div>
 
                 </form>
             </div>
         </div>
 
+        <!--    Device Temperature Control Parameter Configuration -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">TEMPERATURA</h4>
+                <form>
 
-    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="temp_dec_en" class="" name="onoffswitch" /> Toma de temperatura <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="stranger_pass_en" class="" name="onoffswitch" /> Acceso a extraños <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="mask_check_en" class="" name="onoffswitch" /> Detección de tapabocas <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="save_record" class="" name="onoffswitch" /> Toma de videos <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="save_jpeg" class="" name="onoffswitch" /> Toma de instantáneas <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Temperatura de alarma </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Compensación de temperatura </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Tiempo de guardado de instantáneas. </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;justify-content:center">
+                        <button class="btn btn-success" id="temperature" style="text-align:center">ACTUALIZAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--   Add single or multiple user photo database information -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">INGRESO DE USUARIOS A LA BASE DE DATOS</h4>
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"> Nombre del lote </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">ID del lote</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Dirección IP servidor de fotos</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Puerto del servidor</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input type="date" class="form-control" id="active_time" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Fecha de salida</span></div><input type="date" class="form-control" id="end_time"/>
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">ID del usuario</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nombre de usuario</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">URL de fotografía.</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;justify-content:center">
+                        <button class="btn btn-success" id="adds_user" style="align-self:center" >ACTUALIZAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>        
+        <!--   Delete all photo library information-->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">BORRADO EN LA BASE DE DATOS</h4>
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"><button class="btn btn-success" id="delete_batch" style="width:150px;">BORRAR LOTE</button></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:150px;">BORRAR USUARIO</button></div>
+                    </div>
+                    <div></div>
+                    <div class="row" style="justify-content: center">
+                        <button class="btn btn-danger" id="delete_all" style="text-align:center; margin-top:40px">BORRAR TODAS LAS FOTOS</button>
+                    </div>
+                </form>
+            </div>
+        </div>     
+     </div>
 </div>
 
 
 <script>
     $('#bind').on('click', function () {
         alert('Binding');
-    })
+    });
+    $(function () {
+        $("#server_cur_pts").datepicker();
+        $("#server_cur_pts").datepicker("option", "dateFormat", 'yyyy/mm/dd');
+        $("#active_time").datepicker();
+        $("#active_time").datepicker("option", "dateFormat", 'yyyy/mm/dd');
+        $("#end_time").datepicker();
+        $("#end_time").datepicker("option", "dateFormat", 'yyyy/mm/dd');
+    });
+
 </script>
 

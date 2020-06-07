@@ -1,0 +1,27 @@
+﻿.card_device {
+    width: 250px;
+    margin: 20px;
+    padding: 20px;
+    border: 2px;
+    border-style: solid;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.card_device .card_title .form-control {
+    text-align: center;
+    justify-content: center;
+    height: auto;
+}
+
+.form-group {
+    margin: 20px;
+}
+
+.input-group-text {
+    width: 200px;
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+    justify-content: center;
+}

@@ -68,5 +68,8 @@ namespace AspStudio.Models
         [Column("updated")]
         public DateTime updated { get; set; }
 
+        [Column("Origen")]
+        public string Origen { get; set; }
+
     }
 }

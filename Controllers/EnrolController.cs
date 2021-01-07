@@ -81,7 +81,7 @@ namespace AspStudio.Controllers
             {
                 System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
             }
-            
+
             System.Console.WriteLine(tiposdoc);
             ViewBag.tiposdoc = tiposdoc;
 
@@ -94,7 +94,7 @@ namespace AspStudio.Controllers
             List<dynamic> regionales = new List<dynamic>();
             dynamic regional;
 
-            
+
 
             try
             {
@@ -117,7 +117,7 @@ namespace AspStudio.Controllers
 
 
 
-            
+
             var regInstalaciones = dbContext.Instalaciones;
 
             List<dynamic> instalaciones = new List<dynamic>();
@@ -125,12 +125,12 @@ namespace AspStudio.Controllers
 
             try
             {
-                
-                    instalacion = new ExpandoObject();
-                    instalacion.Codigo = 0;
-                    instalacion.Descripcion = "";
-                    instalaciones.Add(instalacion);
-                
+
+                instalacion = new ExpandoObject();
+                instalacion.Codigo = 0;
+                instalacion.Descripcion = "";
+                instalaciones.Add(instalacion);
+
             }
             catch (System.Exception e)
             {
@@ -139,68 +139,57 @@ namespace AspStudio.Controllers
 
             System.Console.WriteLine(instalaciones);
             ViewBag.instalaciones = instalaciones;
-            
 
 
 
 
 
 
-            var texto = dbContext.TextosEnrolam;
-            
 
-            List<dynamic> textoEnr = new List<dynamic>();
-            List<dynamic> textoEnr1 = new List<dynamic>();
-            dynamic textos;
+
+
+
+            var pruebas =
+            (from TextosPrueba in dbContext.TextosEnrolam
+             where TextosPrueba.Version == (from t1 in dbContext.TextosEnrolam where t1.Tipo == TextosPrueba.Tipo select t1.Version).Max()
+             select new { TextosPrueba.Texto, TextosPrueba.Pregunta, TextosPrueba.Version, TextosPrueba.Tipo });
+
+            List<dynamic> TextoTitulo = new List<dynamic>();
+            List<dynamic> TextoValidacion = new List<dynamic>();
+            dynamic TextosActuales;
 
             try
             {
-                foreach (var regtexto in texto)
+                foreach (var pruebaENR in pruebas)
                 {
-                    textos = new ExpandoObject();
-                    textos.id = regtexto.id;
-                    textos.Texto = regtexto.Texto;
-                    textos.Fecha = regtexto.Fecha;
-                    textos.Tipo = regtexto.Tipo;
-                    textos.Version = regtexto.Version;
-                    textos.Pregunta = regtexto.Pregunta;
-                    textoEnr.Add(textos);
-                }
-                /*
-                var results = from x in textoEnr
-                              group new { x.Tipo } by x.Tipo;
+                    TextosActuales = new ExpandoObject();
+                    TextosActuales.Texto = pruebaENR.Texto;
+                    TextosActuales.Pregunta = pruebaENR.Pregunta;
+                    TextosActuales.Version = pruebaENR.Version;
+                    TextosActuales.Tipo = pruebaENR.Tipo;
 
-                foreach (var xTipo in results)
-                {
-
-                    var txts = from s in dbContext.TextosEnrolam select s;
-
-                    textos = textoEnr.Where(s => s.Tipo.Contains(xTipo));
-
-                    foreach (var tipoVer in textos)
+                    if (TextosActuales.Tipo == 1)
                     {
-
-
-
+                        TextoTitulo.Add(TextosActuales);
                     }
-
-                }
-                */
-                //textoEnr1 = (List<dynamic>)textoEnr.OrderBy(x => x.Tipo);
-
-                /*
-                var results = from x in textoEnr
-                              group new { x.Texto, x.Version } by x.Tipo;*/
-
-
+                    else
+                    {
+                        TextoValidacion.Add(TextosActuales);
+                    }
+                };
             }
             catch (System.Exception e)
             {
                 System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
             }
 
-            System.Console.WriteLine(textoEnr);
-            ViewBag.textoEnr = textoEnr;
+
+
+
+
+
+            ViewBag.TextoTitulo = TextoTitulo;
+            ViewBag.TextoValidacion = TextoValidacion;
 
             return View();
         }
@@ -211,7 +200,6 @@ namespace AspStudio.Controllers
 
         //[Route("api/[controller]")]
 
-        
 
 
 
@@ -223,7 +211,8 @@ namespace AspStudio.Controllers
 
 
 
-            public Object CreateEnrol([FromBody] EnrolData mensaje)
+
+        public Object CreateEnrol([FromBody] EnrolData mensaje)
         {
             System.Console.WriteLine(mensaje);
 
@@ -243,6 +232,7 @@ namespace AspStudio.Controllers
                 empleado.Status = "";
                 empleado.created = DateTime.Now;
                 empleado.Metadatos = mensaje.Metadatos;
+                empleado.Origen = mensaje.Origen;
 
                 dbContext.EnrolDatas.Add(empleado);
                 dbContext.SaveChanges();
@@ -271,7 +261,7 @@ namespace AspStudio.Controllers
 
 
 
-               Models.EnrolData empleado = new Models.EnrolData();
+            Models.EnrolData empleado = new Models.EnrolData();
 
             empleado.Badge_id = badgeid;
             empleado.firstName = name;
@@ -288,18 +278,23 @@ namespace AspStudio.Controllers
             empleado.Status = "";
             empleado.created = DateTime.Now;
             empleado.Metadatos = metadatos;
+            empleado.Origen = "Web";
 
-            var mensaje= CreateEnrol(empleado);
+            var mensaje = CreateEnrol(empleado);
 
             //CreateEnrol(empleado);
 
             //dbContext.EnrolDatas.Add(empleado);
             //dbContext.SaveChanges();
 
+            if (aceptaterminos)
+            {
+                return View();
+            }
+            else
+            {
                 return RedirectToAction("Logout", "Account");
-
-           
-
+            }
 
         }
 
@@ -363,6 +358,17 @@ namespace AspStudio.Controllers
 
         [HttpGet]
 
+        public ActionResult GuardaFoto(string foto)
+        {
+
+            System.Console.WriteLine("Guardando ");
+
+            return RedirectToAction("Logout", "Account");
+
+        }
+
+        [HttpGet]
+
         public JsonResult GetPersonDetails(int Id)
         {
             var InstalacQuery =
@@ -370,7 +376,7 @@ namespace AspStudio.Controllers
             where Instalac.Regional == Id
             select new { Instalac.Codigo, Instalac.Descripcion };
 
-            
+
             return Json(InstalacQuery);
         }
 

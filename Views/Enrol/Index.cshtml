@@ -1,23 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Enrolling";
+    ViewData["Title"] = "Enrolamiento";
 }
 
 @using AspStudio.Models;
-
-
-
-
-
-
-
-<script type="text/javascript" src="@Url.Content("~/js/moment.js")"></script>
-
-
-
-
-<script type="text/javascript" src="@Url.Content("~/js/calendar.min.js")"></script>
-<!-- Calendar picker -->
-<link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
 
 
 <style>
@@ -62,7 +47,6 @@
     .img {
         width: 215px;
         height: 260px;
-
     }
 
         .img img {
@@ -70,8 +54,15 @@
             width: 100%;
         }
 
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
-
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 </style>
 
 
@@ -86,30 +77,114 @@
         <div class="col-md-1">
         </div>
 
-            <div class="col-md-10">
+        <div class="col-md-10">
 
-                <section id="Encabezado">
+            <section id="Encabezado">
 
-                    <div id="contenido">
-                        <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.JPG" align="middle" alt="Cuidemonos">
-                        @foreach (dynamic texto in ViewBag.TextoTitulo)
-                        {
-                            <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
-                            <p id="LetrasEncabezado">@texto.Texto</p>}
-                    </div>
-                </section>
+                <div id="contenido">
+                    <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.jpg" align="middle" alt="Cuidemonos">
+                    @foreach (dynamic texto in ViewBag.TextoTitulo)
+                    {
+                        <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
+                        <p id="LetrasEncabezado">@texto.Texto</p>}
+                </div>
+            </section>
 
-                <br />
+            <br />
 
+            <div id="botonguardar">
 
                 <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
+
+
+
+
+                    <table style="width: 100%">
+                        <colgroup>
+                            <col span="1" style="width: 25%;">
+                            <col span="1" style="width: 75%;">
+                        </colgroup>
+
+
+
+                        <!-- Put <thead>, <tbody>, and <tr>'s here! -->
+                        <tbody>
+                            <tr>
+                                <td><b>Número carné Ecopetrol :</b></td>
+                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" name="Badge_id" id="Badge_id" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>Nombre :</b></td>
+                                <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" name="Firstname" id="Firstname" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>Apellidos :</b></td>
+                                <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" name="LastName" id="LastName" /></td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Tipo documento :</b></td>
+                                <td>
+
+                                    <select required name="tipdoc" id="tipdoc">
+                                        <option value="" data-token=""> Tipo Documento </option>
+                                        <div class="dropdown-menu" role="menu">
+                                            @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
+                                            {
+                                                <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
+
+                                            }
+                                        </div>
+                                    </select>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Documento :</b></td>
+                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" name="Documento" id="Documento" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+
                     <div>
+                        @foreach (dynamic texto in ViewBag.TextoValidacion)
+                        {
+                            <h5>@texto.Pregunta</h5>
+                            <p>@texto.Texto</p>
+                            <p>
+                                <input required type="radio" name=@texto.Tipo value="Si"> Si
+                                <input required type="radio" name=@texto.Tipo value="No"> No
+                            </p>
+                        }
+                    </div>
+
+                    <br />
 
 
-                        <table style="width: 100%">
+                    <input type="submit" value="Guardar Datos" class="btn btn-block btn-primary" />
+
+
+
+                </form>
+            </div>
+
+
+            <br />
+            <br />
+
+            <div id="confirmarDatos">
+
+                <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
+
+                    <div id="resumenDatos">
+
+                        <table style="width: 100%" border="1">
                             <colgroup>
-                                <col span="1" style="width: 25%;">
-                                <col span="1" style="width: 75%;">
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 50%;">
                             </colgroup>
 
 
@@ -117,182 +192,125 @@
                             <!-- Put <thead>, <tbody>, and <tr>'s here! -->
                             <tbody>
                                 <tr>
-                                    <td><b>Número carné Ecopetrol :</b></td>
-                                    <td><input autocomplete="off" style="width:50%;" required title="Número de carné de Ecopetrol" name="Badge_id" id="Badge_id" /></td>
+                                    <td align="right"><b><label> Número carné Ecopetrol :</label></b></td>
+                                    <td><label id="badgeid"></label></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Nombre :</b></td>
-                                    <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" name="Firstname" id="Firstname" /></td>
+                                    <td align="right"><b><label> Nombre :</label></b></td>
+                                    <td><label id="firstname"></label></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Apellidos :</b></td>
-                                    <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" name="LastName" id="LastName" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td><b>Tipo documento :</b></td>
-                                    <td>
-
-                                        <select required name="tipdoc" id="tipdoc">
-                                            <option value="" data-token=""> Tipo Documento </option>
-                                            <div class="dropdown-menu" role="menu">
-                                                @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
-                                                {
-                                                    <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
-
-                                                }
-                                            </div>
-                                        </select>
-
-                                    </td>
+                                    <td align="right"><b><label>Apellidos :</label></b></td>
+                                    <td><label id="lastname"></label></td>
                                 </tr>
 
                                 <tr>
-                                    <td><b>Documento :</b></td>
-                                    <td><input autocomplete="off" style="width:50%;" required title="Número de documento de identidad" name="Documento" id="Documento" /></td>
+                                    <td align="right"><b><label>Tipo documento :</label></b></td>
+                                    <td><label id="tipodoc"></label></td>
                                 </tr>
+
+                                <tr>
+                                    <td align="right"><b><label>Documento :</label></b></td>
+                                    <td><label id="documento"></label></td>
+                                </tr>
+
+
+                                @foreach (dynamic texto in ViewBag.TextoValidacion)
+                                {
+                                    <tr>
+                                        <td align="right">
+                                            <b><label>@texto.Pregunta</label></b>
+                                        </td>
+                                        <td>
+                                            <label id=@texto.Tipo> </label>
+                                        </td>
+                                    </tr>
+                                }
+
                             </tbody>
                         </table>
 
-                        <br />
 
-                        <div>
-                            @foreach (dynamic texto in ViewBag.TextoValidacion)
-                            {
-                                <h5>@texto.Pregunta</h5>
-                                <p>@texto.Texto</p>
-                                <p>
-                                    <input required type="radio" name=@texto.Tipo value="Si"> Si
-                                    <input required type="radio" name=@texto.Tipo value="No"> No
-                                </p>
-                            }
+
+                    </div>
+
+                    <div id="btnConfirmar" class="wrapper">
+
+                        <input class="btn btn-secondary" style="width:50%" type="submit" value="Confirmar datos" />
+                    </div>
+                </form>
+
+                <div id="btnCancelar" class="wrapper">
+
+                    <form autocomplete="off" enctype="multipart/form-data" id="formCancela" method="post">
+
+                        <input class="btn btn-warning" style="width:50%" type="submit" value="Revisar datos" />
+                    </form>
+
+                </div>
+            </div>
+
+
+            <div id="divifoto">
+
+
+                <p style="font-size:15px">
+                    <br /><b>
+                        Con el ánimo que pueda ingresar a través de mecanismo de reconocimiento facial y control térmico digital y sin contacto con nadie, por favor carga aquí la foto con las siguientes características:
+                        Nombrar la foto con su numero de registro o cédula.
+                    </b>
+                </p>
+
+                <p style="font-size:12px">
+                    1.     En formato vertical, con buena iluminación, sin sombras ni flash activo<br />
+                    2.	A color con la máxima configuración de calidad de la cámara y sin retoques<br />
+                    3.	Fondo blanco sin objetos de fondo<br />
+                    4.	Mirar la cámara con los ojos abiertos sin accesorios (gorra, bufandas, gafas oscuras o reflectivas)<br />
+                    5.      No debe ser mayor a 1 año, si no tiene una disponible es muy fácil ubíquese en una pared blanca y pídale el favor a un familiar que se la tome teniendo en cuenta las recomendaciones del 1 al 4, en caso de que no tenga quien le tome la foto hágalo tipo selfie.<br />
+                    6.     El archivo no debe ser superior a 10MB ni inferior a 500KB.
+                </p>
+
+                <form enctype="multipart/form-data" id="formuploadajax" method="post">
+                    <div>
+                        <label for="image1">Foto</label>
+                        <input name="file" id="file" type="file" />
+                        <p style="font-size:13px">
+                            Límite de número de archivos:1&nbsp;Límite de tamaño del archivo individual: 10MB&nbsp;Tipos de archivo permitidos: Imagen,Vídeo
+                        </p>
+
+
+                        <div id="preview" class="img">
+
                         </div>
 
                         <br />
 
-                        <div id="botonGuardar">
-                            <input type="submit" value="Guardar Datos" class="btn btn-block btn-primary" />
+                        <div id="btnImg">
+
+                            <input class="btn btn-info" style="width:50%" type="submit" value="Procesar foto" />
+                            <!--<input type="button" onclick="Upload($('#UploadFile'));" />-->
                         </div>
 
                     </div>
                 </form>
 
-                <br />
-                <br />
-
-                <div id="confirmarDatos">
-
-                    <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
-
-                        <div>
-
-                            <table style="width: 100%">
-                                <colgroup>
-                                    <col span="1" style="width: 25%;">
-                                    <col span="1" style="width: 75%;">
-                                </colgroup>
 
 
 
-                                <!-- Put <thead>, <tbody>, and <tr>'s here! -->
-                                <tbody>
-                                    <tr>
-                                        <td><b>Número carné Ecopetrol :</b></td>
-                                        <td height="10%"><label id="badgeid"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Nombre :</b></td>
-                                        <td><label id="firstname"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Apellidos :</b></td>
-                                        <td><label id="lastname"></label></td>
-                                    </tr>
+                <div id="imgProc">
+                    <form id="formTermina" method="post">
 
-                                    <tr>
-                                        <td><b>Tipo documento :</b></td>
-                                        <td><label id="tipodoc"></label></td>
-                                    </tr>
+                        <h5><b>Imagen procesada</b></h5>
+                        <img width="214" height="267" id="imgproc" src="" alt="imagen procesada" />
+                        <br />
+                        <input class="btn btn-info" style="width:50%" type="submit" id="UploadFile" value="Click para Terminar" />
 
-                                    <tr>
-                                        <td><b>Documento :</b></td>
-                                        <td><label id="documento"></label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-
-                        </div>
-
-                        <input class="btn btn-secondary" style="width:30%" type="submit" value="Confirmar datos" />
-
-                    </form>
-
-                    <form autocomplete="off" enctype="multipart/form-data" id="formCancela" method="post">
-
-                        <input class="btn btn-warning" style="width:30%" type="submit" value="Revisar datos" />
-                    </form>
-
-                </div>
-
-
-
-                <div id="divifoto">
-
-                    <p style="font-size:15px">
-                        Con el ánimo que pueda ingresar a través de mecanismo de reconocimiento facial y control térmico digital y sin contacto con nadie, por favor carga aquí la foto con las siguientes características:
-                        Nombrar la foto con su numero de registro o cédula.
-                    </p>
-
-                    <p style="font-size:12px">
-                        1.     En formato vertical, con buena iluminación, sin sombras ni flash activo<br />
-                        2.	A color con la máxima configuración de calidad de la cámara y sin retoques<br />
-                        3.	Fondo blanco sin objetos de fondo<br />
-                        4.	Mirar la cámara con los ojos abiertos sin accesorios (gorra, bufandas, gafas oscuras o reflectivas)<br />
-                        5.      No debe ser mayor a 1 año, si no tiene una disponible es muy fácil ubíquese en una pared blanca y pídale el favor a un familiar que se la tome teniendo en cuenta las recomendaciones del 1 al 4, en caso de que no tenga quien le tome la foto hágalo tipo selfie.<br />
-                        6.     El archivo no debe ser superior a 10MB ni inferior a 500KB.
-                    </p>
-
-                    <form enctype="multipart/form-data" id="formuploadajax" method="post">
-                        <div>
-                            <label for="image1">Foto</label>
-                            <input name="file" id="file" type="file" />
-
-
-
-                            <div id="preview" class="img">
-
-                            </div>
-
-                            <br />
-                            <br />
-
-                            <div>
-                                <h5><b>Imagen procesada</b></h5>
-                                <img width="214" height="267" id="imgproc" src="" alt="imagen procesada" />
-                            </div>
-
-                            <p style="font-size:13px">
-                                Límite de número de archivos:1&nbsp;Límite de tamaño del archivo individual: 10MB&nbsp;Tipos de archivo permitidos: Imagen,Vídeo
-                            </p>
-
-                            <p style="font-size:15px">
-                                <br />
-                            </p>
-
-
-
-                            <input type="submit" id="UploadFile" value="Enviar" />
-                            <!--<input type="button" onclick="Upload($('#UploadFile'));" />-->
-
-
-                        </div>
                     </form>
                 </div>
-
             </div>
+
         </div>
+    </div>
 
 </div>
 
@@ -300,11 +318,19 @@
 
     var divfoto = document.getElementById("divifoto");
     var divconfirmar = document.getElementById("confirmarDatos");
-    var divbotonGuardar = document.getElementById("botonGuardar");
+    var divbotonguardar = document.getElementById("botonguardar");
+    var divconfirmarDatos = document.getElementById("confirmarDatos");
+    var divbtnConfirmar = document.getElementById("btnConfirmar");
+    var divbtnCancelar = document.getElementById("btnCancelar");
+    var divimgProc = document.getElementById("imgProc");
+    var divbtnImg = document.getElementById("btnImg");
     
+
 
     divfoto.style.display = "none";
     divconfirmar.style.display = "none";
+    divimgProc.style.display = "none";
+
 
 
             var result = [];
@@ -375,7 +401,16 @@
             };
 
 
-        $(function () {
+    $(function () {
+
+        $("#formTermina").on("submit", function (e) {
+
+            e.preventDefault();
+
+
+            window.location.href = "/Account/Logout";
+
+        });
 
             $("#formCancela").on("submit", function (e) {
 
@@ -383,15 +418,7 @@
 
 
                 divconfirmar.style.display = "none";
-
-
-                document.getElementById("Badge_id").disabled = false;
-                document.getElementById("Firstname").disabled = false;
-                document.getElementById("LastName").disabled = false;
-                document.getElementById("tipdoc").disabled = false;
-                document.getElementById("Documento").disabled = false;
-                document.getElementByName("2").disabled = false;
-                document.getElementByName("3").disabled = false;
+                divbotonguardar.style.display = "block";
 
             });
 
@@ -402,23 +429,18 @@
                     document.getElementById("badgeid").innerHTML = $('#Badge_id').val().trim();
                     document.getElementById("firstname").innerHTML = $('#Firstname').val().trim();
                     document.getElementById("lastname").innerHTML = $('#LastName').val().trim();
+
                     var e = document.getElementById("tipdoc");
-                    var strUser = e.value;
+                    var strUser = e.options[e.selectedIndex].text;
+
                     document.getElementById("tipodoc").innerHTML = strUser;
                     document.getElementById("documento").innerHTML = $('#Documento').val().trim();
 
+                    document.getElementById("2").innerHTML = $('input:radio[name=2]:checked').val();
+                    document.getElementById("3").innerHTML = $('input:radio[name=3]:checked').val();
+
                     divconfirmar.style.display = "block";
-                    //divbotonguardar.style.display = "none";
-
-                    /*document.getElementById("badgeid").focus();*/
-
-                    document.getElementById("Badge_id").disabled = true;
-                    document.getElementById("Firstname").disabled = true;
-                    document.getElementById("LastName").disabled = true;
-                    document.getElementById("tipdoc").disabled = true;
-                    document.getElementById("Documento").disabled = true;
-                    document.getElementByName("2").disabled = true;
-                    document.getElementByName("3").disabled = true;
+                    divbotonguardar.style.display = "none";
 
                 });
 
@@ -426,26 +448,24 @@
 
                     e.preventDefault();
 
-                    divconfirmar.style.display = "none";
+
 
 
                     var x = true;
                     var terminos = true;
 
-
-                    
-
-
                     //Validaciones
- 
-                    if ($('#2').val() == "No" || $('#3').val() == "No") {
+
+                    if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No") {
                         alert("Registramos su decisión, muchas gracias.");
                         terminos = false;
                     } else {
                         alert("Datos registrados.");
+                        divbtnConfirmar.style.display = "none";
+                        divbtnCancelar.style.display = "none";
                         divfoto.style.display = "block";
                     }
-           
+
 
                     if (x) {
 
@@ -456,9 +476,52 @@
 
                         var ipvar = "";
 
-                        getUserIP(function (ip) {
-                            ipvar = ip;
-                        });
+                        //window.location.href = "/Enrol/GetIPAddress?IPAddress=" + ipvar;
+
+                        //fetch("@Url.Content("~/Enrol/GetIPAddress")")
+                        //    .then(function (result) {
+                        //        if (result.ok) {
+
+
+
+                        //        }
+                        //    })
+
+                        ipvar = "@ViewBag.varIP";
+
+                        //var myValue = document.getElementById("@(ViewBag.varIP)").value;
+                        //var myJsVariable = '@ViewBag.varIP'
+                        //alert(myJsVariable);
+
+                        //alert("Buscando");
+
+                        //var myJsVariable = getIpClient();
+                        //console.log(myJsVariable);
+                        //alert(myJsVariable.value);
+
+                        //getUserIP(function (ip) {
+                        //    document.getElementById("ip").innerHTML = 'Got your IP ! : ' + ip + " | verify in http://www.whatismypublicip.com/";
+                        //    ipvar = ip;
+                        //    console.log(ip);
+                        //    alert(ip);
+                        //});
+
+
+
+                        //var findIP = new Promise(r => { var w = window, a = new (w.RTCPeerConnection || w.mozRTCPeerConnection || w.webkitRTCPeerConnection)({ iceServers: [] }), b = () => { }; a.createDataChannel(""); a.createOffer(c => a.setLocalDescription(c, b, b), b); a.onicecandidate = c => { try { c.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g).forEach(r) } catch (e) { } } })
+                        //findIP.then(ip => document.write('Tu IP: ', ip)).catch(e => console.error(e))
+
+                        //getUserIP(function (ip) {
+                            //document.getElementById("ip").innerHTML = 'Got your IP ! : ' + ip + " | verify in http://www.whatismypublicip.com/";
+
+                        //    alert(ip);
+                        //    ipvar = ip
+                        //});
+
+
+                        //alert(ipvar);
+                        //alert(ip);
+
 
                         var e = document.getElementById("tipdoc");
                         var strUser = e.value;
@@ -492,14 +555,14 @@
                             data: JSON.stringify(configuracion),
                             cache: false,
                             contentType: 'application/json'
-                            
+
                         })
 
                             .done(function (res) {
                                 $("#mensaje").html("Respuesta: " + res);
 
                                 console.log(res);
-                                
+
 
                             })
                             .fail(function () {
@@ -528,6 +591,7 @@
                     //});
 
                     console.log("Enviando imagen01");
+                    console.log(formData);
                     //formData.append(f.attr("name"), $(this)[0].files[0]);
                     var imagen = "";
 
@@ -544,6 +608,8 @@
                     })
                         .done(function (res) {
                             $("#mensaje").html("Respuesta: " + res);
+
+                            console.log(res.status);
 
                             if (res.status == "aprobado") {
 
@@ -608,16 +674,29 @@
                                         console.log("Error actualizando datos");
                                     });
 
+                                divimgProc.style.display = "block";
+                                divbtnImg.style.display = "none";
+
+
+                                //alert("Foto almacenada");
+
+
+
                             } else {
+
+                                console.log("Foto no cumple");
 
                                 alert("Foto no cumple con los requisitos");
                             };
-                            });
-
-
+                        })
+                        .fail(function () {
+                            alert("Foto no cumple con los requisitos");
                         });
 
-                    
+
+                    });
+
+
 
 
             });
@@ -674,43 +753,7 @@
     }
 
 
-function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
-    //compatibility for firefox and chrome
-    var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-    var pc = new myPeerConnection({
-        iceServers: []
-    }),
-    noop = function() {},
-    localIPs = {},
-    ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
-    key;
 
-    function iterateIP(ip) {
-        if (!localIPs[ip]) onNewIP(ip);
-        localIPs[ip] = true;
-    }
-
-     //create a bogus data channel
-    pc.createDataChannel("");
-
-    // create offer and set local description
-    pc.createOffer().then(function(sdp) {
-        sdp.sdp.split('\n').forEach(function(line) {
-            if (line.indexOf('candidate') < 0) return;
-            line.match(ipRegex).forEach(iterateIP);
-        });
-
-        pc.setLocalDescription(sdp, noop, noop);
-    }).catch(function(reason) {
-        // An error occurred, so handle the failure to connect
-    });
-
-    //listen for candidate events
-    pc.onicecandidate = function(ice) {
-        if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
-        ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
-    };
-    }
 
     function ValidaDatos() {
 
@@ -721,9 +764,57 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
         var strUser = e.value;
         document.getElementById("tipodoc").innerHTML = strUser;
         document.getElementById("documento").innerHTML = $('#Documento').val().trim();
- 
+
 
     }
+
+    async function getIpClient() {
+        try {
+            const response = await axios.get('https://ipinfo.io/json');
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
+        //compatibility for firefox and chrome
+        var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+        var pc = new myPeerConnection({
+            iceServers: []
+        }),
+            noop = function () { },
+            localIPs = {},
+            ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+            key;
+
+        function iterateIP(ip) {
+            if (!localIPs[ip]) onNewIP(ip);
+            localIPs[ip] = true;
+        }
+
+        //create a bogus data channel
+        pc.createDataChannel("");
+
+        // create offer and set local description
+        pc.createOffer(function (sdp) {
+            sdp.sdp.split('\n').forEach(function (line) {
+                if (line.indexOf('candidate') < 0) return;
+                line.match(ipRegex).forEach(iterateIP);
+            });
+
+            pc.setLocalDescription(sdp, noop, noop);
+        }, noop);
+
+        //listen for candidate events
+        pc.onicecandidate = function (ice) {
+            if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+            ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+        };
+    }
+
+
 
 </script>
 

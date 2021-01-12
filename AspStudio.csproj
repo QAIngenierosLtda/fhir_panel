@@ -47,6 +47,7 @@
     <PackageReference Include="PdfSharpCore.MigraDoc.Rendering" Version="1.50.0-beta5-3" />
     <PackageReference Include="IronPdf" Version="2020.6.0" />
     <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+    <PackageReference Include="System.Web.Http.Common" Version="4.0.20126.16343" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NewFolder\" />

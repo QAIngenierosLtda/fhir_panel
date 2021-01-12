@@ -1,43 +1,34 @@
 ﻿
-using System.Collections.Generic;
-using System.Dynamic;
+using AspStudio.Data;
+// Database connection
+using AspStudio.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 // using System.Net.Mqtt;
 using MQTTnet;
 using MQTTnet.Client;
-// Database connection
-using AspStudio.Models;
-using AspStudio.Data;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Diagnostics;
-
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Dynamic;
+using System.Web;
+//using System.Web.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using System.Net;
 
-
-//using System.Web;
-//using System.Web.Http;
-using System.Net.Http.Headers;
-
 // Json
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 // Database connection
 
 
 
 using System.IO;
-
-using Microsoft.AspNetCore.Http;
 using System.Linq;
-using System;
-using Newtonsoft.Json;
-using System.Drawing;
-using System.Drawing.Imaging;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Specialized;
+using System.Net;
 
 namespace AspStudio.Controllers
 {
@@ -140,9 +131,22 @@ namespace AspStudio.Controllers
             System.Console.WriteLine(instalaciones);
             ViewBag.instalaciones = instalaciones;
 
+            string IPAddress;
 
+            IPAddress = "";
+            IPHostEntry Host = default(IPHostEntry);
+            string Hostname = null;
+            Hostname = System.Environment.MachineName;
+            Host = Dns.GetHostEntry(Hostname);
+            foreach (IPAddress IP in Host.AddressList)
+            {
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    IPAddress = Convert.ToString(IP);
+                }
+            }
 
-
+            ViewBag.varIP = IPAddress;
 
 
 
@@ -428,6 +432,33 @@ namespace AspStudio.Controllers
 
             return View();
         }
+
+        [HttpGet]
+
+        public ActionResult GetIPAddress(string IPAddress)
+        {
+
+
+
+            IPHostEntry Host = default(IPHostEntry);
+            string Hostname = null;
+            Hostname = System.Environment.MachineName;
+            Host = Dns.GetHostEntry(Hostname);
+            foreach (IPAddress IP in Host.AddressList)
+            {
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    IPAddress = Convert.ToString(IP);
+                }
+            }
+
+            ViewBag.varIP = IPAddress;
+            return View();
+        }
+
+
+
+        
 
         /*
          fecha de autorización,

@@ -90,14 +90,16 @@
                 </div>
             </section>
 
+            @if (true)
+            {
+                string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
+                <label id="NombreUsuario" style="display:none">@userName</label>
+            }
             <br />
 
             <div id="botonguardar">
 
                 <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
-
-
-
 
                     <table style="width: 100%">
                         <colgroup>
@@ -111,15 +113,15 @@
                         <tbody>
                             <tr>
                                 <td><b>Número carné Ecopetrol :</b></td>
-                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" name="Badge_id" id="Badge_id" /></td>
+                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" /></td>
                             </tr>
                             <tr>
                                 <td><b>Nombre :</b></td>
-                                <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" name="Firstname" id="Firstname" /></td>
+                                <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" /></td>
                             </tr>
                             <tr>
                                 <td><b>Apellidos :</b></td>
-                                <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" name="LastName" id="LastName" /></td>
+                                <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
                             </tr>
 
                             <tr>
@@ -142,7 +144,7 @@
 
                             <tr>
                                 <td><b>Documento :</b></td>
-                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" name="Documento" id="Documento" /></td>
+                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -250,7 +252,6 @@
                 </div>
             </div>
 
-
             <div id="divifoto">
 
 
@@ -287,7 +288,7 @@
 
                         <div id="btnImg">
 
-                            <input class="btn btn-info" style="width:50%" type="submit" value="Procesar foto" />
+                            <input class="btn btn-info" style="width:50%" type="submit" value="Validar foto" />
                             <!--<input type="button" onclick="Upload($('#UploadFile'));" />-->
                         </div>
 
@@ -301,7 +302,7 @@
                     <form id="formTermina" method="post">
 
                         <h5><b>Imagen procesada</b></h5>
-                        <img width="214" height="267" id="imgproc" src="" alt="imagen procesada" />
+                        <img width="214" height="267" id="imgproc" src="" alt="Imagen procesada" />
                         <br />
                         <input class="btn btn-info" style="width:50%" type="submit" id="UploadFile" value="Click para Terminar" />
 
@@ -324,7 +325,7 @@
     var divbtnCancelar = document.getElementById("btnCancelar");
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
-    
+
 
 
     divfoto.style.display = "none";
@@ -467,7 +468,11 @@
                     }
 
 
+
+
                     if (x) {
+
+
 
                         var hoy = new Date();
                         var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
@@ -488,6 +493,12 @@
                         //    })
 
                         ipvar = "@ViewBag.varIP";
+
+                        var userName = ""
+
+
+                        userName = document.getElementById("NombreUsuario").textContent;
+
 
                         //var myValue = document.getElementById("@(ViewBag.varIP)").value;
                         //var myJsVariable = '@ViewBag.varIP'
@@ -541,9 +552,11 @@
                             idStatus: "",
                             status: "",
                             origen: "web",
-                            metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + "\",\"versionTxt\":\"0.1\",\"Usuario_activo\":\"Santiago\",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                            metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
                             image: ""
                         };
+
+                        console.log(configuracion);
 
                         $.ajax({
                             url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
@@ -563,16 +576,18 @@
 
                                 console.log(res);
 
+                                if (terminos == false) {
+                                    window.location.href = "/Account/Logout";
+                                };
 
                             })
                             .fail(function () {
                                 console.log("Error actualizando datos");
+                                alert("seguimiento 2");
                             });
                     }
-
-                    if (terminos == false) {
-                        window.location.href = "/Account/Logout";
-                    };
+                    
+                    
                 });
 
                 $("#formuploadajax").on("submit", function (e) {
@@ -650,6 +665,8 @@
                                     metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + "\",\"versionTxt\":\"0.1\",\"Usuario_activo\":\"Santiago\",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
                                     image: imagen
                                 };
+
+
 
                                 $.ajax({
                                     url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
@@ -812,6 +829,11 @@
             if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
             ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
         };
+    }
+
+    // sleep time expects milliseconds
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
     }
 
 

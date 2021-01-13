@@ -4,6 +4,7 @@
 
 @using AspStudio.Models;
 
+<!-- Estilos usados en diferentes partes de la página -->
 
 <style>
 
@@ -23,7 +24,7 @@
 
     #LetrasEncabezado {
         position: relative;
-        text-align: left;
+        text-align: justify;
         color: white;
     }
 
@@ -79,6 +80,8 @@
 
         <div class="col-md-10">
 
+            <!-- Encabezado de página con imagen, el texto se toma de la tabla TextosEnrol -->
+
             <section id="Encabezado">
 
                 <div id="contenido">
@@ -86,10 +89,12 @@
                     @foreach (dynamic texto in ViewBag.TextoTitulo)
                     {
                         <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
-                        <p id="LetrasEncabezado">@texto.Texto</p>}
+                        <p id="LetrasEncabezado"><font size="4">@texto.Texto</font></p>}
+
                 </div>
             </section>
 
+            <!-- Variable usada para tomar el nombre del usuario logueado, se almacena en los metadatos -->
             @if (true)
             {
                 string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
@@ -101,10 +106,11 @@
 
                 <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
 
+                    <!-- Tabla creada para alinear los datos solicitados al usuario -->
                     <table style="width: 100%">
                         <colgroup>
-                            <col span="1" style="width: 25%;">
-                            <col span="1" style="width: 75%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 80%;">
                         </colgroup>
 
 
@@ -112,20 +118,21 @@
                         <!-- Put <thead>, <tbody>, and <tr>'s here! -->
                         <tbody>
                             <tr>
-                                <td><b>Número carné Ecopetrol :</b></td>
+                                <td><b><font size="4">Número carné Ecopetrol :</font></b></td>
                                 <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" /></td>
                             </tr>
                             <tr>
-                                <td><b>Nombre :</b></td>
+                                <td><b><font size="4">Nombre :</font></b></td>
                                 <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" /></td>
                             </tr>
                             <tr>
-                                <td><b>Apellidos :</b></td>
+                                <td><b><font size="4">Apellidos :</font></b></td>
                                 <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
                             </tr>
 
+                            <!-- Lista desplegable con los tipos de documento tomados de la tabla Tipos_Doc -->
                             <tr>
-                                <td><b>Tipo documento :</b></td>
+                                <td><b><font size="4"> Tipo documento :</font></b></td>
                                 <td>
 
                                     <select required name="tipdoc" id="tipdoc">
@@ -143,7 +150,7 @@
                             </tr>
 
                             <tr>
-                                <td><b>Documento :</b></td>
+                                <td><b><font size="4">Documento :</font></b></td>
                                 <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
                             </tr>
                         </tbody>
@@ -155,7 +162,7 @@
                         @foreach (dynamic texto in ViewBag.TextoValidacion)
                         {
                             <h5>@texto.Pregunta</h5>
-                            <p>@texto.Texto</p>
+                            <p align="justify"><font size="4"> @texto.Texto</font></p>
                             <p>
                                 <input required type="radio" name=@texto.Tipo value="Si"> Si
                                 <input required type="radio" name=@texto.Tipo value="No"> No
@@ -296,14 +303,14 @@
                 </form>
 
 
-
-
                 <div id="imgProc">
                     <form id="formTermina" method="post">
+                        <br />
 
                         <h5><b>Imagen procesada</b></h5>
                         <img width="214" height="267" id="imgproc" src="" alt="Imagen procesada" />
                         <br />
+                        <p><b><font size="4">Imagen validada correctamente</font></b></p>
                         <input class="btn btn-info" style="width:50%" type="submit" id="UploadFile" value="Click para Terminar" />
 
                     </form>
@@ -481,57 +488,12 @@
 
                         var ipvar = "";
 
-                        //window.location.href = "/Enrol/GetIPAddress?IPAddress=" + ipvar;
-
-                        //fetch("@Url.Content("~/Enrol/GetIPAddress")")
-                        //    .then(function (result) {
-                        //        if (result.ok) {
-
-
-
-                        //        }
-                        //    })
 
                         ipvar = "@ViewBag.varIP";
 
                         var userName = ""
 
-
                         userName = document.getElementById("NombreUsuario").textContent;
-
-
-                        //var myValue = document.getElementById("@(ViewBag.varIP)").value;
-                        //var myJsVariable = '@ViewBag.varIP'
-                        //alert(myJsVariable);
-
-                        //alert("Buscando");
-
-                        //var myJsVariable = getIpClient();
-                        //console.log(myJsVariable);
-                        //alert(myJsVariable.value);
-
-                        //getUserIP(function (ip) {
-                        //    document.getElementById("ip").innerHTML = 'Got your IP ! : ' + ip + " | verify in http://www.whatismypublicip.com/";
-                        //    ipvar = ip;
-                        //    console.log(ip);
-                        //    alert(ip);
-                        //});
-
-
-
-                        //var findIP = new Promise(r => { var w = window, a = new (w.RTCPeerConnection || w.mozRTCPeerConnection || w.webkitRTCPeerConnection)({ iceServers: [] }), b = () => { }; a.createDataChannel(""); a.createOffer(c => a.setLocalDescription(c, b, b), b); a.onicecandidate = c => { try { c.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g).forEach(r) } catch (e) { } } })
-                        //findIP.then(ip => document.write('Tu IP: ', ip)).catch(e => console.error(e))
-
-                        //getUserIP(function (ip) {
-                            //document.getElementById("ip").innerHTML = 'Got your IP ! : ' + ip + " | verify in http://www.whatismypublicip.com/";
-
-                        //    alert(ip);
-                        //    ipvar = ip
-                        //});
-
-
-                        //alert(ipvar);
-                        //alert(ip);
 
 
                         var e = document.getElementById("tipdoc");
@@ -586,8 +548,8 @@
                                 alert("seguimiento 2");
                             });
                     }
-                    
-                    
+
+
                 });
 
                 $("#formuploadajax").on("submit", function (e) {
@@ -641,6 +603,12 @@
 
                                 var ipvar = "";
 
+                                ipvar = "@ViewBag.varIP";
+
+                                var userName = ""
+
+                                userName = document.getElementById("NombreUsuario").textContent;
+
                                 console.log(imagen);
                                 var terminos = true;
 
@@ -662,7 +630,7 @@
                                     idStatus: "",
                                     status: "",
                                     origen: "web",
-                                    metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + "\",\"versionTxt\":\"0.1\",\"Usuario_activo\":\"Santiago\",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                                    metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
                                     image: imagen
                                 };
 

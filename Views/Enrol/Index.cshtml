@@ -97,7 +97,8 @@
                 <!-- Variable usada para tomar el nombre del usuario logueado, se almacena en los metadatos -->
                 @if (true)
                 {
-                    string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
+                    <!--string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;-->
+                    string userName = "Usuario01";
                     <label id="NombreUsuario" style="display:none">@userName</label>
                 }
                 <br />
@@ -165,8 +166,6 @@
                                 <p align="justify">
                                     <h5 style="color:red" align="left"><font size="3"> Ver. @texto.Version</font></h5>
                                     <font size="4"> @texto.Texto</font>
-
-
                                 </p>
 
                                 <p id="textoLargo"></p>
@@ -579,7 +578,7 @@
                             })
                             .fail(function () {
                                 console.log("Error actualizando datos");
-                                alert("seguimiento 2");
+
                             });
                     }
 

@@ -16,11 +16,13 @@ using System.Dynamic;
 using System.Net;
 using System.IO;
 using System.Linq;
-
+using System.Web;
+using AspStudio.Attributes;
 
 namespace AspStudio.Controllers
 {
 
+    [ApiKey]
     public class EnrolController : Controller
     {
         // Inyecta la instancia de MQTTnet (mqttClient) que fue creada como
@@ -63,7 +65,6 @@ namespace AspStudio.Controllers
 
             System.Console.WriteLine(tiposdoc);
             ViewBag.tiposdoc = tiposdoc;
-
 
 
 
@@ -156,7 +157,7 @@ namespace AspStudio.Controllers
                 foreach (var pruebaENR in pruebas)
                 {
                     TextosActuales = new ExpandoObject();
-                    TextosActuales.Texto = pruebaENR.Texto;
+                    TextosActuales.Texto = HttpUtility.HtmlDecode(pruebaENR.Texto);
                     TextosActuales.Pregunta = pruebaENR.Pregunta;
                     TextosActuales.Version = pruebaENR.Version;
                     TextosActuales.Tipo = pruebaENR.Tipo;

@@ -67,133 +67,50 @@
 </style>
 
 
+<body onLoad="JustificaTextoLargo();">
 
-
-<div class="form-container">
-
-
-
-    <div class="row">
-
-        <div class="col-md-1">
-        </div>
-
-        <div class="col-md-10">
-
-            <!-- Encabezado de página con imagen, el texto se toma de la tabla TextosEnrol -->
-
-            <section id="Encabezado">
-
-                <div id="contenido">
-                    <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.jpg" align="middle" alt="Cuidemonos">
-                    @foreach (dynamic texto in ViewBag.TextoTitulo)
-                    {
-                        <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
-                        <p id="LetrasEncabezado"><font size="4">@texto.Texto</font></p>}
-
-                </div>
-            </section>
-
-            <!-- Variable usada para tomar el nombre del usuario logueado, se almacena en los metadatos -->
-            @if (true)
-            {
-                string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
-                <label id="NombreUsuario" style="display:none">@userName</label>
-            }
-            <br />
-
-            <div id="botonguardar">
-
-                <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
-
-                    <!-- Tabla creada para alinear los datos solicitados al usuario -->
-                    <table style="width: 100%">
-                        <colgroup>
-                            <col span="1" style="width: 20%;">
-                            <col span="1" style="width: 80%;">
-                        </colgroup>
+    <div class="form-container">
 
 
 
-                        <!-- Put <thead>, <tbody>, and <tr>'s here! -->
-                        <tbody>
-                            <tr>
-                                <td><b><font size="4">Número carné Ecopetrol :</font></b></td>
-                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" /></td>
-                            </tr>
-                            <tr>
-                                <td><b><font size="4">Nombre :</font></b></td>
-                                <td><input autocomplete="off" style="width:50%;" required title="Nombre completo" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" /></td>
-                            </tr>
-                            <tr>
-                                <td><b><font size="4">Apellidos :</font></b></td>
-                                <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
-                            </tr>
+        <div class="row">
 
-                            <!-- Lista desplegable con los tipos de documento tomados de la tabla Tipos_Doc -->
-                            <tr>
-                                <td><b><font size="4"> Tipo documento :</font></b></td>
-                                <td>
-
-                                    <select required name="tipdoc" id="tipdoc">
-                                        <option value="" data-token=""> Tipo Documento </option>
-                                        <div class="dropdown-menu" role="menu">
-                                            @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
-                                            {
-                                                <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
-
-                                            }
-                                        </div>
-                                    </select>
-
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td><b><font size="4">Documento :</font></b></td>
-                                <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <br />
-
-                    <div>
-                        @foreach (dynamic texto in ViewBag.TextoValidacion)
-                        {
-                            <h5>@texto.Pregunta</h5>
-                            <p align="justify"><font size="4"> @texto.Texto</font></p>
-                            <p>
-                                <input required type="radio" name=@texto.Tipo value="Si"> Si
-                                <input required type="radio" name=@texto.Tipo value="No"> No
-                            </p>
-                        }
-                    </div>
-
-                    <br />
-
-
-                    <input type="submit" value="Guardar Datos" class="btn btn-block btn-primary" />
-
-
-
-                </form>
+            <div class="col-md-1">
             </div>
 
+            <div class="col-md-10">
 
-            <br />
-            <br />
+                <!-- Encabezado de página con imagen, el texto se toma de la tabla TextosEnrol -->
 
-            <div id="confirmarDatos">
+                <section id="Encabezado">
 
-                <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
+                    <div id="contenido">
+                        <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.jpg" align="middle" alt="Cuidemonos">
+                        @foreach (dynamic texto in ViewBag.TextoTitulo)
+                        {
+                            <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
+                            <p id="LetrasEncabezado"><font size="4">@texto.Texto</font></p>}
 
-                    <div id="resumenDatos">
+                    </div>
+                </section>
 
-                        <table style="width: 100%" border="1">
+                <!-- Variable usada para tomar el nombre del usuario logueado, se almacena en los metadatos -->
+                @if (true)
+                {
+                    string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
+                    <label id="NombreUsuario" style="display:none">@userName</label>
+                }
+                <br />
+
+                <div id="botonguardar">
+
+                    <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
+
+                        <!-- Tabla creada para alinear los datos solicitados al usuario -->
+                        <table style="width: 100%">
                             <colgroup>
-                                <col span="1" style="width: 50%;">
-                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 20%;">
+                                <col span="1" style="width: 80%;">
                             </colgroup>
 
 
@@ -201,128 +118,229 @@
                             <!-- Put <thead>, <tbody>, and <tr>'s here! -->
                             <tbody>
                                 <tr>
-                                    <td align="right"><b><label> Número carné Ecopetrol :</label></b></td>
-                                    <td><label id="badgeid"></label></td>
+                                    <td><b><font size="4">Número carné Ecopetrol :</font></b></td>
+                                    <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" /></td>
                                 </tr>
                                 <tr>
-                                    <td align="right"><b><label> Nombre :</label></b></td>
-                                    <td><label id="firstname"></label></td>
+                                    <td><b><font size="4">Nombres :</font></b></td>
+                                    <td><input autocomplete="off" style="width:50%;" required title="Nombres completos" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" /></td>
                                 </tr>
                                 <tr>
-                                    <td align="right"><b><label>Apellidos :</label></b></td>
-                                    <td><label id="lastname"></label></td>
+                                    <td><b><font size="4">Apellidos :</font></b></td>
+                                    <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
+                                </tr>
+
+                                <!-- Lista desplegable con los tipos de documento tomados de la tabla Tipos_Doc -->
+                                <tr>
+                                    <td><b><font size="4"> Tipo documento :</font></b></td>
+                                    <td>
+
+                                        <select required name="tipdoc" id="tipdoc">
+                                            <option value="" data-token=""> Tipo Documento </option>
+                                            <div class="dropdown-menu" role="menu">
+                                                @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
+                                                {
+                                                    <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
+
+                                                }
+                                            </div>
+                                        </select>
+
+                                    </td>
                                 </tr>
 
                                 <tr>
-                                    <td align="right"><b><label>Tipo documento :</label></b></td>
-                                    <td><label id="tipodoc"></label></td>
+                                    <td><b><font size="4">Documento :</font></b></td>
+                                    <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
                                 </tr>
-
-                                <tr>
-                                    <td align="right"><b><label>Documento :</label></b></td>
-                                    <td><label id="documento"></label></td>
-                                </tr>
-
-
-                                @foreach (dynamic texto in ViewBag.TextoValidacion)
-                                {
-                                    <tr>
-                                        <td align="right">
-                                            <b><label>@texto.Pregunta</label></b>
-                                        </td>
-                                        <td>
-                                            <label id=@texto.Tipo> </label>
-                                        </td>
-                                    </tr>
-                                }
-
                             </tbody>
                         </table>
 
+                        <br />
+
+                        <div>
+                            @foreach (dynamic texto in ViewBag.TextoValidacion)
+                            {
+                                <h5>@texto.Pregunta</h5>
+                                <p align="justify">
+                                    <h5 style="color:red" align="left"><font size="3"> Ver. @texto.Version</font></h5>
+                                    <font size="4"> @texto.Texto</font>
 
 
-                    </div>
+                                </p>
 
-                    <div id="btnConfirmar" class="wrapper">
+                                <p id="textoLargo"></p>
+                                <p>
+                                    <input required type="radio" name=@texto.Tipo value="Si"> Si acepto
+                                    <input required type="radio" name=@texto.Tipo value="No"> No acepto
 
-                        <input class="btn btn-secondary" style="width:50%" type="submit" value="Confirmar datos" />
-                    </div>
-                </form>
-
-                <div id="btnCancelar" class="wrapper">
-
-                    <form autocomplete="off" enctype="multipart/form-data" id="formCancela" method="post">
-
-                        <input class="btn btn-warning" style="width:50%" type="submit" value="Revisar datos" />
-                    </form>
-
-                </div>
-            </div>
-
-            <div id="divifoto">
-
-
-                <p style="font-size:15px">
-                    <br /><b>
-                        Con el ánimo que pueda ingresar a través de mecanismo de reconocimiento facial y control térmico digital y sin contacto con nadie, por favor carga aquí la foto con las siguientes características:
-                        Nombrar la foto con su numero de registro o cédula.
-                    </b>
-                </p>
-
-                <p style="font-size:12px">
-                    1.     En formato vertical, con buena iluminación, sin sombras ni flash activo<br />
-                    2.	A color con la máxima configuración de calidad de la cámara y sin retoques<br />
-                    3.	Fondo blanco sin objetos de fondo<br />
-                    4.	Mirar la cámara con los ojos abiertos sin accesorios (gorra, bufandas, gafas oscuras o reflectivas)<br />
-                    5.      No debe ser mayor a 1 año, si no tiene una disponible es muy fácil ubíquese en una pared blanca y pídale el favor a un familiar que se la tome teniendo en cuenta las recomendaciones del 1 al 4, en caso de que no tenga quien le tome la foto hágalo tipo selfie.<br />
-                    6.     El archivo no debe ser superior a 10MB ni inferior a 500KB.
-                </p>
-
-                <form enctype="multipart/form-data" id="formuploadajax" method="post">
-                    <div>
-                        <label for="image1">Foto</label>
-                        <input name="file" id="file" type="file" />
-                        <p style="font-size:13px">
-                            Límite de número de archivos:1&nbsp;Límite de tamaño del archivo individual: 10MB&nbsp;Tipos de archivo permitidos: Imagen,Vídeo
-                        </p>
-
-
-                        <div id="preview" class="img">
-
+                                    <br />
+                                    <br />
+                                </p>
+                            }
                         </div>
 
                         <br />
 
-                        <div id="btnImg">
 
-                            <input class="btn btn-info" style="width:50%" type="submit" value="Validar foto" />
-                            <!--<input type="button" onclick="Upload($('#UploadFile'));" />-->
-                        </div>
-
-                    </div>
-                </form>
+                        <input type="submit" value="Guardar datos" class="btn btn-block btn-primary" />
 
 
-                <div id="imgProc">
-                    <form id="formTermina" method="post">
-                        <br />
-
-                        <h5><b>Imagen procesada</b></h5>
-                        <img width="214" height="267" id="imgproc" src="" alt="Imagen procesada" />
-                        <br />
-                        <p><b><font size="4">Imagen validada correctamente</font></b></p>
-                        <input class="btn btn-info" style="width:50%" type="submit" id="UploadFile" value="Click para Terminar" />
 
                     </form>
                 </div>
-            </div>
 
+
+                <br />
+                <br />
+
+                <div id="confirmarDatos">
+
+                    <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
+
+                        <div id="resumenDatos">
+
+                            <table style="width: 100%" border="1">
+                                <colgroup>
+                                    <col span="1" style="width: 50%;">
+                                    <col span="1" style="width: 50%;">
+                                </colgroup>
+
+
+
+                                <!-- Put <thead>, <tbody>, and <tr>'s here! -->
+                                <tbody>
+                                    <tr>
+                                        <td align="right"><b><label> Número carné Ecopetrol :</label></b></td>
+                                        <td><label id="badgeid"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right"><b><label> Nombre :</label></b></td>
+                                        <td><label id="firstname"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right"><b><label>Apellidos :</label></b></td>
+                                        <td><label id="lastname"></label></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="right"><b><label>Tipo documento :</label></b></td>
+                                        <td><label id="tipodoc"></label></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="right"><b><label>Documento :</label></b></td>
+                                        <td><label id="documento"></label></td>
+                                    </tr>
+
+
+                                    @foreach (dynamic texto in ViewBag.TextoValidacion)
+                                    {
+                                        <tr>
+                                            <td align="right">
+                                                <b><label>@texto.Pregunta</label></b>
+                                            </td>
+                                            <td>
+                                                <label id=@texto.Tipo> </label>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                        <div id="btnConfirmar" class="wrapper">
+
+                            <input class="btn btn-secondary" style="width:50%" type="submit" value="Confirmar datos" />
+                        </div>
+                    </form>
+
+                    <div id="btnCancelar" class="wrapper">
+
+                        <form autocomplete="off" enctype="multipart/form-data" id="formCancela" method="post">
+
+                            <input class="btn btn-warning" style="width:50%" type="submit" value="Revisar datos" />
+                        </form>
+
+                    </div>
+                </div>
+
+                <div id="divifoto">
+
+
+                    <p style="font-size:15px">
+                        <br /><b>
+                            Con el ánimo que pueda ingresar a través de mecanismo de reconocimiento facial y control térmico digital y sin contacto con nadie, por favor carga aquí la foto con las siguientes características:
+                            Nombrar la foto con su numero de registro o cédula.
+                        </b>
+                    </p>
+
+                    <p>
+                        <font size="4">
+                            1.     En formato vertical, con buena iluminación, sin sombras ni flash activo<br />
+                            2.	A color con la máxima configuración de calidad de la cámara y sin retoques<br />
+                            3.	Fondo blanco sin objetos de fondo<br />
+                            4.	Mirar la cámara con los ojos abiertos sin accesorios (gorra, bufandas, gafas oscuras o reflectivas)<br />
+                            5.      No debe ser mayor a 1 año, si no tiene una disponible es muy fácil ubíquese en una pared blanca y pídale el favor a un familiar que se la tome teniendo en cuenta las recomendaciones del 1 al 4, en caso de que no tenga quien le tome la foto hágalo tipo selfie.<br />
+                            6.     El archivo no debe ser superior a 10MB ni inferior a 500KB.
+                        </font>
+                    </p>
+
+                    <form enctype="multipart/form-data" id="formuploadajax" method="post">
+                        <div>
+                            <label for="image1">Foto</label>
+                            <input name="file" id="file" type="file" />
+                            <p>
+                                <font size="4">
+                                    Límite de número de archivos:1&nbsp;Límite de tamaño del archivo individual: 10MB&nbsp;Tipos de archivo permitidos: Imagen,Vídeo
+                                </font>
+                            </p>
+
+
+                            <div id="preview" class="img">
+
+                            </div>
+
+                            <br />
+
+                            <div id="btnImg">
+
+                                <input class="btn btn-info" style="width:50%" type="submit" value="Validar foto" />
+                                <!--<input type="button" onclick="Upload($('#UploadFile'));" />-->
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                    <div id="imgProc">
+                        <form id="formTermina" method="post">
+                            <br />
+
+                            <h5><b>Imagen procesada</b></h5>
+                            <img width="214" height="267" id="imgproc" src="" alt="Imagen procesada" />
+                            <br />
+                            <p><b><font size="4">Imagen validada. Sus datos han sido registrados.</font></b></p>
+                            <input class="btn btn-info" style="width:50%" type="submit" id="UploadFile" value="Click para Terminar" />
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
     </div>
 
-</div>
+</body>
 
 <script>
+
+
 
     var divfoto = document.getElementById("divifoto");
     var divconfirmar = document.getElementById("confirmarDatos");
@@ -346,6 +364,21 @@
             //$(function () {
 
            // });
+
+    function JustificaTextoLargo() {
+
+        var i = 0;
+        var len = cars.length;
+        for (; i < len;) {
+            text += cars[i] + "<br>";
+            i++;
+        }
+
+        ipvar = "@ViewBag.varIP";
+
+        document.getElementById("textoLargo").innerHTML = "Paragraph changed.";
+
+    };
 
 
     function getval(val) {
@@ -446,6 +479,7 @@
 
                     document.getElementById("2").innerHTML = $('input:radio[name=2]:checked').val();
                     document.getElementById("3").innerHTML = $('input:radio[name=3]:checked').val();
+                    document.getElementById("4").innerHTML = $('input:radio[name=4]:checked').val();
 
                     divconfirmar.style.display = "block";
                     divbotonguardar.style.display = "none";
@@ -464,7 +498,7 @@
 
                     //Validaciones
 
-                    if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No") {
+                    if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
                         alert("Registramos su decisión, muchas gracias.");
                         terminos = false;
                     } else {
@@ -653,6 +687,7 @@
                                         $("#mensaje").html("Respuesta: " + res);
 
                                         console.log(res);
+
 
                                     })
                                     .fail(function () {

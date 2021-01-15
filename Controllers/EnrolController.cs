@@ -13,22 +13,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Dynamic;
-using System.Web;
-//using System.Web.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using System.Net;
-
-// Json
-
-// Database connection
-
-
-
 using System.IO;
 using System.Linq;
-using System.Collections.Specialized;
-using System.Net;
+
 
 namespace AspStudio.Controllers
 {
@@ -156,6 +144,7 @@ namespace AspStudio.Controllers
             var pruebas =
             (from TextosPrueba in dbContext.TextosEnrolam
              where TextosPrueba.Version == (from t1 in dbContext.TextosEnrolam where t1.Tipo == TextosPrueba.Tipo select t1.Version).Max()
+             orderby TextosPrueba.Tipo
              select new { TextosPrueba.Texto, TextosPrueba.Pregunta, TextosPrueba.Version, TextosPrueba.Tipo });
 
             List<dynamic> TextoTitulo = new List<dynamic>();

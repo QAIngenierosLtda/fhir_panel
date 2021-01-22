@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AspStudio.Models
 {
     
-    [Table("usuario")]
+    [Table("user")]
     public class Usuario
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

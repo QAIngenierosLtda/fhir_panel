@@ -8,7 +8,6 @@ using AspStudio.Data;
 using AspStudio.Models;
 
 
-
 namespace AspStudio.Attributes
 {
     
@@ -19,9 +18,12 @@ namespace AspStudio.Attributes
         private const string APIKEYNAME = "ApiKey";
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            
-            
-            
+
+            if(MyGlobalVariables.isAuth) {
+                await next();
+            }
+
+    
             extractedApiKey = context.HttpContext.Request.Query["ApiKey"].ToString();
             // context.HttpContext.Request.Headers.TryGetValue(APIKEYNAME,out extractedApiKey);
 

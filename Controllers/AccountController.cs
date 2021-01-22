@@ -13,6 +13,7 @@ using System.Globalization;
 
 namespace AspStudio.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -67,6 +68,7 @@ namespace AspStudio.Controllers
 
                 if (usuario.FechaInicial <= DateTime.Now && usuario.FechaFinal >= DateTime.Now)
                 {
+                    MyGlobalVariables.isAuth = true;
                     if (usuario.Rol == 1)
                     {
                         return RedirectToAction("Index", "Home");
@@ -78,7 +80,8 @@ namespace AspStudio.Controllers
                 }
                 else
                 {
-                    ViewBag.Mensaje = "Registro fuera de los límites de fecha";
+                    MyGlobalVariables.isAuth = false;
+                    ViewBag.Mensaje = "Registro fuera de los lï¿½mites de fecha";
                     return View();
                 }
 

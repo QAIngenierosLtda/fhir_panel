@@ -9,7 +9,7 @@ namespace AspStudio.Models
 {
 
     // Definicion del Objeto TipoDoc (tabla para almacenar la informacion de Tipos de documento)
-    [Table("Tipos_Doc")]
+    [Table("docType")]
     public class Tipodoc
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

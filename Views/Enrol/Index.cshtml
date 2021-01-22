@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Enrolamiento";
+    ViewData["AppWithoutSidebar"] = true;
 }
 
 @using AspStudio.Models;
@@ -7,7 +8,6 @@
 <!-- Estilos usados en diferentes partes de la página -->
 
 <style>
-
     #Encabezado {
         background-color: #025700;
         opacity: 0.90;
@@ -48,13 +48,220 @@
     .img {
         width: 215px;
         height: 260px;
+        display: none;
     }
 
-        .img img {
-            height: 100%;
-            width: 100%;
+    .img img {
+        height: 100%;
+        width: 100%;
+    }
+        
+    #content {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        background-image: linear-gradient(to right, #0b1654, #1d1e6e);
+    }
+    #enrol-form {
+        display: none;
+        flex-direction: column;
+    }
+    #initial-container {
+        display: flex;
+        width: 100%;
+    }
+    #video {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        z-index: -1;
+    }
+    .hidden-input{
+        display: none;
+    }
+    .left-container {
+        position: relative;
+        border: solid 1px #0b1654;
+        background-image: linear-gradient(to right, #0b1654, #1d1e6e);
+        border-top-right-radius: 25px;
+        display: flex;
+        width: 40%;
+        border-bottom-right-radius: 25px;
+        box-shadow: 10px 2px 2px 2px rgba(0,0,0,0.1);
+        flex-direction: column;
+        z-index: 2;
         }
+    .right-container {
+        display: flex;
+        width: 60%;
+        background-image: linear-gradient(to right, #141a61, #1d1e6e);
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+    }
+    .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 200px;
+    }
+    .heading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            line-height: 34px;
+            margin-bottom: 50px;
+    }
+    .form-heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: white;
+        font-size: 30px;
+        line-height: 34px;
+        margin: 0 auto;
+        margin-top: 100px;
+    }
+    .bold {
+        font-size: 40px;
+        font-weight: bold;
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .buttons button {
+            width: 200px;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            margin: 15px 0;
+            box-shadow: 3px 2px 2px 2px rgba(0,0,0,0.1);
+    }
+    .enrol {
+        background-color: #6cd300;
+    }
+    .enroled {
+        background-color: #305900;
+    }
+    .form-container {
+        padding: 30px 0;
+    }
+    #formuploadenrol {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    #formuploadenrol input:not([type='checkbox']), #formuploadenrol select {
+        margin: 15px 0;
+        border: none;
+        border-radius: 5px;
+        padding: 4px 8px;
+        width: 50%;
+        font-weight: bold;
+        color: #808080;
+    }
+    .check-container {
+        margin: 20px 0 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .form-check-input {
+        margin-top: 0;
+    }
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+    #conditions-link {
+        color: white;
+        text-decoration: underline;
+        width: 50%;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    #upload-photo-btn {
+        display: none;
+    }
+    #terms-container {
+        display: none;
+        color: white;
+        padding: 50px;
+        margin: 0 auto;
+        text-align: justify;
+        max-height: 93vh;
+        overflow: auto;
+    }
+    #terms-container::-webkit-scrollbar {
+        width: 12px;               
+    }
 
+    #terms-container::-webkit-scrollbar-track {
+        background: transparent;        
+    }
+
+    #terms-container::-webkit-scrollbar-thumb {
+        background-color: transparent;    
+    }
+    #continue-submit {
+        display: none;
+    }
+    #infographics-container {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .infographics-footer {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 40px;
+    }
+    .infographics {
+        background-color: white;
+        display: flex;
+        justify-content: space-evenly;
+        width: 90%;
+        align-items: center;
+        height: 90%;
+        border-radius: 20px;
+        box-shadow: 10px 2px 2px 2px rgba(0,0,0,0.1);
+        flex-direction: column;
+    }
+
+    #photo-container {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .photo-selection {
+        background-color: white;
+        min-width: 350px;
+        min-height: 230px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        flex-direction: column;
+        padding: 20px;
+    }
+    
     input[type=number] {
         -moz-appearance: textfield;
     }
@@ -66,31 +273,152 @@
         }
 </style>
 
+<body>
+    <div id="initial-container">
+        <div class="left-container">
+            @* <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
+                <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+                <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
+                <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
+                <p>Your user agent does not support the HTML5 Video element.</p>
+            </video> *@
+            <div id="step-1">
+    
+                <div class="logo">
+                 <img src="~/img/logo-white.png" alt="Ecopetrol">
+                </div><!-- .logo-->
+                <div class="heading">
+                    <span class="bold">SÚMATE A</span>
+                    <span>NUESTRO DESAFÍO</span>
+                    <span class="bold">NUEVO NORMAL</span>
+                </div><!-- .heading-->
+                <div class="buttons">
+                    <button onclick="showEnrolForm()" class="enrol">ENROLARME</button>
+                    <button class="enroled">YA ME ENROLÉ</button>
+                </div><!-- .buttons-->
+            </div><!-- #step-1 -->
+            <div id="enrol-form">
+                <div class="form-heading">
+                    <span>INICIA TU REGISTRO</span>
+                    <span class="bold">
+                        BIOMÉTRICO
+                    </span>
+                </div><!-- .form-heading -->
+                <div class="form-container">
+                    <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
+                        <!-- Nombres -->
+                        <input placeholder="Nombres:" autocomplete="off" required title="Nombres completos" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" />
+                        <!-- Apellidos -->
+                        <input placeholder="Apellidos:" autocomplete="off" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" />
+                        <!-- Nro empleado -->
+                        <input placeholder="N. de empleado:" autocomplete="off" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" />
+                        <!-- Tipo de Documento -->
+                        <select required name="tipdoc" id="tipdoc">
+                            <option value="" data-token=""> Tipo Documento </option>
+                            <div class="dropdown-menu" role="menu">
+                                @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
+                                {
+                                    <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
+                                }
+                            </div>
+                        </select>
+                        <!-- Numero Documento -->
+                        <input placeholder="Nro. Documento" autocomplete="off" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" />
 
-<body onLoad="JustificaTextoLargo();">
+                        <!-- Link a condiciones -->
+                      
+                        <!-- Aceptar -->
+                        <div class="check-container">
+                            <div class="form-check">
+                                <input onclick="showTerms()"  type="checkbox" class="form-check-input" id="check-container">
+                                <label class="form-check-label" for="check-container">
+                                </label>
+                            </div>
+                            <a onclick="showTerms()" id="conditions-link">
+                                ACEPTAR POLÍTICA DE TRATAMIENTO DE DATOS, TÉRMINOS Y CONDICIONES.
+                            </a>
+        
+                        </div> <!-- .check-container -->
 
+                         <div id="continue-submit" class="buttons">
+                            <button onclick="showInfographic()" type="button" class="enrol">CONTINUAR</button>
+                        </div><!-- .buttons-->
+
+                    </form> <!-- #formuploadenrol -->
+                </div><!-- .form-container -->
+            </div><!-- #enrol-form -->
+            <div id="terms-container">
+                <div>
+                    @foreach (dynamic texto in ViewBag.TextoValidacion)
+                    {
+                        <h5>@texto.Pregunta</h5>
+                        <p align="justify">
+                            <h5 style="color:red" align="left"><font size="3"> Ver. @texto.Version</font></h5>
+                            <font size="4"> @texto.Texto</font>
+                        </p>
+
+                        <p id="textoLargo"></p>
+                        <p>
+                            <input required type="radio" name=@texto.Tipo value="Si"> Si acepto
+                            <input required type="radio" name=@texto.Tipo value="No"> No acepto
+
+                            <br />
+                            <br />
+                        </p>
+                    }
+                     <div class="buttons">
+                            <button onClick="hideTerms()" class="enrol">CONTINUAR</button>
+                        </div><!-- .buttons-->
+                </div>
+            </div><!--#terms-container-->
+        </div><!-- .left-container-->
+    
+        <div class="right-container">
+            <img src="~/img/right-img.png" alt="">
+        </div><!-- .right-container-->
+    </div><!--#initial-container -->
+    <div id="infographics-container">
+        <div class="infographics">
+            <div class="infographics-content">
+                <img src="~/img/infografia.png" alt="Ecopetrol">
+            </div><!-- infographics-content -->
+            <div class="infographics-footer">
+                 <div class="buttons">
+                    <button onclick="showPhotoContainer()" class="enrol">¡LO TENGO!</button>
+                </div><!-- .buttons-->
+            </div> <!-- infographics-footer -->
+        </div><!-- infographics !-->
+    </div><!-- #infographics-container -->
+    <div id="photo-container">
+        <div class="photo-selection">
+            <div id="preview" class="img"></div>
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="selectFile()" class="enroled">SUBIR FOTO</button>
+            </div><!-- .buttons-->
+            <div id="upload-photo-btn" class="buttons">
+                <form enctype="multipart/form-data" id="formuploadajax" method="post">
+                    <input class="hidden-input" name="file" id="file" type="file" />
+                    <button type="button" onclick="submitPhoto()" class="enroled">CONTINUAR</button>
+                </form>
+            </div><!-- .buttons-->
+        </div><!-- photo-selection -->
+    </div> <!-- photo-container -->
+</body>
+
+@* <body onLoad="JustificaTextoLargo();">
     <div class="form-container">
-
-
-
         <div class="row">
-
             <div class="col-md-1">
             </div>
-
             <div class="col-md-10">
-
                 <!-- Encabezado de página con imagen, el texto se toma de la tabla TextosEnrol -->
-
                 <section id="Encabezado">
-
                     <div id="contenido">
                         <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.jpg" align="middle" alt="Cuidemonos">
                         @foreach (dynamic texto in ViewBag.TextoTitulo)
                         {
                             <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
                             <p id="LetrasEncabezado"><font size="4">@texto.Texto</font></p>}
-
                     </div>
                 </section>
 
@@ -102,20 +430,14 @@
                     <label id="NombreUsuario" style="display:none">@userName</label>
                 }
                 <br />
-
                 <div id="botonguardar">
-
                     <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
-
                         <!-- Tabla creada para alinear los datos solicitados al usuario -->
                         <table style="width: 100%">
                             <colgroup>
                                 <col span="1" style="width: 20%;">
                                 <col span="1" style="width: 80%;">
                             </colgroup>
-
-
-
                             <!-- Put <thead>, <tbody>, and <tr>'s here! -->
                             <tbody>
                                 <tr>
@@ -130,35 +452,28 @@
                                     <td><b><font size="4">Apellidos :</font></b></td>
                                     <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
                                 </tr>
-
                                 <!-- Lista desplegable con los tipos de documento tomados de la tabla Tipos_Doc -->
                                 <tr>
                                     <td><b><font size="4"> Tipo documento :</font></b></td>
                                     <td>
-
                                         <select required name="tipdoc" id="tipdoc">
                                             <option value="" data-token=""> Tipo Documento </option>
                                             <div class="dropdown-menu" role="menu">
                                                 @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
                                                 {
                                                     <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
-
                                                 }
                                             </div>
                                         </select>
-
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td><b><font size="4">Documento :</font></b></td>
                                     <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
                                 </tr>
                             </tbody>
                         </table>
-
                         <br />
-
                         <div>
                             @foreach (dynamic texto in ViewBag.TextoValidacion)
                             {
@@ -335,7 +650,7 @@
 
     </div>
 
-</body>
+</body> *@
 
 <script>
 
@@ -350,20 +665,299 @@
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
 
-
+    // initial container
+    var initialContainer = document.getElementById('initial-container');
+    // step 1 container
+    var step1 = document.getElementById('step-1');
+    // Enrol form
+    var enrolForm = document.getElementById('enrol-form');
+    // Termos
+    var termsContainer = document.getElementById('terms-container');
+    // infographic
+    var infographicContainer = document.getElementById('infographics-container');
+    // Container photo
+    var photoContainer = document.getElementById('photo-container');
 
     divfoto.style.display = "none";
     divconfirmar.style.display = "none";
     divimgProc.style.display = "none";
-
-
-
             var result = [];
 
             //$(function () {
 
            // });
 
+    function submitPhoto() {
+ $("#formuploadajax").on("submit", function (e) {
+    e.preventDefault();
+    var f = $(this);
+    //var formData = new FormData(document.getElementById("formuploadajax"));
+    //formData.append("file", $(this)[1].files[0]);
+
+    //var formData = new FormData(document.getElementById("formuploadajax"));
+    var formData = new FormData(this);
+    //formData.append("file", file);
+
+    //var data = new FormData();
+    //jQuery.each(jQuery('#file')[0].files, function (i, file) {
+    //    data.append('file-' + i, file);
+    //});
+
+    console.log("Enviando imagen01");
+    console.log(formData);
+    //formData.append(f.attr("name"), $(this)[0].files[0]);
+    var imagen = "";
+
+    $.ajax({
+        url: "https://bio01.qaingenieros.com/api/img",
+        type: "POST",
+        method: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
+    }).done(function (res) {
+            $("#mensaje").html("Respuesta: " + res);
+
+            console.log(res.status);
+
+            if (res.status == "aprobado") {
+
+
+                imagen = res.image;
+                var base64 = "data:image/png;base64," + res.image;
+                console.log(base64);
+                $("#imgproc").attr("src", base64);
+
+                var hoy = new Date();
+                var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+
+                var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
+
+                var ipvar = "";
+
+                ipvar = "@ViewBag.varIP";
+
+                var userName = ""
+
+                userName = document.getElementById("NombreUsuario").textContent;
+
+                console.log(imagen);
+                var terminos = true;
+
+                var e = document.getElementById("tipdoc");
+                var strUser = e.value;
+
+                var configuracion = {
+                    badgeId: $('#Badge_id').val().trim(),
+                    lastName: $('#LastName').val().trim(),
+                    firstName: $('#Firstname').val().trim(),
+                    documento: $('#Documento').val().trim(),
+                    tipoDocumento: strUser,
+                    aceptaTerminos: terminos,
+                    empresa: "",
+                    regional: 0,
+                    instalacion: 0,
+                    ciudad: "",
+                    ssno: "",
+                    idStatus: "",
+                    status: "",
+                    origen: "web",
+                    metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                    image: imagen
+                };
+
+
+
+                $.ajax({
+                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
+
+                    type: "POST",
+
+                    method: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(configuracion),
+                    cache: false,
+                    contentType: 'application/json'
+
+                })
+
+                    .done(function (res) {
+                        $("#mensaje").html("Respuesta: " + res);
+
+                        console.log(res);
+
+
+                    })
+                    .fail(function () {
+                        console.log("Error actualizando datos");
+                    });
+
+                divimgProc.style.display = "block";
+                divbtnImg.style.display = "none";
+
+
+                //alert("Foto almacenada");
+
+
+
+            } else {
+
+                console.log("Foto no cumple");
+
+                alert("Foto no cumple con los requisitos");
+            };
+        })
+        .fail(function () {
+            alert("Foto no cumple con los requisitos");
+        });
+});
+
+
+        var f = $("#formuploadajax");
+        f.submit();
+        
+
+
+    }
+    /**
+    * Seleccionar foto
+    */
+    function selectFile() {
+        var input = document.getElementById('file');
+        input.onchange = function (e) {
+            console.log('file loaded');
+            let reader = new FileReader();
+
+            reader.onload = function () {
+                let preview = document.getElementById('preview'),
+                image = document.createElement('img');
+                image.src = reader.result;
+                preview.innerHTML = '';
+                preview.append(image);
+                preview.style.display = 'flex';
+                document.getElementById('upload-photo-btn').style.display = 'flex';
+                
+                document.getElementById('select-photo-btn').style.display = 'none';
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        input.click();
+        
+    }
+    /**
+    * Muestra el formulario de enrolamiento 
+    */
+    function showEnrolForm() {
+        step1.style.display = 'none';
+        enrolForm.style.display = 'flex';
+    }
+    /**
+    * Muestra terminos
+    */
+    function showTerms() {
+        enrolForm.style.display = 'none';
+        termsContainer.style.display = 'flex';
+    }
+
+    /**
+    * Ocultar y valida terminos
+    */
+    function hideTerms() {
+        enrolForm.style.display = 'flex';
+        termsContainer.style.display = 'none';
+        var pregunta1 = $('input:radio[name=2]:checked').val();
+        var pregunta2 = $('input:radio[name=3]:checked').val();
+        var pregunta3 = $('input:radio[name=4]:checked').val();
+        if (pregunta1 === 'Si' && pregunta2 === 'Si' && pregunta3 === 'Si') {
+            document.getElementById("check-container").checked = true;
+            document.getElementById("continue-submit").style.display = 'flex';
+        } else {
+            document.getElementById("check-container").checked = false;
+            document.getElementById("continue-submit").style.display = 'none';
+        }
+    }
+    /**
+    * Muestra infografia
+    */
+    function showInfographic() {
+       $("#formuploadenrol").on("submit", function (e) {
+        e.preventDefault();
+         var x = true;
+        var terminos = true;
+    //Validaciones
+        if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
+            alert("Registramos su decisión, muchas gracias.");
+            terminos = false;
+        } else {
+            alert("Datos registrados.");
+            //divbtnConfirmar.style.display = "none";
+            //divbtnCancelar.style.display = "none";
+           // divfoto.style.display = "block";
+        }
+        if (x) {
+            var hoy = new Date();
+            var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+            var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
+            var ipvar = "";
+            ipvar = "@ViewBag.varIP";
+            var userName = ""
+           // userName = document.getElementById("NombreUsuario").textContent;
+            var e = document.getElementById("tipdoc");
+            var strUser = e.value;
+            var configuracion = {
+                badgeId: $('#Badge_id').val().trim(),
+                lastName: $('#LastName').val().trim(),
+                firstName: $('#Firstname').val().trim(),
+                documento: $('#Documento').val().trim(),
+                tipoDocumento: strUser,
+                aceptaTerminos: terminos,
+                empresa: "",
+                regional: 0,
+                instalacion: 0,
+                ciudad: "",
+                ssno: "",
+                idStatus: "",
+                status: "",
+                origen: "web",
+                metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                image: ""
+            };
+        console.log(configuracion);
+        $.ajax({
+            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+            type: "POST",
+            method: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(configuracion),
+            cache: false,
+            contentType: 'application/json'
+        })
+            .done(function (res) {
+                $("#mensaje").html("Respuesta: " + res);
+                console.log(res);
+                if (terminos == false) {
+                    window.location.href = "/Account/Logout";
+                };
+            })
+            .fail(function () {
+                console.log("Error actualizando datos");
+            });
+    }
+
+    }); 
+       initialContainer.style.display = 'none';
+       infographicContainer.style.display = 'flex';
+       var f = $("#formuploadenrol");
+       f.submit();
+    }
+    /**
+    * Muestra seleccion de foto
+    */
+    function showPhotoContainer() {
+       photoContainer.style.display = 'flex';
+       infographicContainer.style.display = 'none';
+    }
     function JustificaTextoLargo() {
 
         var i = 0;
@@ -484,7 +1078,6 @@
                     divbotonguardar.style.display = "none";
 
                 });
-
                 $("#formuploadenrol").on("submit", function (e) {
 
                     e.preventDefault();
@@ -756,6 +1349,7 @@
 
 
         document.getElementById("file").onchange = function (e) {
+            console.log('file loaded');
         let reader = new FileReader();
 
         reader.onload = function () {

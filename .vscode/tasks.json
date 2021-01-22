@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "build",
-            "command": "/usr/local/share/dotnet/dotnet",
+            "command": "/usr/bin/dotnet",
             "type": "shell",
             "args": [
                 "build",
@@ -15,7 +15,7 @@
         },
         {
             "label": "publish",
-            "command": "/usr/local/share/dotnet/dotnet",
+            "command": "/usr/bin/dotnet",
             "type": "shell",
             "args": [
                 "publish",
@@ -27,7 +27,7 @@
         },
         {
             "label": "watch",
-            "command": "/usr/local/share/dotnet/dotnet",
+            "command": "/usr/bin/dotnet",
             "type": "shell",
             "args": [
                 "watch",

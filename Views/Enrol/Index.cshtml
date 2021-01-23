@@ -2,6 +2,7 @@
     ViewData["Title"] = "Enrolamiento";
     ViewData["AppWithoutSidebar"] = true;
 }
+<link href="@Url.Content("~/css/enrol.css")" rel="stylesheet" type="text/css" />
 
 @using AspStudio.Models;
 
@@ -55,211 +56,18 @@
         height: 100%;
         width: 100%;
     }
-        
+    .spinner-border {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 10px;
+
+    }    
     #content {
         margin: 0;
         padding: 0;
         display: flex;
+        height: 93vh;
         background-image: linear-gradient(to right, #0b1654, #1d1e6e);
-    }
-    #enrol-form {
-        display: none;
-        flex-direction: column;
-    }
-    #initial-container {
-        display: flex;
-        width: 100%;
-    }
-    #video {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        z-index: -1;
-    }
-    .hidden-input{
-        display: none;
-    }
-    .left-container {
-        position: relative;
-        border: solid 1px #0b1654;
-        background-image: linear-gradient(to right, #0b1654, #1d1e6e);
-        border-top-right-radius: 25px;
-        display: flex;
-        width: 40%;
-        border-bottom-right-radius: 25px;
-        box-shadow: 10px 2px 2px 2px rgba(0,0,0,0.1);
-        flex-direction: column;
-        z-index: 2;
-        }
-    .right-container {
-        display: flex;
-        width: 60%;
-        background-image: linear-gradient(to right, #141a61, #1d1e6e);
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-    }
-    .logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 200px;
-            margin-bottom: 200px;
-    }
-    .heading {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 30px;
-            line-height: 34px;
-            margin-bottom: 50px;
-    }
-    .form-heading {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        color: white;
-        font-size: 30px;
-        line-height: 34px;
-        margin: 0 auto;
-        margin-top: 100px;
-    }
-    .bold {
-        font-size: 40px;
-        font-weight: bold;
-    }
-    .buttons {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .buttons button {
-            width: 200px;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            color: white;
-            font-weight: bold;
-            font-size: 24px;
-            margin: 15px 0;
-            box-shadow: 3px 2px 2px 2px rgba(0,0,0,0.1);
-    }
-    .enrol {
-        background-color: #6cd300;
-    }
-    .enroled {
-        background-color: #305900;
-    }
-    .form-container {
-        padding: 30px 0;
-    }
-    #formuploadenrol {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-    #formuploadenrol input:not([type='checkbox']), #formuploadenrol select {
-        margin: 15px 0;
-        border: none;
-        border-radius: 5px;
-        padding: 4px 8px;
-        width: 50%;
-        font-weight: bold;
-        color: #808080;
-    }
-    .check-container {
-        margin: 20px 0 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    .form-check-input {
-        margin-top: 0;
-    }
-    .form-check {
-        display: flex;
-        align-items: center;
-    }
-    #conditions-link {
-        color: white;
-        text-decoration: underline;
-        width: 50%;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    #upload-photo-btn {
-        display: none;
-    }
-    #terms-container {
-        display: none;
-        color: white;
-        padding: 50px;
-        margin: 0 auto;
-        text-align: justify;
-        max-height: 93vh;
-        overflow: auto;
-    }
-    #terms-container::-webkit-scrollbar {
-        width: 12px;               
-    }
-
-    #terms-container::-webkit-scrollbar-track {
-        background: transparent;        
-    }
-
-    #terms-container::-webkit-scrollbar-thumb {
-        background-color: transparent;    
-    }
-    #continue-submit {
-        display: none;
-    }
-    #infographics-container {
-        display: none;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    .infographics-footer {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 0 40px;
-    }
-    .infographics {
-        background-color: white;
-        display: flex;
-        justify-content: space-evenly;
-        width: 90%;
-        align-items: center;
-        height: 90%;
-        border-radius: 20px;
-        box-shadow: 10px 2px 2px 2px rgba(0,0,0,0.1);
-        flex-direction: column;
-    }
-
-    #photo-container {
-        display: none;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    .photo-selection {
-        background-color: white;
-        min-width: 350px;
-        min-height: 230px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 20px;
-        flex-direction: column;
-        padding: 20px;
     }
     
     input[type=number] {
@@ -276,12 +84,12 @@
 <body>
     <div id="initial-container">
         <div class="left-container">
-            @* <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
+            <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
                 <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
                 <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
                 <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
                 <p>Your user agent does not support the HTML5 Video element.</p>
-            </video> *@
+            </video>
             <div id="step-1">
     
                 <div class="logo">
@@ -341,7 +149,9 @@
                         </div> <!-- .check-container -->
 
                          <div id="continue-submit" class="buttons">
-                            <button onclick="showInfographic()" type="button" class="enrol">CONTINUAR</button>
+                            <button onclick="showInfographic()" type="button" class="enrol">CONTINUAR
+                                <div id="enrol-spinner" class="spinner-border text-primary" role="status">
+</div></button>
                         </div><!-- .buttons-->
 
                     </form> <!-- #formuploadenrol -->
@@ -392,17 +202,36 @@
     <div id="photo-container">
         <div class="photo-selection">
             <div id="preview" class="img"></div>
+            <div id="photo-error"></div>
             <div id="select-photo-btn" class="buttons">
-                <button onclick="selectFile()" class="enroled">SUBIR FOTO</button>
+                <button onclick="selectFile('file')" class="enrol">SUBIR FOTO</button>
+                <button onclick="selectFile('file-cam')" class="enroled">TOMAR FOTO</button>
             </div><!-- .buttons-->
             <div id="upload-photo-btn" class="buttons">
                 <form enctype="multipart/form-data" id="formuploadajax" method="post">
-                    <input class="hidden-input" name="file" id="file" type="file" />
-                    <button type="button" onclick="submitPhoto()" class="enroled">CONTINUAR</button>
-                </form>
+                    <input class="hidden-input" accept="image/*" capture="camera" name="file" id="file-cam" type="file" />
+                    <input class="hidden-input" accept="image/*" name="file" id="file" type="file" />
+                    <button type="button" onclick="submitPhoto()" class="enroled">CONTINUAR
+                        <div id="photo-spinner" class="spinner-border text-primary" role="status">
+                        </div>
+                    </button>
+                </form><!-- .formuploadajax -->
             </div><!-- .buttons-->
         </div><!-- photo-selection -->
     </div> <!-- photo-container -->
+    <div id="upload-success">
+        <div class="upload-content">
+            <div class="upload-msg">
+                <h1>¡FELICITACIONES!</h1>
+            <h2>Te has enrolado exitosamente.</h2>
+            </div>
+            <img id="final-image" alt="">
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="finish()" class="enrol">FINALIZAR</button>
+                <button onclick="repeatPhoto()" class="enroled">REPETIR FOTO</button>
+            </div><!-- .buttons-->
+        </div>
+    </div>
 </body>
 
 @* <body onLoad="JustificaTextoLargo();">
@@ -664,6 +493,7 @@
     var divbtnCancelar = document.getElementById("btnCancelar");
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
+    var fileId = 'file';
 
     // initial container
     var initialContainer = document.getElementById('initial-container');
@@ -677,77 +507,56 @@
     var infographicContainer = document.getElementById('infographics-container');
     // Container photo
     var photoContainer = document.getElementById('photo-container');
+   // divfoto.style.display = "none";
+   // divconfirmar.style.display = "none";
+   // divimgProc.style.display = "none";
+    var result = [];
 
-    divfoto.style.display = "none";
-    divconfirmar.style.display = "none";
-    divimgProc.style.display = "none";
-            var result = [];
-
-            //$(function () {
-
-           // });
+    function repeatPhoto() {
+        document.getElementById('upload-photo-btn').style.display = 'none';
+        document.getElementById('upload-success').style.display = 'none';
+        document.getElementById('select-photo-btn').style.display = 'flex';
+        document.getElementById("photo-container").style.display = 'flex';
+    }
 
     function submitPhoto() {
- $("#formuploadajax").on("submit", function (e) {
-    e.preventDefault();
-    var f = $(this);
-    //var formData = new FormData(document.getElementById("formuploadajax"));
-    //formData.append("file", $(this)[1].files[0]);
+        $("#photo-spinner").show();
+        $("#formuploadajax").on("submit", function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('file', $(`#${fileId}`)[0].files[0]);
+        var imagen = "";
+        console.log(formData);
 
-    //var formData = new FormData(document.getElementById("formuploadajax"));
-    var formData = new FormData(this);
-    //formData.append("file", file);
-
-    //var data = new FormData();
-    //jQuery.each(jQuery('#file')[0].files, function (i, file) {
-    //    data.append('file-' + i, file);
-    //});
-
-    console.log("Enviando imagen01");
-    console.log(formData);
-    //formData.append(f.attr("name"), $(this)[0].files[0]);
-    var imagen = "";
-
-    $.ajax({
-        url: "https://bio01.qaingenieros.com/api/img",
-        type: "POST",
-        method: 'POST',
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false
-    }).done(function (res) {
-            $("#mensaje").html("Respuesta: " + res);
-
-            console.log(res.status);
-
+        $.ajax({
+            url: "https://bio01.qaingenieros.com/api/img",
+            type: "POST",
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function (res) {
+            $("#photo-spinner").hide();
+            console.log(res);
             if (res.status == "aprobado") {
-
-
                 imagen = res.image;
                 var base64 = "data:image/png;base64," + res.image;
                 console.log(base64);
-                $("#imgproc").attr("src", base64);
-
+                document.getElementById('upload-success').style.display = 'flex';
+                document.getElementById('photo-container').style.display = 'none';
+                $("#final-image").attr("src", base64);
                 var hoy = new Date();
                 var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
-
                 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
-
                 var ipvar = "";
-
                 ipvar = "@ViewBag.varIP";
-
                 var userName = ""
-
-                userName = document.getElementById("NombreUsuario").textContent;
-
+                @* userName = document.getElementById("NombreUsuario").textContent; *@
                 console.log(imagen);
                 var terminos = true;
-
                 var e = document.getElementById("tipdoc");
                 var strUser = e.value;
-
                 var configuracion = {
                     badgeId: $('#Badge_id').val().trim(),
                     lastName: $('#LastName').val().trim(),
@@ -766,65 +575,53 @@
                     metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
                     image: imagen
                 };
-
-
-
-                $.ajax({
-                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
-
-                    type: "POST",
-
-                    method: 'POST',
-                    dataType: 'json',
-                    data: JSON.stringify(configuracion),
-                    cache: false,
-                    contentType: 'application/json'
-
-                })
-
-                    .done(function (res) {
-                        $("#mensaje").html("Respuesta: " + res);
-
-                        console.log(res);
-
-
+                    $.ajax({
+                        url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                        type: "POST",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify(configuracion),
+                        cache: false,
+                        contentType: 'application/json'
                     })
-                    .fail(function () {
-                        console.log("Error actualizando datos");
-                    });
+                        .done(function (res) {
+                            $("#mensaje").html("Respuesta: " + res);
+                            console.log(res);
+                        })
+                        .fail(function () {
+                            console.log("Error actualizando datos");
+                        });
 
-                divimgProc.style.display = "block";
-                divbtnImg.style.display = "none";
-
-
-                //alert("Foto almacenada");
-
-
-
-            } else {
-
-                console.log("Foto no cumple");
-
+                    //divimgProc.style.display = "block";
+                    //divbtnImg.style.display = "none";
+                    //alert("Foto almacenada");
+                } else {
+                    const reasons = res.motivos.toString();
+                    $('#photo-error').html('');
+                    var statusContent = `<span class="error-msg">${reasons}</span>`;
+                    $('#photo-error').append(statusContent);
+                    $('#photo-error').show();
+                    console.log("Foto no cumple");
+                    document.getElementById('upload-photo-btn').style.display = 'none';
+                    document.getElementById('select-photo-btn').style.display = 'flex';
+                };
+            })
+            .fail(function () {
+                $("#photo-spinner").hide();
                 alert("Foto no cumple con los requisitos");
-            };
-        })
-        .fail(function () {
-            alert("Foto no cumple con los requisitos");
+            });
         });
-});
-
-
         var f = $("#formuploadajax");
         f.submit();
-        
-
-
     }
     /**
     * Seleccionar foto
     */
-    function selectFile() {
-        var input = document.getElementById('file');
+    function selectFile(id) {
+        $('#photo-error').html('');
+        $('#photo-error').hide();
+        fileId = id;
+        var input = document.getElementById(id);
         input.onchange = function (e) {
             console.log('file loaded');
             let reader = new FileReader();
@@ -871,26 +668,27 @@
         var pregunta3 = $('input:radio[name=4]:checked').val();
         if (pregunta1 === 'Si' && pregunta2 === 'Si' && pregunta3 === 'Si') {
             document.getElementById("check-container").checked = true;
-            document.getElementById("continue-submit").style.display = 'flex';
+            //document.getElementById("continue-submit").style.display = 'flex';
         } else {
             document.getElementById("check-container").checked = false;
-            document.getElementById("continue-submit").style.display = 'none';
+            //document.getElementById("continue-submit").style.display = 'none';
         }
     }
     /**
     * Muestra infografia
     */
     function showInfographic() {
+        $("#enrol-spinner").show();
        $("#formuploadenrol").on("submit", function (e) {
         e.preventDefault();
          var x = true;
         var terminos = true;
     //Validaciones
         if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
-            alert("Registramos su decisión, muchas gracias.");
+            console.log("Registramos su decisión, muchas gracias.");
             terminos = false;
         } else {
-            alert("Datos registrados.");
+            console.log("Datos registrados.");
             //divbtnConfirmar.style.display = "none";
             //divbtnCancelar.style.display = "none";
            // divfoto.style.display = "block";
@@ -934,8 +732,9 @@
             contentType: 'application/json'
         })
             .done(function (res) {
-                $("#mensaje").html("Respuesta: " + res);
-                console.log(res);
+                $("#enrol-spinner").hide();
+                initialContainer.style.display = 'none';
+                infographicContainer.style.display = 'flex';
                 if (terminos == false) {
                     window.location.href = "/Account/Logout";
                 };
@@ -946,8 +745,7 @@
     }
 
     }); 
-       initialContainer.style.display = 'none';
-       infographicContainer.style.display = 'flex';
+
        var f = $("#formuploadenrol");
        f.submit();
     }
@@ -1078,7 +876,7 @@
                     divbotonguardar.style.display = "none";
 
                 });
-                $("#formuploadenrol").on("submit", function (e) {
+                @* $("#formuploadenrol").on("submit", function (e) {
 
                     e.preventDefault();
 
@@ -1147,10 +945,8 @@
                         console.log(configuracion);
 
                         $.ajax({
-                            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
-
+                            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
                             type: "POST",
-
                             method: 'POST',
                             dataType: 'json',
                             data: JSON.stringify(configuracion),
@@ -1176,9 +972,9 @@
                     }
 
 
-                });
+                }); *@
 
-                $("#formuploadajax").on("submit", function (e) {
+                $("#formuploadajax2").on("submit", function (e) {
                     e.preventDefault();
                     var f = $(this);
                     //var formData = new FormData(document.getElementById("formuploadajax"));
@@ -1263,7 +1059,7 @@
 
 
                                 $.ajax({
-                                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
+                                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
 
                                     type: "POST",
 

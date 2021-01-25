@@ -64,8 +64,7 @@ namespace AspStudio.Models
 
         [Column("ciudadEnroll")]
         public string Ciudad { get; set; }
-        
 
-        
+
     }
 }

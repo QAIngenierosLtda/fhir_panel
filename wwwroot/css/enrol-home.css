@@ -1,0 +1,385 @@
+#app {
+    padding: 0;
+}
+
+#content {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.enrol-home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #0e0c5a;
+    background: linear-gradient(rgba(14, 12, 90, .5), rgba(14, 12, 90, .5)), url('../img/bg-img.jpg');
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 60px 20px 60px;
+    background-color: #0e0c5a;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, .3);
+    width: 100%;
+    align-items: flex-end;
+    min-height: 150px;
+}
+
+.digital {
+    margin-top: 80px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, .3);
+}
+
+.digital h1 {
+    color: #0e0c5a;
+    font-size: 50px;
+}
+
+.digital span {
+    color: white;
+    background-color: #0e0c5a;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.video-container {
+    display: flex;
+    padding: 60px;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.video img {
+    width: 400px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.digital-windows {
+    display: flex;
+    width: 100%;
+    background-color: #12108d;
+    min-height: 500px;
+}
+
+.digital-windows .title {
+    display: flex;
+}
+
+.digital-windows .title h1 {
+    font-size: 60px;
+    transform: rotate(-90deg) translateY(200px);
+    color: white;
+}
+
+.faq {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.faq-header {
+    display: flex;
+    width: 100%;
+    background-color: #8782ff;
+    flex-direction: column;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, .3);
+}
+
+.faq-header .title {
+    font-size: 60px;
+    color: white;
+}
+
+.faq-header .questions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.faq-header .questions .question {
+    color: white;
+    font-size: 40px;
+    background-color: #4743ff;
+    border-radius: 20px;
+}
+
+.green-box {
+    background-color: #6cd300;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 20px 20px 0;
+    max-width: 450px;
+    width: 450px;
+    padding: 20px 30px;
+    margin-top: 100px
+}
+
+.green-box h2,
+.green-box h4 {
+    color: white;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.nav-item a {
+    color: white;
+    padding: 0 10px;
+    margin: 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+}
+
+.main-content {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.main-info {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    padding: 70px 0 0 70px;
+}
+
+.main-info h1,
+.main-info h2 {
+    color: white;
+}
+
+.main-info h1 {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 60px;
+    margin-bottom: 30px;
+}
+
+.main-info h2 {
+    font-size: 40px;
+    line-height: 45px;
+    font-weight: bold;
+}
+
+.division {
+    display: flex;
+    width: 100%;
+    height: 20px;
+    margin-top: auto;
+}
+
+.div-1 {
+    flex: 1;
+    background-color: #0b1654;
+}
+
+.div-2 {
+    flex: 1;
+    background-color: #2d3086;
+}
+
+.div-3 {
+    flex: 1;
+    background-color: #50539e;
+}
+
+.div-4 {
+    flex: 1;
+    background-color: #9598c5;
+}
+
+.div-5 {
+    flex: 1;
+    background-color: #e5e6f1;
+}
+
+.form-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-container form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.left-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+    flex: 1;
+}
+
+.right-form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+}
+
+.contact {
+    padding: 80px;
+}
+
+.contact .title {
+    font-size: 40px;
+    padding: 10px 40px;
+    font-weight: bold;
+}
+
+#submit-spinner {
+    display: none;
+}
+
+.submit-btn {
+    background-color: #6cd300;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 90%;
+}
+
+.buttons button {
+    width: 200px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 15px 0;
+    box-shadow: 3px 2px 2px 2px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    color: white;
+    background-color: #8782ff;
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+textarea {
+    background-color: #8782ff;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    width: 90%;
+    border: none;
+    font-weight: bold;
+}
+
+#logo {
+    width: 100%;
+}
+
+::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+ :-ms-input-placeholder {
+    color: white;
+}
+
+ ::-ms-input-placeholder {
+    color: white;
+}
+
+@media screen and (max-width: 420px) {
+    .green-box {
+        max-width: 350px;
+        width: 350px;
+    }
+    .header {
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+        background-color: #0e0c5a;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, .3);
+        width: 100%;
+        align-items: center;
+        height: auto;
+        flex-direction: column-reverse;
+    }
+
+    .nav-item a {
+        color: white;
+        margin: 0 10px;
+        font-size: 12px;
+        font-weight: bold;
+        display: flex;
+    }
+    .main-info{
+        width: auto;
+    }
+    .main-info h1 {
+        font-size: 50px;
+        font-weight: bold;
+        line-height: 50px;
+        margin-bottom: 30px;
+    }
+    .form-container form {
+        flex-direction: column;
+    }
+    .contact {
+        padding: 20px
+    }
+    .right-form {
+        justify-content: center;
+        width: 100%;
+    }
+    .left-form {
+        padding: 0;
+        width: 90%;
+    }
+    .buttons {
+        align-items: center;
+    }
+    
+    .main-info h2 {
+        font-size: 30px;
+        line-height: 35px;
+        font-weight: bold;
+    }
+}

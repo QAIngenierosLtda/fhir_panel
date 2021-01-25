@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Starter Page";
+    ViewData["AppWithoutSidebar"] = true;
+    ViewData["AppWithoutHeader"] = true;
+}
+
+<link href="@Url.Content("~/css/enrol-home.css")" rel="stylesheet" type="text/css" />
+
+<div class="enrol-home">
+    <div class="header">
+        <div class="navigation">
+            <div class="nav-item">
+                <a href="#" class="nav-item-link">CÓMO <br> FUNCIONA</a>
+            </div>
+            <!-- <div class="nav-item">
+                <a href="#" class="nav-item-link">NUESTRA <br>
+                    BRIGADA</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-item-link">PREGUNTAS <br>
+                    FRECUENTES</a> 
+            </div>-->
+            <div class="nav-item">
+                <a href="#contact-section" class="nav-item-link">CONTÁCTANOS</a>
+            </div>
+        </div>
+        <!-- navigation -->
+        <div class="logo">
+            <img src="~/img/logo-ecopetrol.svg" id="logo" alt="Ecopetrol">
+        </div>
+        <!--logo -->
+    </div><!-- header-->
+    <div class="main-content">
+        <div class="green-box">
+            <h2>¡HOLA <span id="user-name"></span>!</h4>
+                <h4>Ingreso a sedes Nuevo Normal <br> vive experiencia 360</h4>
+        </div><!-- green-box-->
+        <div class="main-info">
+            <h1>NUESTRO <br> SISTEMA </h1>
+            <h2>VIDEO <br> INTERACTIVO <br> 360* </h2>
+        </div><!-- main-info -->
+        <div class="division">
+            <div class="div-1"></div>
+            <div class="div-2"></div>
+            <div class="div-3"></div>
+            <div class="div-4"></div>
+            <div class="div-5"></div>
+        </div><!-- division -->
+    </div>
+    <!-- main-content -->
+</div><!-- enrol-home-->
+<!-- <div class="digital">
+    <h1>NUESTRA BRIGADA <span class="dark-bg"> DIGITAL </span></h1>
+
+    <div class="video-container">
+        <div class="video">
+            <img src="~/img/bg-img.jpg" alt="Ecopetrol">
+        </div>
+        <div class="video">
+            <img src="~/img/bg-img.jpg" alt="Ecopetrol">
+        </div>
+        <div class="video">
+            <img src="~/img/bg-img.jpg" alt="Ecopetrol">
+        </div>
+    </div>
+</div>
+<div class="digital-windows">
+    <div class="title">
+        <h1>VENTANAS <br> DIGITALES</h1>
+    </div>
+</div>
+<div class="faq">
+    <div class="faq-header">
+        <div class="title">
+            Preguntas frecuentes
+        </div>
+        <div class="questions">
+            <div class="question">
+                ¿Cómo encender la cámara?
+            </div>
+            <div class="question">
+                ¿No carga mi fotografía?
+            </div>
+            <div class="question">
+                ¿Dónde veo mi puntaje?
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div id="contact-section" class="contact">
+    <div class="title">
+        Contáctanos
+    </div>
+    <div class="form-container">
+        <form id="contact-form">
+            <div class="left-form">
+                <input placeholder="Nombre:" autocomplete="off" required title="Nombres completos" data-toggle="tooltip" data-placement="right" name="firstName" id="firstName" />
+                <input placeholder="Apellido:" autocomplete="off" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="lastName" id="lastName" />
+                <input placeholder="N. de empleado:" autocomplete="off" required title="N. de empleado" data-toggle="tooltip" data-placement="right" name="employeeName" id="employeeName" />
+                <input placeholder="Cédula:" autocomplete="off" required title="Cédula" data-toggle="tooltip" data-placement="right" name="documentNumber" id="documentNumber" />
+            </div>
+            <div class="right-form">
+                <textarea name="content" placeholder="Cuentanos..." id="contact-body" cols="30" rows="10"></textarea>
+            </div>
+        </form>
+        <div class="buttons">
+            <button type="button" class="submit-btn">ENVIAR
+                <div id="submit-spinner" class="spinner-border text-primary" role="status"></div>
+            </button>
+        </div><!-- .buttons-->
+    </div>
+</div>
+<script>
+    var name = localStorage.getItem('firstName');
+    document.getElementById('user-name').textContent = name.toUpperCase();
+</script>

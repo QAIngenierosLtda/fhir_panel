@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS1030: Directiva #warning
+dotnet_diagnostic.CS1030.severity = warning

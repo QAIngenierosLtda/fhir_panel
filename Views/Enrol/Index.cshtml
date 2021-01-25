@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Enrolamiento";
     ViewData["AppWithoutSidebar"] = true;
+    ViewData["AppWithoutHeader"] = true;
 }
 <link href="@Url.Content("~/css/enrol.css")" rel="stylesheet" type="text/css" />
 
@@ -93,7 +94,7 @@
             <div id="step-1">
     
                 <div class="logo">
-                 <img src="~/img/logo-white.png" alt="Ecopetrol">
+                 <img id="logo" src="~/img/logo-ecopetrol.svg" alt="Ecopetrol">
                 </div><!-- .logo-->
                 <div class="heading">
                     <span class="bold">SÚMATE A</span>
@@ -102,11 +103,12 @@
                 </div><!-- .heading-->
                 <div class="buttons">
                     <button onclick="showEnrolForm()" class="enrol">ENROLARME</button>
-                    <button class="enroled">YA ME ENROLÉ</button>
+                    @* <button class="enroled">YA ME ENROLÉ</button> *@
                 </div><!-- .buttons-->
             </div><!-- #step-1 -->
             <div id="enrol-form">
                 <div class="form-heading">
+                    @* <img src="~/img/registro.svg" id="registro" alt="Ecopetrol"> *@
                     <span>INICIA TU REGISTRO</span>
                     <span class="bold">
                         BIOMÉTRICO
@@ -170,7 +172,7 @@
                         <p id="textoLargo"></p>
                         <p>
                             <input required type="radio" name=@texto.Tipo value="Si"> Si acepto
-                            <input required type="radio" name=@texto.Tipo value="No"> No acepto
+                            <input required type="radio" name=@texto.Tipo checked value="No"> No acepto
 
                             <br />
                             <br />
@@ -228,7 +230,7 @@
             </div>
             <div id="submit-base64-btn" class="buttons">
                 <button type="button" onclick="submitBase64Photo()" class="enroled">CONTINUAR
-                    <div id="photo-spinner" class="spinner-border text-primary" role="status">
+                    <div id="base64-photo-spinner" class="spinner-border text-primary" role="status">
                     </div>
                 </button>
             </div>
@@ -244,7 +246,7 @@
             </div>
             <img id="final-image" alt="">
             <div id="select-photo-btn" class="buttons">
-                <button onclick="finish()" class="enrol">FINALIZAR</button>
+                <button onclick="toEnrolHome()" class="enrol">FINALIZAR</button>
                 <button onclick="repeatPhoto()" class="enroled">REPETIR FOTO</button>
             </div><!-- .buttons-->
         </div>
@@ -256,7 +258,7 @@
                 <h2>Te has enrolado exitosamente.</h2>
             </div>
             <div id="select-photo-btn" class="buttons">
-                <button onclick="logout()" class="enrol">FINALIZAR</button>
+                <button onclick="toEnrolHome()" class="enrol">FINALIZAR</button>
             </div><!-- .buttons-->
         </div>
     </div>
@@ -511,7 +513,7 @@
 
 <script>
 
-
+    localStorage.removeItem('firstName');
 
     var divfoto = document.getElementById("divifoto");
     var divconfirmar = document.getElementById("confirmarDatos");
@@ -522,6 +524,8 @@
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
     var fileId = 'file';
+    var base64file;
+
 
     // initial container
     var initialContainer = document.getElementById('initial-container');
@@ -580,7 +584,8 @@
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height,
             x, y, img.width * ratio, img.height * ratio);
-        console.log(canvas.toDataURL());
+        base64file = canvas.toDataURL("image/jpeg");
+        console.log(canvas.toDataURL("image/jpeg"));
   }
 
     /**
@@ -613,6 +618,102 @@
         document.getElementById("photo-container").style.display = 'flex';
     }
 
+    function submitBase64Photo() {
+        $("#base64-photo-spinner").show();
+        var formData = {
+            "img": `data:image/jpeg;base64,${base64file}`
+        };
+        $("#formuploadajax").on("submit", function (e) {
+        e.preventDefault();
+
+        var imagen = "";
+        console.log(formData);
+        $.ajax({
+            url: "http://bio01.qaingenieros.com:5000/base64",
+            type: "POST",
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function (res) {
+            $("#base64-photo-spinner").hide();
+            console.log(res);
+            if (res.status == "aprobado") {
+                imagen = res.image;
+                var base64 = "data:image/png;base64," + res.image;
+                console.log(base64);
+                document.getElementById('upload-success').style.display = 'flex';
+                document.getElementById('photo-container').style.display = 'none';
+                $("#final-image").attr("src", base64);
+                var hoy = new Date();
+                var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+                var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
+                var ipvar = "";
+                ipvar = "@ViewBag.varIP";
+                var userName = ""
+                @* userName = document.getElementById("NombreUsuario").textContent; *@
+                console.log(imagen);
+                var terminos = true;
+                var e = document.getElementById("tipdoc");
+                var strUser = e.value;
+                var configuracion = {
+                    badgeId: $('#Badge_id').val().trim(),
+                    lastName: $('#LastName').val().trim(),
+                    firstName: $('#Firstname').val().trim(),
+                    documento: $('#Documento').val().trim(),
+                    tipoDocumento: strUser,
+                    aceptaTerminos: terminos,
+                    empresa: "",
+                    regional: 0,
+                    instalacion: 0,
+                    ciudad: "",
+                    ssno: "",
+                    idStatus: "",
+                    status: "",
+                    origen: "web",
+                    metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                    image: imagen
+                };
+                    $.ajax({
+                        url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                        type: "POST",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify(configuracion),
+                        cache: false,
+                        contentType: 'application/json'
+                    })
+                        .done(function (res) {
+                            $("#mensaje").html("Respuesta: " + res);
+                            console.log(res);
+                        })
+                        .fail(function () {
+                            console.log("Error actualizando datos");
+                        });
+
+                    //divimgProc.style.display = "block";
+                    //divbtnImg.style.display = "none";
+                    //alert("Foto almacenada");
+                } else {
+                    const reasons = res.motivos.toString();
+                    $('#photo-error').html('');
+                    var statusContent = `<span class="error-msg">${reasons}</span>`;
+                    $('#photo-error').append(statusContent);
+                    $('#photo-error').show();
+                    console.log("Foto no cumple");
+                    document.getElementById('upload-photo-btn').style.display = 'none';
+                    document.getElementById('select-photo-btn').style.display = 'flex';
+                };
+            })
+            .fail(function () {
+                $("#base64-photo-spinner").hide();
+                alert("Foto no cumple con los requisitos");
+            });
+        });
+        var f = $("#formuploadajax");
+        f.submit();
+    }
     function submitPhoto() {
         $("#photo-spinner").show();
         $("#formuploadajax").on("submit", function (e) {
@@ -772,6 +873,8 @@
     * Muestra infografia
     */
     function showInfographic() {
+        var firstName = $('#Firstname').val().trim();
+        localStorage.setItem('firstName', firstName);
         $("#enrol-spinner").show();
         $("#formuploadenrol").on("submit", function (e) {
         e.preventDefault();
@@ -852,6 +955,12 @@
     */
     function logout() {
         window.location.href = "/Account/Logout";
+    }
+    /*
+    * Cerrar sesion
+    */
+    function toEnrolHome() {
+        window.location.href = "/EnrolHome";
     }
     /**
     * Muestra seleccion de foto
@@ -943,7 +1052,7 @@
 
             e.preventDefault();
 
-
+            console.log('termina');
             window.location.href = "/Account/Logout";
 
         });
@@ -1065,6 +1174,7 @@
                                 console.log(res);
 
                                 if (terminos == false) {
+                                    console.log('logout')
                                     window.location.href = "/Account/Logout";
                                 };
 

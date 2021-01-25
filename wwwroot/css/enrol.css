@@ -2,7 +2,12 @@
     display: none;
     flex-direction: column;
 }
-
+#app {
+    padding: 0;
+}
+#registro {
+    width: 100%;
+}
 #initial-container {
     display: flex;
     width: 100%;
@@ -91,6 +96,9 @@
 }
 
 #photo-spinner {
+    display: none;
+}
+#base64-photo-spinner {
     display: none;
 }
 
@@ -195,10 +203,6 @@
 
 #terms-container::-webkit-scrollbar-thumb {
     background-color: transparent;
-}
-
-#continue-submit {
-    /*   display: none;*/
 }
 
 #infographics-container {

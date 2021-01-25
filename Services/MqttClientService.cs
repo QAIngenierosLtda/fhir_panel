@@ -72,6 +72,12 @@ namespace Mqtt.Client.AspNetCore.Services
         public string device_token {get; set;}
     }
 
+    public class connectedDevices {   
+        public DateTime? last_heartbeat {get; set;}     
+        public string device_id {get; set;}
+        public string device_name {get; set;}
+    }
+
     public class picLibStatus {
         public string pic_url {get; set;}
         public int pic_status {get; set;}
@@ -152,8 +158,9 @@ namespace Mqtt.Client.AspNetCore.Services
     {
         // Instancias para manejo de la libreria de MQTTnet
         private IMqttClient mqttClient;
-        private IMqttClientOptions options;
-        
+        private IMqttClientOptions options;  
+
+        private connectedDevices connectedDevices;  
 
         // Inyeccion clase para manejo de la conexion a BD
         private readonly IServiceScopeFactory _scopeFactory;
@@ -168,6 +175,7 @@ namespace Mqtt.Client.AspNetCore.Services
             this.options = options;
             mqttClient = new MqttFactory().CreateMqttClient();
 
+            // this.conDevices = [];
             // Creamos el objeto dbContext
             // dbContext = _dbContext;
             _scopeFactory = scopeFactory;
@@ -293,75 +301,6 @@ namespace Mqtt.Client.AspNetCore.Services
                     // Respuesta al evento Get All Params
                     if(mensaje.msg == "get param success")
                     {
-                        // System.Console.WriteLine("Los parámetros del device son los siguientes: ");
-                        // System.Console.WriteLine("Parámetros básicos: ");
-                        // System.Console.WriteLine("Nombre dispositivo: ");
-                        // System.Console.WriteLine(mensaje.datas.basic_parameters.dev_name);
-                        // System.Console.WriteLine("Contraseña dispositivo: ");
-                        // System.Console.WriteLine(mensaje.datas.basic_parameters.dev_pwd);
-                        // System.Console.WriteLine("Parámetros de red: ");
-                        // System.Console.WriteLine("Dirección IP: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.ip_addr);
-                        // System.Console.WriteLine("Máscara de Subred: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.net_mask);
-                        // System.Console.WriteLine("Puerta de enlace: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.gateway);
-                        // System.Console.WriteLine("DDNS1: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS1);
-                        // System.Console.WriteLine("DDNS2: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS2);
-                        // System.Console.WriteLine("Bandera DHCP: ");
-                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DHCP);
-
-                        // System.Console.WriteLine("Información de versión: ");
-                        // System.Console.WriteLine("Versión del modélo: ");
-                        // System.Console.WriteLine(mensaje.datas.version_info.dev_model);
-                        // System.Console.WriteLine("Versión del firmware: ");
-                        // System.Console.WriteLine(mensaje.datas.version_info.firmware_ver);
-                        // System.Console.WriteLine("Fecha del firmware: ");
-                        // System.Console.WriteLine(mensaje.datas.version_info.firmware_date);
-
-                        // System.Console.WriteLine("Parámetros de temperatura: ");
-                        // System.Console.WriteLine("Detección de temperatura: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.temp_dec_en);
-                        // System.Console.WriteLine("Detección de visitantes: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.stranger_pass_en);
-                        // System.Console.WriteLine("Detección de tapabocas: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.make_check_en);
-                        // System.Console.WriteLine("Temperatura de alarma: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.alarm_temp);
-                        // System.Console.WriteLine("Compensación de temperatura: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.temp_comp);
-                        // System.Console.WriteLine("Tiempo de grabación: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.record_save_time);
-                        // System.Console.WriteLine("Grabación: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.save_record);
-                        // System.Console.WriteLine("Guardado de imágenes: ");
-                        // System.Console.WriteLine(mensaje.datas.fun_param.save_jpeg);
-
-                        // System.Console.WriteLine("Parámetros MQTT: ");
-                        // System.Console.WriteLine("Enable: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.enable);
-                        // System.Console.WriteLine("Retain: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.retain);
-                        // System.Console.WriteLine("Publish QoS: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.pqos);
-                        // System.Console.WriteLine("Subscribe QoS: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.sqos);
-                        // System.Console.WriteLine("Puerto: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.port);
-                        // System.Console.WriteLine("Servidor: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.server);
-                        // System.Console.WriteLine("Usuario: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.username);
-                        // System.Console.WriteLine("Contraseña: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.passwd);                       
-                        // System.Console.WriteLine("Tópico para publicar: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2pulish);
-                        // System.Console.WriteLine("Tópico para suscripción: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
-                        // System.Console.WriteLine("HeartBeat: ");
-                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);
 
                         // Creación del objeto device para ser ingresado a la base de datos
                         // Se hace la recolección de parámetros de la trama recibida. 
@@ -398,7 +337,8 @@ namespace Mqtt.Client.AspNetCore.Services
                             MqttPwd = mensaje.datas.mqtt_protocol_set.passwd,
                             Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2pulish,
                             Topic2Sub = mensaje.datas.mqtt_protocol_set.topic2subscribe,
-                            HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat
+                            HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat,
+                            lastReport = null
 
                         };
 
@@ -441,6 +381,20 @@ namespace Mqtt.Client.AspNetCore.Services
                     {
                         System.Console.WriteLine("Parámetros básicos cambiados exitosamente.");
                     }
+
+                    if (mensaje.msg == "heartbeat")
+                    {
+                        System.Console.WriteLine("Heartbeat");
+                        DateTime timestamp = DateTime.Now; 
+
+                        this.StoreDeviceHeartBeat("7101016619989", timestamp);
+
+                        System.Console.WriteLine("data Heartbeat");
+                                        
+
+                    }
+
+
                     if (mensaje.msg == "network param set success")
                     {
                         System.Console.WriteLine("Parámetros de red cambiados exitosamente.");
@@ -728,6 +682,31 @@ namespace Mqtt.Client.AspNetCore.Services
 
         }
 
+        public void StoreDeviceHeartBeat(string DevId, DateTime lastReport)
+        {
+            System.Console.WriteLine("Registrando Heartbeat");
+            
+            using (var scope = _scopeFactory.CreateScope())
+            {
+
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    var result = dbContext.Devices.FirstOrDefault(p => p.DevId == DevId);
+                    if (result != null)
+                    {
+                        result.lastReport = lastReport;
+                        dbContext.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                }
+            }
+
+        }
+
         /// <summary>
         /// Esta función realiza la subscripción del tópico MQTT donde se obtienen dichos parámetros
         /// 
@@ -832,21 +811,36 @@ namespace Mqtt.Client.AspNetCore.Services
         /// </returns>
         protected string ExportToImage(string JsonMsg)
         {
+            // Convertir el string JSON a un objeto
             var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
+
+            // extraer la informacion en formato base64 de la imagen (incluidas las cabeceras)
             string base64 = mensaje.datas.imageFile.ToString();
+
+            // Crea un timestamp
             DateTime localDate = DateTime.Now;  
+
+            // Separa la cabecera de los datos de la imagen
             var image64 = base64.Substring(base64.LastIndexOf(',') + 1);
+
             //  Convierte la cadena base64 en un arreglo de bytes
             byte[] bytes = Convert.FromBase64String(image64);
+
+            // Obtiene la fecha del mensaje (Esto es para el mensaje MQTT)
             var fecha = mensaje.datas.time.ToString();
             fecha.Replace("/", "_");
             System.Console.WriteLine(fecha);
+
+            // Define el nombre del archivo a guardar (Nombre de la persona + id dispositivo + fecha)
             var nombre = (mensaje.datas.name != "") ? mensaje.datas.name : "Desconocido";
             var imageName =  mensaje.device_id + '_' + nombre  + '_' + mensaje.datas.temperature  + '_' + fecha + ".jpg";
             System.Console.WriteLine(imageName);
+
+            // Define la ruta del directorio y de la imagen
             var folderPath = "wwwroot/Registers/";
             var imagePath = folderPath + imageName;
             
+            // Guarda la imagen en el sistema de archivos
             using(Image image = Image.FromStream(new MemoryStream(bytes)))
             {
                 try {
@@ -857,6 +851,7 @@ namespace Mqtt.Client.AspNetCore.Services
                 
             }
             
+            // Devuelve el path de la imagen incluido el nombre
             return (imagePath);
         }
 

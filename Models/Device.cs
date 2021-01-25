@@ -119,5 +119,9 @@ namespace AspStudio.Models
 
         [Column("bound")]
         public bool Bound { get; set; }
+
+        [Column("last_report")]
+        public DateTime? lastReport {get; set;}
+        
     }
 }

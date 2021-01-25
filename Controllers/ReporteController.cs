@@ -672,7 +672,7 @@ namespace AspStudio.Controllers
                 var message = new MimeMessage ();
                 message.From.Add (new MailboxAddress ("QA Ingenieros Ltda", "reportes@qaingenieros.com"));
                 message.To.Add (new MailboxAddress ("QA Ingenieros Ltda",recipient));
-                message.Subject = "Informe diario";
+                message.Subject = "Informe piloto PGR";
 
                 Console.WriteLine("Archivo: " + filePath);
                 //Fetch the attachments from db

@@ -84,12 +84,12 @@
 <body>
     <div id="initial-container">
         <div class="left-container">
-            <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
+            @* <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
                 <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
                 <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
                 <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
                 <p>Your user agent does not support the HTML5 Video element.</p>
-            </video>
+            </video> *@
             <div id="step-1">
     
                 <div class="logo">
@@ -205,7 +205,8 @@
             <div id="photo-error"></div>
             <div id="select-photo-btn" class="buttons">
                 <button onclick="selectFile('file')" class="enrol">SUBIR FOTO</button>
-                <button onclick="selectFile('file-cam')" class="enroled">TOMAR FOTO</button>
+                <button onclick="selectFile('file-cam')" class="enroled mobile">TOMAR FOTO</button>
+                <button onclick="toggleCam()" class="enroled desktop">TOMAR FOTO</button>
             </div><!-- .buttons-->
             <div id="upload-photo-btn" class="buttons">
                 <form enctype="multipart/form-data" id="formuploadajax" method="post">
@@ -218,6 +219,22 @@
                 </form><!-- .formuploadajax -->
             </div><!-- .buttons-->
         </div><!-- photo-selection -->
+        <div id="video-preview-container">
+            <video id="video-preview"></video>
+            <canvas width="640" height="800" id="takePhotoCanvas"></canvas>
+            <div id="take-photo-btn" class="buttons">
+                <button class="enrol" id="capture-photo-btn" onclick="takePhoto()">Capturar</button>
+                <button class="enrol" id="repeat-photo-btn" onclick="takeAnother()">Repetir</button>
+            </div>
+            <div id="submit-base64-btn" class="buttons">
+                <button type="button" onclick="submitBase64Photo()" class="enroled">CONTINUAR
+                    <div id="photo-spinner" class="spinner-border text-primary" role="status">
+                    </div>
+                </button>
+            </div>
+            
+            <img src="" alt="" id="img-preview">
+        </div> <!-- video-preview-container -->
     </div> <!-- photo-container -->
     <div id="upload-success">
         <div class="upload-content">
@@ -229,6 +246,17 @@
             <div id="select-photo-btn" class="buttons">
                 <button onclick="finish()" class="enrol">FINALIZAR</button>
                 <button onclick="repeatPhoto()" class="enroled">REPETIR FOTO</button>
+            </div><!-- .buttons-->
+        </div>
+    </div>
+    <div id="finish-screen">
+        <div class="finish-content">
+            <div class="finish-msg">
+                <h1>¡FELICITACIONES!</h1>
+                <h2>Te has enrolado exitosamente.</h2>
+            </div>
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="logout()" class="enrol">FINALIZAR</button>
             </div><!-- .buttons-->
         </div>
     </div>
@@ -511,7 +539,73 @@
    // divconfirmar.style.display = "none";
    // divimgProc.style.display = "none";
     var result = [];
+    var imageCapture;
 
+    /**
+    * Repite foto tomada desde el ordenador
+    */
+    function takeAnother() {
+        document.getElementById('video-preview').style.display = 'flex';
+        document.getElementById('takePhotoCanvas').style.display = 'none';
+        document.getElementById('capture-photo-btn').style.display = 'flex';
+        document.getElementById('repeat-photo-btn').style.display = 'none';
+        document.getElementById('submit-base64-btn').style.display = 'none';
+    }
+    /*
+    * Tomar foto
+    */
+    function takePhoto(){
+        document.getElementById('video-preview').style.display = 'none';
+        document.getElementById('capture-photo-btn').style.display = 'none';
+        document.getElementById('repeat-photo-btn').style.display = 'flex';
+        document.getElementById('submit-base64-btn').style.display = 'flex';
+        document.getElementById('takePhotoCanvas').style.display = 'flex';
+        imageCapture.takePhoto()
+        .then(blob => createImageBitmap(blob))
+        .then(imageBitmap => {
+            const canvas = document.querySelector('#takePhotoCanvas');
+            drawCanvas(canvas, imageBitmap);
+        })
+        .catch(error => console.log(error));
+    }
+    /**
+    * Dibuja vista previa de foto en canvas
+    */
+    function drawCanvas(canvas, img) {
+        canvas.width = getComputedStyle(canvas).width.split('px')[0];
+        canvas.height = getComputedStyle(canvas).height.split('px')[0];
+        var ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+        var x = (canvas.width - img.width * ratio) / 2;
+        var y = (canvas.height - img.height * ratio) / 2;
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height,
+            x, y, img.width * ratio, img.height * ratio);
+        console.log(canvas.toDataURL());
+  }
+
+    /**
+    * Accede a camara del equipo para tomar foto
+    */
+    function toggleCam() {
+        document.getElementById('video-preview-container').style.display = 'flex';
+        var video = document.getElementById('video-preview');
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({video: {
+                width: { min: 640, max: 640 },
+                height: { min: 800, max: 800},
+            } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                var track = stream.getVideoTracks()[0];
+                imageCapture = new ImageCapture(track);
+             })
+        }
+    }
+
+    /**
+    * Muestra nuevamente formulario para toma de foto
+    */
     function repeatPhoto() {
         document.getElementById('upload-photo-btn').style.display = 'none';
         document.getElementById('upload-success').style.display = 'none';
@@ -679,11 +773,11 @@
     */
     function showInfographic() {
         $("#enrol-spinner").show();
-       $("#formuploadenrol").on("submit", function (e) {
+        $("#formuploadenrol").on("submit", function (e) {
         e.preventDefault();
-         var x = true;
+        var x = true;
         var terminos = true;
-    //Validaciones
+        //Validaciones
         if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
             console.log("Registramos su decisión, muchas gracias.");
             terminos = false;
@@ -691,7 +785,7 @@
             console.log("Datos registrados.");
             //divbtnConfirmar.style.display = "none";
             //divbtnCancelar.style.display = "none";
-           // divfoto.style.display = "block";
+            // divfoto.style.display = "block";
         }
         if (x) {
             var hoy = new Date();
@@ -733,11 +827,14 @@
         })
             .done(function (res) {
                 $("#enrol-spinner").hide();
-                initialContainer.style.display = 'none';
-                infographicContainer.style.display = 'flex';
+
                 if (terminos == false) {
-                    window.location.href = "/Account/Logout";
-                };
+                    document.getElementById('finish-screen').style.display = 'flex';
+                    initialContainer.style.display = 'none';
+                } else {
+                    initialContainer.style.display = 'none';
+                    infographicContainer.style.display = 'flex';
+                }
             })
             .fail(function () {
                 console.log("Error actualizando datos");
@@ -748,6 +845,13 @@
 
        var f = $("#formuploadenrol");
        f.submit();
+    }
+
+    /*
+    * Cerrar sesion
+    */
+    function logout() {
+        window.location.href = "/Account/Logout";
     }
     /**
     * Muestra seleccion de foto

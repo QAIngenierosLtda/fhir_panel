@@ -1,13 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Enrolamiento";
+    ViewData["AppWithoutSidebar"] = true;
 }
+<link href="@Url.Content("~/css/enrol.css")" rel="stylesheet" type="text/css" />
 
 @using AspStudio.Models;
 
 <!-- Estilos usados en diferentes partes de la página -->
 
 <style>
-
     #Encabezado {
         background-color: #025700;
         opacity: 0.90;
@@ -48,13 +49,27 @@
     .img {
         width: 215px;
         height: 260px;
+        display: none;
     }
 
-        .img img {
-            height: 100%;
-            width: 100%;
-        }
+    .img img {
+        height: 100%;
+        width: 100%;
+    }
+    .spinner-border {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 10px;
 
+    }    
+    #content {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        height: 93vh;
+        background-image: linear-gradient(to right, #0b1654, #1d1e6e);
+    }
+    
     input[type=number] {
         -moz-appearance: textfield;
     }
@@ -66,31 +81,201 @@
         }
 </style>
 
+<body>
+    <div id="initial-container">
+        <div class="left-container">
+            @* <video id="video" muted autoplay loop poster="http://media.w3.org/2010/05/sintel/poster.png">
+                <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+                <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
+                <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
+                <p>Your user agent does not support the HTML5 Video element.</p>
+            </video> *@
+            <div id="step-1">
+    
+                <div class="logo">
+                 <img src="~/img/logo-white.png" alt="Ecopetrol">
+                </div><!-- .logo-->
+                <div class="heading">
+                    <span class="bold">SÚMATE A</span>
+                    <span>NUESTRO DESAFÍO</span>
+                    <span class="bold">NUEVO NORMAL</span>
+                </div><!-- .heading-->
+                <div class="buttons">
+                    <button onclick="showEnrolForm()" class="enrol">ENROLARME</button>
+                    <button class="enroled">YA ME ENROLÉ</button>
+                </div><!-- .buttons-->
+            </div><!-- #step-1 -->
+            <div id="enrol-form">
+                <div class="form-heading">
+                    <span>INICIA TU REGISTRO</span>
+                    <span class="bold">
+                        BIOMÉTRICO
+                    </span>
+                </div><!-- .form-heading -->
+                <div class="form-container">
+                    <form autocomplete="off" enctype="multipart/form-data" id="formuploadenrol" method="post">
+                        <!-- Nombres -->
+                        <input placeholder="Nombres:" autocomplete="off" required title="Nombres completos" data-toggle="tooltip" data-placement="right" name="Firstname" id="Firstname" />
+                        <!-- Apellidos -->
+                        <input placeholder="Apellidos:" autocomplete="off" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" />
+                        <!-- Nro empleado -->
+                        <input placeholder="N. de empleado:" autocomplete="off" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" />
+                        <!-- Tipo de Documento -->
+                        <select required name="tipdoc" id="tipdoc">
+                            <option value="" data-token=""> Tipo Documento </option>
+                            <div class="dropdown-menu" role="menu">
+                                @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
+                                {
+                                    <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
+                                }
+                            </div>
+                        </select>
+                        <!-- Numero Documento -->
+                        <input placeholder="Nro. Documento" autocomplete="off" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" />
 
-<body onLoad="JustificaTextoLargo();">
+                        <!-- Link a condiciones -->
+                      
+                        <!-- Aceptar -->
+                        <div class="check-container">
+                            <div class="form-check">
+                                <input onclick="showTerms()"  type="checkbox" class="form-check-input" id="check-container">
+                                <label class="form-check-label" for="check-container">
+                                </label>
+                            </div>
+                            <a onclick="showTerms()" id="conditions-link">
+                                ACEPTAR POLÍTICA DE TRATAMIENTO DE DATOS, TÉRMINOS Y CONDICIONES.
+                            </a>
+        
+                        </div> <!-- .check-container -->
 
+                         <div id="continue-submit" class="buttons">
+                            <button onclick="showInfographic()" type="button" class="enrol">CONTINUAR
+                                <div id="enrol-spinner" class="spinner-border text-primary" role="status">
+</div></button>
+                        </div><!-- .buttons-->
+
+                    </form> <!-- #formuploadenrol -->
+                </div><!-- .form-container -->
+            </div><!-- #enrol-form -->
+            <div id="terms-container">
+                <div>
+                    @foreach (dynamic texto in ViewBag.TextoValidacion)
+                    {
+                        <h5>@texto.Pregunta</h5>
+                        <p align="justify">
+                            <h5 style="color:red" align="left"><font size="3"> Ver. @texto.Version</font></h5>
+                            <font size="4"> @texto.Texto</font>
+                        </p>
+
+                        <p id="textoLargo"></p>
+                        <p>
+                            <input required type="radio" name=@texto.Tipo value="Si"> Si acepto
+                            <input required type="radio" name=@texto.Tipo value="No"> No acepto
+
+                            <br />
+                            <br />
+                        </p>
+                    }
+                     <div class="buttons">
+                            <button onClick="hideTerms()" class="enrol">CONTINUAR</button>
+                        </div><!-- .buttons-->
+                </div>
+            </div><!--#terms-container-->
+        </div><!-- .left-container-->
+    
+        <div class="right-container">
+            <img src="~/img/right-img.png" alt="">
+        </div><!-- .right-container-->
+    </div><!--#initial-container -->
+    <div id="infographics-container">
+        <div class="infographics">
+            <div class="infographics-content">
+                <img src="~/img/infografia.png" alt="Ecopetrol">
+            </div><!-- infographics-content -->
+            <div class="infographics-footer">
+                 <div class="buttons">
+                    <button onclick="showPhotoContainer()" class="enrol">¡LO TENGO!</button>
+                </div><!-- .buttons-->
+            </div> <!-- infographics-footer -->
+        </div><!-- infographics !-->
+    </div><!-- #infographics-container -->
+    <div id="photo-container">
+        <div class="photo-selection">
+            <div id="preview" class="img"></div>
+            <div id="photo-error"></div>
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="selectFile('file')" class="enrol">SUBIR FOTO</button>
+                <button onclick="selectFile('file-cam')" class="enroled mobile">TOMAR FOTO</button>
+                <button onclick="toggleCam()" class="enroled desktop">TOMAR FOTO</button>
+            </div><!-- .buttons-->
+            <div id="upload-photo-btn" class="buttons">
+                <form enctype="multipart/form-data" id="formuploadajax" method="post">
+                    <input class="hidden-input" accept="image/*" capture="camera" name="file" id="file-cam" type="file" />
+                    <input class="hidden-input" accept="image/*" name="file" id="file" type="file" />
+                    <button type="button" onclick="submitPhoto()" class="enroled">CONTINUAR
+                        <div id="photo-spinner" class="spinner-border text-primary" role="status">
+                        </div>
+                    </button>
+                </form><!-- .formuploadajax -->
+            </div><!-- .buttons-->
+        </div><!-- photo-selection -->
+        <div id="video-preview-container">
+            <video id="video-preview"></video>
+            <canvas width="640" height="800" id="takePhotoCanvas"></canvas>
+            <div id="take-photo-btn" class="buttons">
+                <button class="enrol" id="capture-photo-btn" onclick="takePhoto()">Capturar</button>
+                <button class="enrol" id="repeat-photo-btn" onclick="takeAnother()">Repetir</button>
+            </div>
+            <div id="submit-base64-btn" class="buttons">
+                <button type="button" onclick="submitBase64Photo()" class="enroled">CONTINUAR
+                    <div id="photo-spinner" class="spinner-border text-primary" role="status">
+                    </div>
+                </button>
+            </div>
+            
+            <img src="" alt="" id="img-preview">
+        </div> <!-- video-preview-container -->
+    </div> <!-- photo-container -->
+    <div id="upload-success">
+        <div class="upload-content">
+            <div class="upload-msg">
+                <h1>¡FELICITACIONES!</h1>
+            <h2>Te has enrolado exitosamente.</h2>
+            </div>
+            <img id="final-image" alt="">
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="finish()" class="enrol">FINALIZAR</button>
+                <button onclick="repeatPhoto()" class="enroled">REPETIR FOTO</button>
+            </div><!-- .buttons-->
+        </div>
+    </div>
+    <div id="finish-screen">
+        <div class="finish-content">
+            <div class="finish-msg">
+                <h1>¡FELICITACIONES!</h1>
+                <h2>Te has enrolado exitosamente.</h2>
+            </div>
+            <div id="select-photo-btn" class="buttons">
+                <button onclick="logout()" class="enrol">FINALIZAR</button>
+            </div><!-- .buttons-->
+        </div>
+    </div>
+</body>
+
+@* <body onLoad="JustificaTextoLargo();">
     <div class="form-container">
-
-
-
         <div class="row">
-
             <div class="col-md-1">
             </div>
-
             <div class="col-md-10">
-
                 <!-- Encabezado de página con imagen, el texto se toma de la tabla TextosEnrol -->
-
                 <section id="Encabezado">
-
                     <div id="contenido">
                         <img class="imagenindex" src="~/img/LogoEcopetrolCuidemonos.jpg" align="middle" alt="Cuidemonos">
                         @foreach (dynamic texto in ViewBag.TextoTitulo)
                         {
                             <h1 id="LetrasTituloEncabezado" align="center">@texto.Pregunta</h1>
                             <p id="LetrasEncabezado"><font size="4">@texto.Texto</font></p>}
-
                     </div>
                 </section>
 
@@ -102,20 +287,14 @@
                     <label id="NombreUsuario" style="display:none">@userName</label>
                 }
                 <br />
-
                 <div id="botonguardar">
-
                     <form autocomplete="off" enctype="multipart/form-data" id="formverifica" method="post">
-
                         <!-- Tabla creada para alinear los datos solicitados al usuario -->
                         <table style="width: 100%">
                             <colgroup>
                                 <col span="1" style="width: 20%;">
                                 <col span="1" style="width: 80%;">
                             </colgroup>
-
-
-
                             <!-- Put <thead>, <tbody>, and <tr>'s here! -->
                             <tbody>
                                 <tr>
@@ -130,35 +309,28 @@
                                     <td><b><font size="4">Apellidos :</font></b></td>
                                     <td><input autocomplete="off" style="width:50%;" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" /></td>
                                 </tr>
-
                                 <!-- Lista desplegable con los tipos de documento tomados de la tabla Tipos_Doc -->
                                 <tr>
                                     <td><b><font size="4"> Tipo documento :</font></b></td>
                                     <td>
-
                                         <select required name="tipdoc" id="tipdoc">
                                             <option value="" data-token=""> Tipo Documento </option>
                                             <div class="dropdown-menu" role="menu">
                                                 @foreach (dynamic Tipodoc in ViewBag.tiposdoc)
                                                 {
                                                     <option value="@Tipodoc.codigo">@Tipodoc.descripcion</option>
-
                                                 }
                                             </div>
                                         </select>
-
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td><b><font size="4">Documento :</font></b></td>
                                     <td><input autocomplete="off" style="width:50%;" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" /></td>
                                 </tr>
                             </tbody>
                         </table>
-
                         <br />
-
                         <div>
                             @foreach (dynamic texto in ViewBag.TextoValidacion)
                             {
@@ -335,7 +507,7 @@
 
     </div>
 
-</body>
+</body> *@
 
 <script>
 
@@ -349,21 +521,345 @@
     var divbtnCancelar = document.getElementById("btnCancelar");
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
+    var fileId = 'file';
 
+    // initial container
+    var initialContainer = document.getElementById('initial-container');
+    // step 1 container
+    var step1 = document.getElementById('step-1');
+    // Enrol form
+    var enrolForm = document.getElementById('enrol-form');
+    // Termos
+    var termsContainer = document.getElementById('terms-container');
+    // infographic
+    var infographicContainer = document.getElementById('infographics-container');
+    // Container photo
+    var photoContainer = document.getElementById('photo-container');
+   // divfoto.style.display = "none";
+   // divconfirmar.style.display = "none";
+   // divimgProc.style.display = "none";
+    var result = [];
+    var imageCapture;
 
+    /**
+    * Repite foto tomada desde el ordenador
+    */
+    function takeAnother() {
+        document.getElementById('video-preview').style.display = 'flex';
+        document.getElementById('takePhotoCanvas').style.display = 'none';
+        document.getElementById('capture-photo-btn').style.display = 'flex';
+        document.getElementById('repeat-photo-btn').style.display = 'none';
+        document.getElementById('submit-base64-btn').style.display = 'none';
+    }
+    /*
+    * Tomar foto
+    */
+    function takePhoto(){
+        document.getElementById('video-preview').style.display = 'none';
+        document.getElementById('capture-photo-btn').style.display = 'none';
+        document.getElementById('repeat-photo-btn').style.display = 'flex';
+        document.getElementById('submit-base64-btn').style.display = 'flex';
+        document.getElementById('takePhotoCanvas').style.display = 'flex';
+        imageCapture.takePhoto()
+        .then(blob => createImageBitmap(blob))
+        .then(imageBitmap => {
+            const canvas = document.querySelector('#takePhotoCanvas');
+            drawCanvas(canvas, imageBitmap);
+        })
+        .catch(error => console.log(error));
+    }
+    /**
+    * Dibuja vista previa de foto en canvas
+    */
+    function drawCanvas(canvas, img) {
+        canvas.width = getComputedStyle(canvas).width.split('px')[0];
+        canvas.height = getComputedStyle(canvas).height.split('px')[0];
+        var ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+        var x = (canvas.width - img.width * ratio) / 2;
+        var y = (canvas.height - img.height * ratio) / 2;
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height,
+            x, y, img.width * ratio, img.height * ratio);
+        console.log(canvas.toDataURL());
+  }
 
-    divfoto.style.display = "none";
-    divconfirmar.style.display = "none";
-    divimgProc.style.display = "none";
+    /**
+    * Accede a camara del equipo para tomar foto
+    */
+    function toggleCam() {
+        document.getElementById('video-preview-container').style.display = 'flex';
+        var video = document.getElementById('video-preview');
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({video: {
+                width: { min: 640, max: 640 },
+                height: { min: 800, max: 800},
+            } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                var track = stream.getVideoTracks()[0];
+                imageCapture = new ImageCapture(track);
+             })
+        }
+    }
 
+    /**
+    * Muestra nuevamente formulario para toma de foto
+    */
+    function repeatPhoto() {
+        document.getElementById('upload-photo-btn').style.display = 'none';
+        document.getElementById('upload-success').style.display = 'none';
+        document.getElementById('select-photo-btn').style.display = 'flex';
+        document.getElementById("photo-container").style.display = 'flex';
+    }
 
+    function submitPhoto() {
+        $("#photo-spinner").show();
+        $("#formuploadajax").on("submit", function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('file', $(`#${fileId}`)[0].files[0]);
+        var imagen = "";
+        console.log(formData);
 
-            var result = [];
+        $.ajax({
+            url: "https://bio01.qaingenieros.com/api/img",
+            type: "POST",
+            method: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function (res) {
+            $("#photo-spinner").hide();
+            console.log(res);
+            if (res.status == "aprobado") {
+                imagen = res.image;
+                var base64 = "data:image/png;base64," + res.image;
+                console.log(base64);
+                document.getElementById('upload-success').style.display = 'flex';
+                document.getElementById('photo-container').style.display = 'none';
+                $("#final-image").attr("src", base64);
+                var hoy = new Date();
+                var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+                var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
+                var ipvar = "";
+                ipvar = "@ViewBag.varIP";
+                var userName = ""
+                @* userName = document.getElementById("NombreUsuario").textContent; *@
+                console.log(imagen);
+                var terminos = true;
+                var e = document.getElementById("tipdoc");
+                var strUser = e.value;
+                var configuracion = {
+                    badgeId: $('#Badge_id').val().trim(),
+                    lastName: $('#LastName').val().trim(),
+                    firstName: $('#Firstname').val().trim(),
+                    documento: $('#Documento').val().trim(),
+                    tipoDocumento: strUser,
+                    aceptaTerminos: terminos,
+                    empresa: "",
+                    regional: 0,
+                    instalacion: 0,
+                    ciudad: "",
+                    ssno: "",
+                    idStatus: "",
+                    status: "",
+                    origen: "web",
+                    metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                    image: imagen
+                };
+                    $.ajax({
+                        url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                        type: "POST",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify(configuracion),
+                        cache: false,
+                        contentType: 'application/json'
+                    })
+                        .done(function (res) {
+                            $("#mensaje").html("Respuesta: " + res);
+                            console.log(res);
+                        })
+                        .fail(function () {
+                            console.log("Error actualizando datos");
+                        });
 
-            //$(function () {
+                    //divimgProc.style.display = "block";
+                    //divbtnImg.style.display = "none";
+                    //alert("Foto almacenada");
+                } else {
+                    const reasons = res.motivos.toString();
+                    $('#photo-error').html('');
+                    var statusContent = `<span class="error-msg">${reasons}</span>`;
+                    $('#photo-error').append(statusContent);
+                    $('#photo-error').show();
+                    console.log("Foto no cumple");
+                    document.getElementById('upload-photo-btn').style.display = 'none';
+                    document.getElementById('select-photo-btn').style.display = 'flex';
+                };
+            })
+            .fail(function () {
+                $("#photo-spinner").hide();
+                alert("Foto no cumple con los requisitos");
+            });
+        });
+        var f = $("#formuploadajax");
+        f.submit();
+    }
+    /**
+    * Seleccionar foto
+    */
+    function selectFile(id) {
+        $('#photo-error').html('');
+        $('#photo-error').hide();
+        fileId = id;
+        var input = document.getElementById(id);
+        input.onchange = function (e) {
+            console.log('file loaded');
+            let reader = new FileReader();
 
-           // });
+            reader.onload = function () {
+                let preview = document.getElementById('preview'),
+                image = document.createElement('img');
+                image.src = reader.result;
+                preview.innerHTML = '';
+                preview.append(image);
+                preview.style.display = 'flex';
+                document.getElementById('upload-photo-btn').style.display = 'flex';
+                
+                document.getElementById('select-photo-btn').style.display = 'none';
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        input.click();
+        
+    }
+    /**
+    * Muestra el formulario de enrolamiento 
+    */
+    function showEnrolForm() {
+        step1.style.display = 'none';
+        enrolForm.style.display = 'flex';
+    }
+    /**
+    * Muestra terminos
+    */
+    function showTerms() {
+        enrolForm.style.display = 'none';
+        termsContainer.style.display = 'flex';
+    }
 
+    /**
+    * Ocultar y valida terminos
+    */
+    function hideTerms() {
+        enrolForm.style.display = 'flex';
+        termsContainer.style.display = 'none';
+        var pregunta1 = $('input:radio[name=2]:checked').val();
+        var pregunta2 = $('input:radio[name=3]:checked').val();
+        var pregunta3 = $('input:radio[name=4]:checked').val();
+        if (pregunta1 === 'Si' && pregunta2 === 'Si' && pregunta3 === 'Si') {
+            document.getElementById("check-container").checked = true;
+            //document.getElementById("continue-submit").style.display = 'flex';
+        } else {
+            document.getElementById("check-container").checked = false;
+            //document.getElementById("continue-submit").style.display = 'none';
+        }
+    }
+    /**
+    * Muestra infografia
+    */
+    function showInfographic() {
+        $("#enrol-spinner").show();
+        $("#formuploadenrol").on("submit", function (e) {
+        e.preventDefault();
+        var x = true;
+        var terminos = true;
+        //Validaciones
+        if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
+            console.log("Registramos su decisión, muchas gracias.");
+            terminos = false;
+        } else {
+            console.log("Datos registrados.");
+            //divbtnConfirmar.style.display = "none";
+            //divbtnCancelar.style.display = "none";
+            // divfoto.style.display = "block";
+        }
+        if (x) {
+            var hoy = new Date();
+            var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+            var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds()
+            var ipvar = "";
+            ipvar = "@ViewBag.varIP";
+            var userName = ""
+           // userName = document.getElementById("NombreUsuario").textContent;
+            var e = document.getElementById("tipdoc");
+            var strUser = e.value;
+            var configuracion = {
+                badgeId: $('#Badge_id').val().trim(),
+                lastName: $('#LastName').val().trim(),
+                firstName: $('#Firstname').val().trim(),
+                documento: $('#Documento').val().trim(),
+                tipoDocumento: strUser,
+                aceptaTerminos: terminos,
+                empresa: "",
+                regional: 0,
+                instalacion: 0,
+                ciudad: "",
+                ssno: "",
+                idStatus: "",
+                status: "",
+                origen: "web",
+                metadatos: "{\"Fecha\":\"" + fecha + "\",\"Hora\":\"" + hora + ",\"Usuario_activo\":\"" + userName + ",\"app_version\":\"0.0.1\",\"ip\":\"" + ipvar + "\"}",
+                image: ""
+            };
+        console.log(configuracion);
+        $.ajax({
+            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+            type: "POST",
+            method: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(configuracion),
+            cache: false,
+            contentType: 'application/json'
+        })
+            .done(function (res) {
+                $("#enrol-spinner").hide();
+
+                if (terminos == false) {
+                    document.getElementById('finish-screen').style.display = 'flex';
+                    initialContainer.style.display = 'none';
+                } else {
+                    initialContainer.style.display = 'none';
+                    infographicContainer.style.display = 'flex';
+                }
+            })
+            .fail(function () {
+                console.log("Error actualizando datos");
+            });
+    }
+
+    }); 
+
+       var f = $("#formuploadenrol");
+       f.submit();
+    }
+
+    /*
+    * Cerrar sesion
+    */
+    function logout() {
+        window.location.href = "/Account/Logout";
+    }
+    /**
+    * Muestra seleccion de foto
+    */
+    function showPhotoContainer() {
+       photoContainer.style.display = 'flex';
+       infographicContainer.style.display = 'none';
+    }
     function JustificaTextoLargo() {
 
         var i = 0;
@@ -484,8 +980,7 @@
                     divbotonguardar.style.display = "none";
 
                 });
-
-                $("#formuploadenrol").on("submit", function (e) {
+                @* $("#formuploadenrol").on("submit", function (e) {
 
                     e.preventDefault();
 
@@ -554,10 +1049,8 @@
                         console.log(configuracion);
 
                         $.ajax({
-                            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
-
+                            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
                             type: "POST",
-
                             method: 'POST',
                             dataType: 'json',
                             data: JSON.stringify(configuracion),
@@ -583,9 +1076,9 @@
                     }
 
 
-                });
+                }); *@
 
-                $("#formuploadajax").on("submit", function (e) {
+                $("#formuploadajax2").on("submit", function (e) {
                     e.preventDefault();
                     var f = $(this);
                     //var formData = new FormData(document.getElementById("formuploadajax"));
@@ -670,7 +1163,7 @@
 
 
                                 $.ajax({
-                                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol",
+                                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
 
                                     type: "POST",
 
@@ -756,6 +1249,7 @@
 
 
         document.getElementById("file").onchange = function (e) {
+            console.log('file loaded');
         let reader = new FileReader();
 
         reader.onload = function () {

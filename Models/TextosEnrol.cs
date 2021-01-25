@@ -8,7 +8,7 @@ namespace AspStudio.Models
 {
 
     // Definicion del Objeto Empresas (tabla para almacenar la informacion de Empresas)
-    [Table("TextosEnrol")]
+    [Table("textEnrol")]
     public class TextosEnrol
     {
 

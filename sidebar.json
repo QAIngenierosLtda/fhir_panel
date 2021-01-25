@@ -9,12 +9,6 @@
       "action": "Index",
       "icon": "fa fa-home",
       "text": "Enrolamiento"
-    },
-    {
-      "controller": "Enrol",
-      "action": "Index",
-      "icon": "fa fa-home",
-      "text": "Enrolamiento 2"
     }
   ]
 }

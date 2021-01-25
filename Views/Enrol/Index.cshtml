@@ -121,7 +121,7 @@
                         <!-- Apellidos -->
                         <input placeholder="Apellidos:" autocomplete="off" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" />
                         <!-- Nro empleado -->
-                        <input placeholder="N. de empleado:" autocomplete="off" required type="number" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" />
+                        <input placeholder="N. de empleado:" autocomplete="off" required type="number" title="Número de carné de Ecopetrol"  name="Badge_id" id="Badge_id" />
                         <!-- Tipo de Documento -->
                         <select required name="tipdoc" id="tipdoc">
                             <option value="" data-token=""> Tipo Documento </option>
@@ -621,7 +621,7 @@
     function submitBase64Photo() {
         $("#base64-photo-spinner").show();
         var formData = {
-            "img": `data:image/jpeg;base64,${base64file}`
+            "img": base64file
         };
         $("#formuploadajax").on("submit", function (e) {
         e.preventDefault();
@@ -629,7 +629,7 @@
         var imagen = "";
         console.log(formData);
         $.ajax({
-            url: "http://bio01.qaingenieros.com:5000/base64",
+            url: "https://bio01.qaingenieros.com/api/img/base64",
             type: "POST",
             method: 'POST',
             data: formData,

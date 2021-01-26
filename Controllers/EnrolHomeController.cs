@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using AspStudio.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using studio.Models;
 
 namespace studio.Controllers
 {
-    [Authorize]
+    [ApiKey]
     public class EnrolHomeController : Controller
     {
         private readonly ILogger<EnrolHomeController> _logger;

@@ -67,7 +67,7 @@
         margin: 0;
         padding: 0;
         display: flex;
-        height: 93vh;
+        height: 100vh;
         background-image: linear-gradient(to right, #0b1654, #1d1e6e);
     }
     
@@ -121,7 +121,7 @@
                         <!-- Apellidos -->
                         <input placeholder="Apellidos:" autocomplete="off" required title="Apellidos completos" data-toggle="tooltip" data-placement="right" name="LastName" id="LastName" />
                         <!-- Nro empleado -->
-                        <input placeholder="N. de empleado:" autocomplete="off" required type="number" title="Número de carné de Ecopetrol"  name="Badge_id" id="Badge_id" />
+                        <input placeholder="N. de empleado:" autocomplete="off" required type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" title="Número de carné de Ecopetrol" data-toggle="tooltip" data-placement="right" name="Badge_id" id="Badge_id" />
                         <!-- Tipo de Documento -->
                         <select required name="tipdoc" id="tipdoc">
                             <option value="" data-token=""> Tipo Documento </option>
@@ -133,7 +133,7 @@
                             </div>
                         </select>
                         <!-- Numero Documento -->
-                        <input placeholder="Nro. Documento" autocomplete="off" required type="number" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" />
+                        <input placeholder="Nro. Documento" autocomplete="off" required type="text" title="Número de documento de identidad" data-toggle="tooltip" data-placement="right" name="Documento" id="Documento" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
 
                         <!-- Link a condiciones -->
                       
@@ -171,8 +171,8 @@
 
                         <p id="textoLargo"></p>
                         <p>
-                            <input required type="radio" name=@texto.Tipo value="Si"> Si acepto
-                            <input required type="radio" name=@texto.Tipo checked value="No"> No acepto
+                            <input onclick="acceptTerms('@texto.Version', '@texto.Tipo', true)" required type="radio" name=@texto.Tipo value="Si"> Si acepto
+                            <input class="text-type" onclick="acceptTerms('@texto.Version', '@texto.Tipo', false)" required type="radio" name=@texto.Tipo value="No"> No acepto
 
                             <br />
                             <br />
@@ -514,7 +514,7 @@
 <script>
 
     localStorage.removeItem('firstName');
-
+    var apiKey = "@ViewBag.token";
     var divfoto = document.getElementById("divifoto");
     var divconfirmar = document.getElementById("confirmarDatos");
     var divbotonguardar = document.getElementById("botonguardar");
@@ -524,7 +524,9 @@
     var divimgProc = document.getElementById("imgProc");
     var divbtnImg = document.getElementById("btnImg");
     var fileId = 'file';
+    var terms = [];
     var base64file;
+
 
 
     // initial container
@@ -619,27 +621,29 @@
     }
 
     function submitBase64Photo() {
+        $('#photo-error').html('');
+        $('#photo-error').css('visibility', 'visible');
         $("#base64-photo-spinner").show();
         var formData = {
             "img": base64file
         };
-        $("#formuploadajax").on("submit", function (e) {
-        e.preventDefault();
-
+       
         var imagen = "";
         console.log(formData);
         $.ajax({
-            url: "https://bio01.qaingenieros.com/api/img/base64",
+            url: "http://bio01.qaingenieros.com:5000/base64",
             type: "POST",
             method: 'POST',
-            data: formData,
+            dataType: 'json',
+            data: JSON.stringify(formData),
             cache: false,
-            contentType: false,
-            processData: false
+            contentType: 'application/json'
         }).done(function (res) {
             $("#base64-photo-spinner").hide();
             console.log(res);
             if (res.status == "aprobado") {
+                $('#photo-error').html('');
+                $('#photo-error').css('visibility', 'visible');
                 imagen = res.image;
                 var base64 = "data:image/png;base64," + res.image;
                 console.log(base64);
@@ -676,7 +680,7 @@
                     image: imagen
                 };
                     $.ajax({
-                        url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                        url: `https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=${apiKey}`,
                         type: "POST",
                         method: 'POST',
                         dataType: 'json',
@@ -700,7 +704,7 @@
                     $('#photo-error').html('');
                     var statusContent = `<span class="error-msg">${reasons}</span>`;
                     $('#photo-error').append(statusContent);
-                    $('#photo-error').show();
+                    $('#photo-error').css('visibility', 'visible');
                     console.log("Foto no cumple");
                     document.getElementById('upload-photo-btn').style.display = 'none';
                     document.getElementById('select-photo-btn').style.display = 'flex';
@@ -710,9 +714,7 @@
                 $("#base64-photo-spinner").hide();
                 alert("Foto no cumple con los requisitos");
             });
-        });
-        var f = $("#formuploadajax");
-        f.submit();
+        
     }
     function submitPhoto() {
         $("#photo-spinner").show();
@@ -771,7 +773,7 @@
                     image: imagen
                 };
                     $.ajax({
-                        url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                        url: `https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=${apiKey}`,
                         type: "POST",
                         method: 'POST',
                         dataType: 'json',
@@ -795,7 +797,7 @@
                     $('#photo-error').html('');
                     var statusContent = `<span class="error-msg">${reasons}</span>`;
                     $('#photo-error').append(statusContent);
-                    $('#photo-error').show();
+                    $('#photo-error').css('visibility', 'visible');
                     console.log("Foto no cumple");
                     document.getElementById('upload-photo-btn').style.display = 'none';
                     document.getElementById('select-photo-btn').style.display = 'flex';
@@ -814,7 +816,7 @@
     */
     function selectFile(id) {
         $('#photo-error').html('');
-        $('#photo-error').hide();
+        $('#photo-error').css('visibility', 'hidden');
         fileId = id;
         var input = document.getElementById(id);
         input.onchange = function (e) {
@@ -848,8 +850,34 @@
     * Muestra terminos
     */
     function showTerms() {
+        document.getElementById('continue-submit').style.display = 'flex';
         enrolForm.style.display = 'none';
         termsContainer.style.display = 'flex';
+        var textTypes = document.getElementsByClassName('text-type');
+        for (const tp of textTypes) {
+            tp.click();
+        }
+    }
+
+    /**
+    * Crea objeto con valores de politicas aceptadas
+    */
+    function acceptTerms(version, type, accept) {
+        // Valida si la version del texto ya se encuentra en el array 'terms'
+        var exists = terms.findIndex( x => x.versionTexto == version);
+        // Si la encuentra, la eliminar en por el index
+        if (exists >= 0) {
+            terms.splice(exists, 1);
+        }
+        // Crea objeto terminos
+        var userTerms = {
+            tipoTexto: type,
+            versionTexto: version,
+            aceptaTexto: accept
+        };
+        // Agrega en el array
+        terms.push(userTerms);
+        
     }
 
     /**
@@ -881,7 +909,7 @@
         var x = true;
         var terminos = true;
         //Validaciones
-        if ($('input:radio[name=2]:checked').val() == "No" || $('input:radio[name=3]:checked').val() == "No" || $('input:radio[name=4]:checked').val() == "No") {
+        if ($('input:radio[name=2]:checked').val() != "Si" || $('input:radio[name=3]:checked').val() != "Si" || $('input:radio[name=4]:checked').val() != "Si") {
             console.log("Registramos su decisión, muchas gracias.");
             terminos = false;
         } else {
@@ -920,7 +948,7 @@
             };
         console.log(configuracion);
         $.ajax({
-            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+            url: `https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=${apiKey}`,
             type: "POST",
             method: 'POST',
             dataType: 'json',
@@ -960,7 +988,7 @@
     * Cerrar sesion
     */
     function toEnrolHome() {
-        window.location.href = "/EnrolHome";
+        window.location.href = `/EnrolHome?apiKey=${apiKey}`;
     }
     /**
     * Muestra seleccion de foto
@@ -1158,7 +1186,7 @@
                         console.log(configuracion);
 
                         $.ajax({
-                            url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                            url: `https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=${apiKey}`,
                             type: "POST",
                             method: 'POST',
                             dataType: 'json',
@@ -1273,7 +1301,7 @@
 
 
                                 $.ajax({
-                                    url: "https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=cfdc7593-7124-4e9e-b078-f44c18cacef4",
+                                    url: `https://bio01.qaingenieros.com/api/enrol/create_enrol?apiKey=${apiKey}`,
 
                                     type: "POST",
 

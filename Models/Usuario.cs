@@ -33,5 +33,8 @@ namespace AspStudio.Models
 
         [Column("FechaFinal")]
         public DateTime FechaFinal { get; set; }
+
+        [Column("Token")]
+        public string Token { get; set; }
     }
 }

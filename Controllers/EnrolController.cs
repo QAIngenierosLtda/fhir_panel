@@ -19,6 +19,7 @@ using System.Linq;
 using System.Web;
 using AspStudio.Attributes;
 
+
 namespace AspStudio.Controllers
 {
 
@@ -66,6 +67,33 @@ namespace AspStudio.Controllers
             System.Console.WriteLine(tiposdoc);
             ViewBag.tiposdoc = tiposdoc;
 
+
+            //string ruta = this.ControllerContext.HttpContext.Request.Path;
+            string ruta = HttpContext.Request.Query["apiKey"].ToString();
+            System.Console.WriteLine(ruta);
+
+            string NomUsr = "";
+
+            var usuarioNom =
+            (from user in dbContext.Usuarios
+             where user.Token == ruta
+             select user.Nombre);
+
+            try
+            {
+                foreach (string reg in usuarioNom)
+                {
+                    NomUsr = reg;
+                };
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
+            }
+
+            System.Console.WriteLine(usuarioNom);
+
+            ViewBag.nomUsuario = NomUsr;
 
 
 

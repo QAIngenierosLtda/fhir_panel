@@ -594,7 +594,8 @@
     * Accede a camara del equipo para tomar foto
     */
     function toggleCam() {
-        document.getElementById('video-preview-container').style.display = 'flex';
+        $('#photo-error').html('');
+        $('#photo-error').css('visibility', 'hidden');
         var video = document.getElementById('video-preview');
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({video: {
@@ -602,11 +603,20 @@
                 height: { min: 800, max: 800},
             } })
             .then(stream => {
+                console.log(stream);
                 video.srcObject = stream;
+                document.getElementById('video-preview-container').style.display = 'flex';
                 video.play();
                 var track = stream.getVideoTracks()[0];
                 imageCapture = new ImageCapture(track);
-             })
+             }).catch(function(err) {
+                console.log(err);
+                });
+        } else {
+            $('#photo-error').html('');
+            var statusContent = `<span class="error-msg">Error conectando a la cámara.</span>`;
+            $('#photo-error').append(statusContent);
+            $('#photo-error').css('visibility', 'visible');
         }
     }
 
@@ -815,6 +825,7 @@
     * Seleccionar foto
     */
     function selectFile(id) {
+        document.getElementById('video-preview-container').style.display = 'none';
         $('#photo-error').html('');
         $('#photo-error').css('visibility', 'hidden');
         fileId = id;

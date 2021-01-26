@@ -72,7 +72,7 @@
 }
 
 #photo-error {
-    display: none;
+    visibility: hidden;
 }
 
 .form-heading {
@@ -142,7 +142,9 @@
     align-items: center;
     flex-direction: column;
 }
-
+#continue-submit {
+    display: none;
+}
 #formuploadenrol input:not([type='checkbox']),
 #formuploadenrol select {
     margin: 15px 0;
@@ -189,7 +191,7 @@
     padding: 50px;
     margin: 0 auto;
     text-align: justify;
-    max-height: 93vh;
+    max-height: 100vh;
     overflow: auto;
 }
 
@@ -341,7 +343,7 @@
 .photo-selection {
     background-color: white;
     min-width: 350px;
-    min-height: 230px;
+    min-height: 473px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -66,8 +66,8 @@ namespace AspStudio.Controllers
             System.Console.WriteLine(tiposdoc);
             ViewBag.tiposdoc = tiposdoc;
 
-
-
+            string token = HttpContext.Request.Query["apiKey"].ToString();
+            ViewBag.token = token;
 
             var regRegionales = dbContext.Regionales;
 

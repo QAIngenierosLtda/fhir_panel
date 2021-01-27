@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using DataConduitManager.Repositories.DTO;
 using LenelServices.Repositories.Interfaces;
 using LenelServices.Repositories.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LenelServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BadgeController : ControllerBase
     {
         private readonly IBadge_REP_LOCAL _badge_REP_LOCAL;

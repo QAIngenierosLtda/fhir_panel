@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using LenelServices.Repositories.DTO;
 using LenelServices.Repositories.Interfaces;
 using DataConduitManager.Repositories.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LenelServices.Controllers
 {
@@ -13,6 +15,13 @@ namespace LenelServices.Controllers
     public class ReaderController : ControllerBase
     {
         private readonly IReader_REP_LOCAL _reader_REP_LOCAL;
+        enum tipoEvento : ushort
+        {
+            IB, //INGRESO BIOMETRICO
+            IBNI,  //INGRESO BIOMETRICO PERSONA NO IDENTIFICADA
+            SB,  //SALIDA BIOMETRICO
+            SBNI  //SALIDA BIOMETRICO PERSONA NO IDENTIFICADA
+        }
 
         public ReaderController(IReader_REP_LOCAL reader_REP_LOCAL)
         {
@@ -90,7 +99,12 @@ namespace LenelServices.Controllers
         {
             try
             {
-                EvaluacionEvento_DTO eval = GetDescripcion(true, evento);
+                EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
+
+                if (evento.badgeID != null)
+                    eval = GetDescripcion(tipoEvento.IB, evento);
+                else
+                    eval = GetDescripcion(tipoEvento.IBNI, evento);
 
                 evento.description = eval.descripcionEvento;
                 bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
@@ -108,7 +122,11 @@ namespace LenelServices.Controllers
         {
             try
             {
-                EvaluacionEvento_DTO eval = GetDescripcion(false, evento);
+                EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
+                if (evento.badgeID != null)
+                    eval = GetDescripcion(tipoEvento.SB, evento);
+                else
+                    eval = GetDescripcion(tipoEvento.SBNI, evento);
 
                 evento.description = eval.descripcionEvento;
                 bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
@@ -125,15 +143,17 @@ namespace LenelServices.Controllers
         /// <summary>
         /// Devuelve resultado del analisis de temperatura y tapabocas
         /// </summary>
-        /// <param name="entrada"></param>
+        /// <param name="tipo">
+        /// 0-Ingreso Biometrico, 1-Ingreso Biometrico No Identificado,
+        /// 2-Salida Biometrico, 3-Salida Biometrico No identificado
+        /// </param>
         /// <param name="evento"></param>
         /// <returns></returns>
-        private EvaluacionEvento_DTO GetDescripcion(bool entrada, SendEvent_DTO evento)
+        private EvaluacionEvento_DTO GetDescripcion(tipoEvento tipo, SendEvent_DTO evento)
         {
-
             List<string> descripcion = new List<string>
             {
-                entrada ? "IB" : "SB", //NOMBRE DEL EVENTO
+                tipo.ToString(), //NOMBRE DEL EVENTO
                 (bool)evento.tapabocas ? "0" : "1", //ALERTA DE TAPABOCAS
                 (evento.temperatura <= evento.tempRef) ? "0" : "1", //ALERTA DE TEMPERATURA
             };

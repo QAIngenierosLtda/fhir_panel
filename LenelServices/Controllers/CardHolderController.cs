@@ -3,11 +3,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataConduitManager.Repositories.DTO;
 using LenelServices.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LenelServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CardHolderController : ControllerBase
     {
         private readonly ICardHolder_REP_LOCAL _cardHolder_REP_LOCAL;

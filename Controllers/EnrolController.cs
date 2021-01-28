@@ -238,7 +238,7 @@ namespace AspStudio.Controllers
             catch (Exception ex)
             {
                 //throw ex;
-                return Json(new { success = false });
+                return Json(new { success = false, msg = ex });
 
             }
 

@@ -11,5 +11,6 @@ namespace LenelServices.Repositories.DTO
         public DateTime? activacion { get; set; }
         public DateTime? desactivacion { get; set; }
         public string estado { get; set; }
+        public int? type { get; set; }
     }
 }

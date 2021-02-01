@@ -21,10 +21,13 @@ namespace DataConduitManager.Repositories.Logic
         #endregion
 
         #region METODOS CARDHOLDER
-        public async Task<ManagementObjectSearcher> GetCardHolder(string idLenel, string path, string user, string password)
+
+        public async Task<ManagementObjectSearcher> GetCardHolder(string documento, string ssno, 
+            string path, string user, string password)
         {
             ManagementScope cardHolderScope = _dataConduITMgr.GetManagementScope(path,user,password);
-            ObjectQuery cardHolderSearcher = new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + idLenel + "'");
+            ObjectQuery cardHolderSearcher = 
+                new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + documento + "' AND SSNO = '" + ssno + "'");
             ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
             try { return getCardHolder; }
@@ -53,11 +56,13 @@ namespace DataConduitManager.Repositories.Logic
 
             newCardHolderInstance["FIRSTNAME"] = newCardHolder.firstName;
             newCardHolderInstance["LASTNAME"] = newCardHolder.lastName;
-            newCardHolderInstance["CITY"] = newCardHolder.city;
-            newCardHolderInstance["OPHONE"] = newCardHolder.idpersona;
+            newCardHolderInstance["DEPT"] = newCardHolder.city;
+            newCardHolderInstance["OPHONE"] = newCardHolder.nroDocumento;
             newCardHolderInstance["SSNO"] = newCardHolder.ssno;
-            //newCardHolderInstance["LOCATION"] = newCardHolder.instalacion;
-            //newCardHolderInstance["DIVISION"] = newCardHolder.empresa;
+            newCardHolderInstance["TITLE"] = newCardHolder.empresa;
+            newCardHolderInstance["BUILDING"] = newCardHolder.regional;
+            newCardHolderInstance["FLOOR"] = newCardHolder.instalacion;
+            newCardHolderInstance["DIVISION"] = newCardHolder.origen;
             newCardHolderInstance["EMAIL"] = newCardHolder.email;
 
 
@@ -68,7 +73,6 @@ namespace DataConduitManager.Repositories.Logic
             newCardHolderInstance.Put(options); 
 
             return true;
-
         }
 
         public async Task<bool> UpdateCardHolder(UpdateCardHolder_DTO cardHolder, string idPersona, string path, string user, string password)
@@ -76,7 +80,7 @@ namespace DataConduitManager.Repositories.Logic
             try
             {
                 ManagementScope cardHolderScope = _dataConduITMgr.GetManagementScope(path, user, password);
-                ObjectQuery cardHolderSearcher = new ObjectQuery("SELECT * FROM Lnl_CardHolder WHERE OPHONE = " + idPersona);
+                ObjectQuery cardHolderSearcher = new ObjectQuery("SELECT * FROM Lnl_CardHolder WHERE ID = " + idPersona);
                 ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
                 //redefine properties value  
@@ -84,11 +88,14 @@ namespace DataConduitManager.Repositories.Logic
                 {
                     queryObj["LASTNAME"] = cardHolder.apellidos;
                     queryObj["FIRSTNAME"] = cardHolder.nombres;
+                    queryObj["DEPT"] = cardHolder.ciudad;
                     queryObj["SSNO"] = cardHolder.ssno;
                     queryObj["STATE"] = cardHolder.status;
-                    queryObj["OPHONE"] = cardHolder.documento;
-                    queryObj["DIVISION"] = cardHolder.empresa;
-                    queryObj["CITY"] = cardHolder.ciudad;
+                    queryObj["OPHONE"] = cardHolder.nrodocumento;
+                    queryObj["TITLE"] = cardHolder.empresa;
+                    queryObj["BUILDING"] = cardHolder.regional;
+                    queryObj["FLOOR"] = cardHolder.instalacion;
+                    queryObj["DIVISION"] = cardHolder.origen;
                     queryObj["EMAIL"] = cardHolder.email;
 
                     PutOptions options = new PutOptions();
@@ -128,7 +135,7 @@ namespace DataConduitManager.Repositories.Logic
             newVisitorInstance["FIRSTNAME"] = newCardHolder.firstName;
             newVisitorInstance["LASTNAME"] = newCardHolder.lastName;
             newVisitorInstance["CITY"] = newCardHolder.city;
-            newVisitorInstance["OPHONE"] = newCardHolder.idpersona;
+            newVisitorInstance["OPHONE"] = newCardHolder.nroDocumento;
             newVisitorInstance["SSNO"] = newCardHolder.ssno;
 
             PutOptions options = new PutOptions();
@@ -156,7 +163,7 @@ namespace DataConduitManager.Repositories.Logic
                     queryObj["FIRSTNAME"] = cardHolder.nombres;
                     queryObj["SSNO"] = cardHolder.ssno;
                     queryObj["STATE"] = cardHolder.status;
-                    queryObj["OPHONE"] = cardHolder.documento;
+                    queryObj["OPHONE"] = cardHolder.nrodocumento;
                     queryObj["DIVISION"] = cardHolder.empresa;
                     queryObj["CITY"] = cardHolder.ciudad;
                     queryObj["EMAIL"] = cardHolder.email;

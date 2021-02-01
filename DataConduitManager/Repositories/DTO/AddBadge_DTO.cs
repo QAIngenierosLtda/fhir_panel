@@ -11,5 +11,7 @@ namespace DataConduitManager.Repositories.DTO
         public Int32 status { get; set; }
         public Int32 type { get; set; }
         public Int32 dest_exemp { get; set; }
+        public DateTime fechaActivacion { get; set; }
+        public DateTime fechaDesactivacion { get; set; }
     }
 }

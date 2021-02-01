@@ -29,11 +29,15 @@ namespace DataConduitManager.Repositories.Logic
 
                 ManagementObject newBadgeInstance = badgeClass.CreateInstance();
 
+                string fechaDesactivacion = newBadge.fechaActivacion.ToString("yyyyMMdd") + "000000.000000-300";
+
                 newBadgeInstance["ID"] = newBadge.id;
                 newBadgeInstance["PERSONID"] = newBadge.personId;
                 newBadgeInstance["STATUS"] = newBadge.status; //Active 
                 newBadgeInstance["TYPE"] = newBadge.type; // Employee
                 newBadgeInstance["DEST_EXEMPT"] = newBadge.dest_exemp; // Sometimes teh value is required
+                newBadgeInstance["ACTIVATE"] = newBadge.fechaActivacion.ToString("yyyyMMdd") + "000000.000000-300";
+                newBadgeInstance["DEACTIVATE"] = newBadge.fechaDesactivacion.ToString("yyyyMMdd") + "000000.000000-300";
 
                 ManagementBaseObject inParams = badgeClass.GetMethodParameters("AddBadge");
                 inParams.Properties["BadgeIn"].Value = newBadgeInstance;

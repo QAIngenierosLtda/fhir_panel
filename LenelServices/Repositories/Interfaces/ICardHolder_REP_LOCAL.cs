@@ -10,17 +10,16 @@ namespace LenelServices.Repositories.Interfaces
         /// Crea un nuevo TarjetaHabiente en Lenel por medio de DataConduIT
         /// </summary>
         /// <param name="newCardHolder"></param>
-        /// <param name="idTipo">F=FUNCIONARIO -- V= VISITANTE</param>
         /// <returns></returns>
-        Task<object> CrearPersona(AddCardHolder_DTO newCardHolder, string idTipo);
+        Task<object> CrearPersona(AddCardHolder_DTO newCardHolder);
 
         /// <summary>
-        /// Obtiene una persona de lenel por medio de DataConduIT
+        /// Obtiene un tarjeta habiente por medio de DataConduIT
         /// </summary>
-        /// <param name="idLenel"></param>
-        /// <param name="idTipo">F = FUNCIONARIO -- V = VISITANTE</param>
+        /// <param name="documento">documento de identidad LENEL OPHONE </param>
+        /// <param name="ssno">codigo de ecopetrol</param>
         /// <returns></returns>
-        Task<GetCardHolder_DTO> ObtenerPersona(string idLenel, string idTipo);
+        Task<GetCardHolder_DTO> ObtenerPersona(string documento, string ssno);
 
         /// <summary>
         /// Obtiene una persona de lenel por medio de DataConduIT
@@ -42,6 +41,6 @@ namespace LenelServices.Repositories.Interfaces
         /// <param name="cardHolder"></param>
         /// <param name="idLenel"></param>
         /// <returns></returns>
-        Task<string> ActualizarPersona(UpdateCardHolder_DTO cardHolder, string idPersona);
+        Task<object> ActualizarPersona(UpdateCardHolder_DTO cardHolder, string idPersona);
     }
 }

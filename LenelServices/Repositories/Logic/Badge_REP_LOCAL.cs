@@ -58,23 +58,25 @@ namespace LenelServices.Repositories.Logic
                     {
                         item.activacion = null;
                     }
-                    try 
-                    { 
-                        item.desactivacion = DateTime.ParseExact(queryObj["DEACTIVATE"].ToString().Substring(0, 14), 
-                            "yyyyMMddHHmmss", null); 
-                    } 
-                    catch 
-                    { 
-                        item.desactivacion = null; 
+                    try
+                    {
+                        item.desactivacion = DateTime.ParseExact(queryObj["DEACTIVATE"].ToString().Substring(0, 14),
+                            "yyyyMMddHHmmss", null);
+                    }
+                    catch
+                    {
+                        item.desactivacion = null;
                     }
                     try
                     {
                         item.estado = queryObj["STATUS"].ToString();
                     }
-                    catch 
-                    { 
-                        item.desactivacion = null; 
+                    catch
+                    {
+                        item.desactivacion = null;
                     }
+                    try { item.type = int.Parse(queryObj["TYPE"].ToString()); }
+                    catch { item.type = null; }
 
                     tarjetas.Add(item);
                 }

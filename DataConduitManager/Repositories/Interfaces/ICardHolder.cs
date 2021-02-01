@@ -28,14 +28,15 @@ namespace DataConduitManager.Repositories.Interfaces
         Task<bool> UpdateCardHolder(UpdateCardHolder_DTO cardHolder, string idPersona, string path, string user, string pass);
 
         /// <summary>
-        /// Obtiene un CardHolder en Lenel
+        /// Obtiene un CardHolder de Lenel
         /// </summary>
-        /// <param name="idLenel"></param>
+        /// <param name="documento">documento de identidad de la persona CARDHOLDER.OPHONE</param>
+        /// <param name="ssno">codigo Ecopetrol</param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<ManagementObjectSearcher> GetCardHolder(string idLenel, string path, string user, string password);
+        Task<ManagementObjectSearcher> GetCardHolder(string documento, string ssno, string path, string user, string password);
 
         /// <summary>
         /// Obtiene un CardHolder en Lenel 

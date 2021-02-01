@@ -23,17 +23,17 @@ namespace LenelServices.Controllers
         #endregion
 
         /// <summary>
-        /// Obtiene una persona visitante o cardHolder
+        /// 
         /// </summary>
-        /// <param name="idTipo">F = FUNCIONARIO -- V = VISITANTE</param>
-        /// <param name="idPersona">Numero de identificacion</param>
+        /// <param name="documento">Documento de identidad del tarjetaHabiente</param>
+        /// <param name="ssno">codigo Ecopetrol</param>
         /// <returns></returns>
-        [HttpGet("/api/CardHolder/ObtenerPersona/{idTipo}/{idPersona}")]
-        public async Task<object> ObtenerPersona(string idTipo, string idPersona)
+        [HttpGet("/api/CardHolder/ObtenerPersona/{documento}/{ssno}")]
+        public async Task<object> ObtenerPersona(string documento, string ssno)
         {
             try 
             {
-                return await _cardHolder_REP_LOCAL.ObtenerPersona(idPersona, idTipo);
+                return await _cardHolder_REP_LOCAL.ObtenerPersona(documento, ssno);
             }
             catch (Exception ex) 
             {
@@ -60,15 +60,14 @@ namespace LenelServices.Controllers
         }
 
         /// <summary>
-        /// Crea un Funcionario o visitante en Lenel
+        /// Crea una persona nueva en Lenel
         /// </summary>
         /// <param name="newCardHolder"></param>
-        /// <param name="idTipo">F = FUNCIONARIO -- V = VISITANTE</param>
         /// <returns></returns>
-        [HttpPost("/api/CardHolder/CrearPersona/{idTipo}")]
-        public async Task<object> CrearPersona([FromBody] AddCardHolder_DTO newCardHolder, string idTipo)
+        [HttpPost("/api/CardHolder/CrearPersona")]
+        public async Task<object> CrearPersona([FromBody] AddCardHolder_DTO newCardHolder)
         {
-            try { return await _cardHolder_REP_LOCAL.CrearPersona(newCardHolder, idTipo); } 
+            try { return await _cardHolder_REP_LOCAL.CrearPersona(newCardHolder); } 
             catch(Exception ex) 
             { return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
         }

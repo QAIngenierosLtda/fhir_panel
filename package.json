@@ -28,7 +28,7 @@
     "@fullcalendar/list": "^4.4.0",
     "@fullcalendar/timegrid": "^4.4.0",
     "animate.css": "^4.1.0",
-    "apexcharts": "^3.19.2",
+    "apexcharts": "^3.24.0",
     "blueimp-canvas-to-blob": "^3.27.0",
     "blueimp-file-upload": "^10.28.0",
     "blueimp-gallery": "^2.44.0",

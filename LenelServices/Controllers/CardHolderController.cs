@@ -5,11 +5,14 @@ using DataConduitManager.Repositories.DTO;
 using LenelServices.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using LenelServices.Attributes;
+
 
 namespace LenelServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CardHolderController : ControllerBase
     {
@@ -28,12 +31,12 @@ namespace LenelServices.Controllers
         /// <param name="documento">Documento de identidad del tarjetaHabiente</param>
         /// <param name="ssno">codigo Ecopetrol</param>
         /// <returns></returns>
-        [HttpGet("/api/CardHolder/ObtenerPersona/{documento}/{ssno}")]
-        public async Task<object> ObtenerPersona(string documento, string ssno)
+        [HttpGet("/api/CardHolder/ObtenerPersonaByDocumento/{documento}")]
+        public async Task<object> ObtenerPersonaByDocumento(string documento)
         {
             try 
             {
-                return await _cardHolder_REP_LOCAL.ObtenerPersona(documento, ssno);
+                return await _cardHolder_REP_LOCAL.ObtenerPersona(documento, "");
             }
             catch (Exception ex) 
             {

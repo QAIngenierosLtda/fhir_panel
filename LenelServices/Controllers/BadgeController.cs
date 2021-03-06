@@ -9,11 +9,13 @@ using LenelServices.Repositories.Interfaces;
 using LenelServices.Repositories.DTO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using LenelServices.Attributes;
 
 namespace LenelServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BadgeController : ControllerBase
     {

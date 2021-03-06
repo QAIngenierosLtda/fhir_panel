@@ -7,11 +7,14 @@ using LenelServices.Repositories.Interfaces;
 using DataConduitManager.Repositories.DTO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using LenelServices.Attributes;
 
 namespace LenelServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ReaderController : ControllerBase
     {
         private readonly IReader_REP_LOCAL _reader_REP_LOCAL;

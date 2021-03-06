@@ -26,8 +26,8 @@ namespace DataConduitManager.Repositories.Logic
             string path, string user, string password)
         {
             ManagementScope cardHolderScope = _dataConduITMgr.GetManagementScope(path,user,password);
-            ObjectQuery cardHolderSearcher = 
-                new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + documento + "' AND SSNO = '" + ssno + "'");
+            ObjectQuery cardHolderSearcher =
+                new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + documento  + /*"' AND SSNO = '" + ssno +*/ "'");
             ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
             try { return getCardHolder; }

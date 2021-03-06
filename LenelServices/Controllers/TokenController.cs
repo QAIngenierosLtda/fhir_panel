@@ -12,8 +12,8 @@ using System.Security.Cryptography;
 
 namespace LenelServices.Controllers
 {
-    //[Area("WebApi")]
-    //[Route("/token")]
+    [Area("WebApi")]
+    [Route("/token")]
     public class TokenController : Controller
     {
         private readonly IConfiguration _config;
@@ -24,19 +24,19 @@ namespace LenelServices.Controllers
         }
 
         [HttpPost("/api/Token/Create")]
-        public async  Task<IActionResult> Create(string username, string password)
+        public async  Task<IActionResult> Create(string apikey)
         {
-            if (await IsValidUserAndPasswordCombination(username, password))
-                return new ObjectResult(GenerateToken(username));
+            if (await IsValidUserAndPasswordCombination(apikey))
+                return new ObjectResult(GenerateToken(apikey));
             return BadRequest();
         }
 
-        private async Task<bool> IsValidUserAndPasswordCombination(string username, string password)
+        private async Task<bool> IsValidUserAndPasswordCombination(string apikey)
         {
-            string user = _config.GetSection("JwtConfig:UserToken").Value.ToString();
-            string pass = MD5Encrypt(_config.GetSection("JwtConfig:PassToken").Value.ToString());
+            //string user = _config.GetSection("JwtConfig:UserToken").Value.ToString();
+            string pass = MD5Encrypt(_config.GetSection("JwtConfig:ApiKey").Value.ToString());
 
-            if (user == username && pass == MD5Encrypt(password))
+            if ( pass == MD5Encrypt(apikey))
                 return true;
             return false;
         }

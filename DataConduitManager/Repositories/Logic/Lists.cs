@@ -26,5 +26,41 @@ namespace DataConduitManager.Repositories.Logic
             catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
 
         }
+
+        public async Task<ManagementObjectSearcher> GetDivision(string path, string user, string password)
+        {
+            ManagementScope divisionScope = _dataConduITMgr.GetManagementScope(path, user, password);
+            ObjectQuery divisionSearcher =
+                new ObjectQuery(@"SELECT * FROM Lnl_División");
+            ManagementObjectSearcher getDivisiones = new ManagementObjectSearcher(divisionScope, divisionSearcher);
+
+            try { return getDivisiones; }
+            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+
+        }
+
+        public async Task<ManagementObjectSearcher> GetCiudades(string path, string user, string password)
+        {
+            ManagementScope ciudadScope = _dataConduITMgr.GetManagementScope(path, user, password);
+            ObjectQuery ciudadSearcher =
+                new ObjectQuery(@"SELECT * FROM Lnl_Departam");
+            ManagementObjectSearcher getCiudades = new ManagementObjectSearcher(ciudadScope, ciudadSearcher);
+
+            try { return getCiudades; }
+            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+
+        }
+
+        public async Task<ManagementObjectSearcher> GetEmpresas(string path, string user, string password)
+        {
+            ManagementScope empresaScope = _dataConduITMgr.GetManagementScope(path, user, password);
+            ObjectQuery empresaSearcher =
+                new ObjectQuery(@"SELECT * FROM Lnl_Titulo");
+            ManagementObjectSearcher getEmpresas = new ManagementObjectSearcher(empresaScope, empresaSearcher);
+
+            try { return getEmpresas; }
+            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+
+        }
     }
 }

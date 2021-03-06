@@ -11,8 +11,25 @@ namespace LenelServices.Repositories.Interfaces
         /// <summary>
         /// Trae el listado de insatalaciones en Lenel por medio de DataConduIT
         /// </summary>
-        /// <param name="newCardHolder"></param>
         /// <returns></returns>
         Task<List<Instalaciones_DTO>> ListarInstalaciones();
+
+        /// <summary>
+        /// Trae el listado de Divisiones (areas de la compañia= en Lenel por medio de DataConduIT
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Instalaciones_DTO>> ListarDivisiones();
+
+        /// <summary>
+        /// Trae el listado de Ciudades en Lenel por medio de DataConduIT
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Instalaciones_DTO>> ListarCiudades();
+
+        /// <summary>
+        /// Trae el listado de insatalaciones en Lenel por medio de DataConduIT
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Instalaciones_DTO>> ListarEmpresas();
     }
 }

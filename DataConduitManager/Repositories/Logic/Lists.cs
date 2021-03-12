@@ -15,23 +15,33 @@ namespace DataConduitManager.Repositories.Logic
             _dataConduITMgr = dataConduITMgr;
         }
 
-        public async Task<ManagementObjectSearcher> GetBuildings(string path, string user, string password)
+        public async Task<ManagementObjectSearcher> GetBuildings(string path, string user, string password, int? id)
         {
             ManagementScope buildingScope = _dataConduITMgr.GetManagementScope(path, user, password);
-            ObjectQuery buildingSearcher =
-                new ObjectQuery(@"SELECT * FROM Lnl_Edificio");
-            ManagementObjectSearcher getBuildings = new ManagementObjectSearcher(buildingScope, buildingSearcher);
+            ObjectQuery buildingSearcher = new ObjectQuery();
 
+            if (id != null)
+                buildingSearcher.QueryString = @"SELECT * FROM Lnl_Edificio WHERE ID = " + id;
+            else
+                buildingSearcher.QueryString = @"SELECT * FROM Lnl_Edificio";
+
+            ManagementObjectSearcher getBuildings = new ManagementObjectSearcher(buildingScope, buildingSearcher);
+            
             try { return getBuildings; }
             catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
 
         }
 
-        public async Task<ManagementObjectSearcher> GetDivision(string path, string user, string password)
+        public async Task<ManagementObjectSearcher> GetDivision(string path, string user, string password, int? id)
         {
             ManagementScope divisionScope = _dataConduITMgr.GetManagementScope(path, user, password);
-            ObjectQuery divisionSearcher =
-                new ObjectQuery(@"SELECT * FROM Lnl_División");
+            ObjectQuery divisionSearcher = new ObjectQuery();
+
+            if (id != null)
+                divisionSearcher.QueryString = @"SELECT * FROM Lnl_División WHERE ID = " + id;
+            else
+                divisionSearcher.QueryString = @"SELECT * FROM Lnl_División";
+            
             ManagementObjectSearcher getDivisiones = new ManagementObjectSearcher(divisionScope, divisionSearcher);
 
             try { return getDivisiones; }
@@ -39,11 +49,16 @@ namespace DataConduitManager.Repositories.Logic
 
         }
 
-        public async Task<ManagementObjectSearcher> GetCiudades(string path, string user, string password)
+        public async Task<ManagementObjectSearcher> GetCiudades(string path, string user, string password, int? id)
         {
             ManagementScope ciudadScope = _dataConduITMgr.GetManagementScope(path, user, password);
-            ObjectQuery ciudadSearcher =
-                new ObjectQuery(@"SELECT * FROM Lnl_Departam");
+            ObjectQuery ciudadSearcher = new ObjectQuery();
+
+            if (id != null)
+                ciudadSearcher.QueryString = @"SELECT * FROM Lnl_Departam WHERE ID = " + id;
+            else
+                ciudadSearcher.QueryString = @"SELECT * FROM Lnl_Departam";
+            
             ManagementObjectSearcher getCiudades = new ManagementObjectSearcher(ciudadScope, ciudadSearcher);
 
             try { return getCiudades; }
@@ -51,11 +66,16 @@ namespace DataConduitManager.Repositories.Logic
 
         }
 
-        public async Task<ManagementObjectSearcher> GetEmpresas(string path, string user, string password)
+        public async Task<ManagementObjectSearcher> GetEmpresas(string path, string user, string password, int? id)
         {
             ManagementScope empresaScope = _dataConduITMgr.GetManagementScope(path, user, password);
-            ObjectQuery empresaSearcher =
-                new ObjectQuery(@"SELECT * FROM Lnl_Titulo");
+            ObjectQuery empresaSearcher = new ObjectQuery();
+
+            if (id != null)
+                empresaSearcher.QueryString = @"SELECT * FROM Lnl_Titulo WHERE ID = " + id;
+            else
+                empresaSearcher.QueryString = @"SELECT * FROM Lnl_Titulo";
+
             ManagementObjectSearcher getEmpresas = new ManagementObjectSearcher(empresaScope, empresaSearcher);
 
             try { return getEmpresas; }

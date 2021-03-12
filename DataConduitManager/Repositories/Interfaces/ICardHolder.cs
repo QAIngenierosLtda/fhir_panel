@@ -49,6 +49,17 @@ namespace DataConduitManager.Repositories.Interfaces
         Task<ManagementObjectSearcher> GetCardHolderByID(string idPersona, string path, string user, string password);
 
         /// <summary>
+        /// Obtiene un CardHolder en Lenel
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <param name="nombre"></param>
+        /// <param name="apellido"></param>
+        /// <returns></returns>
+        Task<ManagementObjectSearcher> GetCardHolderByName(string path, string user, string password, string nombre, string apellido);
+
+        /// <summary>
         /// Obtiene un Visitor en Lenel
         /// </summary>
         /// <param name="idPersona"></param>

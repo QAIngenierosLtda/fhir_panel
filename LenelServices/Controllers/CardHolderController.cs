@@ -62,6 +62,20 @@ namespace LenelServices.Controllers
             }
         }
 
+        ///
+        [HttpGet("/api/CardHolder/ObtenerPersonaByNombre/{nombre}/{apellido?}")]
+        public async Task<object> ObtenerPersona(string nombre, string apellido)
+        {
+            try
+            {
+                return await _cardHolder_REP_LOCAL.ObtenerPersonaByName(nombre,apellido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+            }
+        }
+
         /// <summary>
         /// Crea una persona nueva en Lenel
         /// </summary>

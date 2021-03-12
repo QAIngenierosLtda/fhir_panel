@@ -25,10 +25,10 @@ namespace LenelServices.Repositories.Logic
             _user = _config.GetSection("SERVER_USER").Value.ToString();
             _pass = _config.GetSection("SERVER_PASSWORD").Value.ToString();
         }
-        public async Task<List<Instalaciones_DTO>> ListarInstalaciones() {
+        public async Task<List<Instalaciones_DTO>> ListarInstalaciones(int? instalacionId) {
 
             List<Instalaciones_DTO> listaInstalaciones = new List<Instalaciones_DTO>();
-            ManagementObjectSearcher instalaciones = await _lists_REP.GetBuildings(_path,_user,_pass);
+            ManagementObjectSearcher instalaciones = await _lists_REP.GetBuildings(_path,_user,_pass, instalacionId);
 
             try
             {
@@ -52,11 +52,11 @@ namespace LenelServices.Repositories.Logic
             }
         }
 
-        public async Task<List<Instalaciones_DTO>> ListarDivisiones()
+        public async Task<List<Instalaciones_DTO>> ListarDivisiones(int? areaId)
         {
 
             List<Instalaciones_DTO> listaDivisiones = new List<Instalaciones_DTO>();
-            ManagementObjectSearcher divisiones = await _lists_REP.GetDivision(_path, _user, _pass);
+            ManagementObjectSearcher divisiones = await _lists_REP.GetDivision(_path, _user, _pass, areaId);
 
             try
             {
@@ -80,11 +80,11 @@ namespace LenelServices.Repositories.Logic
             }
         }
 
-        public async Task<List<Instalaciones_DTO>> ListarCiudades()
+        public async Task<List<Instalaciones_DTO>> ListarCiudades(int? ciudadId)
         {
 
             List<Instalaciones_DTO> listaCiudades = new List<Instalaciones_DTO>();
-            ManagementObjectSearcher ciudades = await _lists_REP.GetCiudades(_path, _user, _pass);
+            ManagementObjectSearcher ciudades = await _lists_REP.GetCiudades(_path, _user, _pass, ciudadId);
 
             try
             {
@@ -108,11 +108,11 @@ namespace LenelServices.Repositories.Logic
             }
         }
 
-        public async Task<List<Instalaciones_DTO>> ListarEmpresas()
+        public async Task<List<Instalaciones_DTO>> ListarEmpresas(int? empresaId)
         {
 
             List<Instalaciones_DTO> listaEmpresas = new List<Instalaciones_DTO>();
-            ManagementObjectSearcher empresas = await _lists_REP.GetEmpresas(_path, _user, _pass);
+            ManagementObjectSearcher empresas = await _lists_REP.GetEmpresas(_path, _user, _pass, empresaId);
 
             try
             {

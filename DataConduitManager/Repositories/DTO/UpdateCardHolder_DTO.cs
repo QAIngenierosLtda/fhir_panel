@@ -13,9 +13,9 @@ namespace DataConduitManager.Repositories.DTO
         public string status { get; set; }
         public string ciudad { get; set; }
         public string empresa { get; set; }
-        public string regional { get; set; }
+        public string piso { get; set; }
         public string instalacion { get; set; }
-        public string origen { get; set; }
+        public string area { get; set; }
         public string email { get; set; }
     }
 }

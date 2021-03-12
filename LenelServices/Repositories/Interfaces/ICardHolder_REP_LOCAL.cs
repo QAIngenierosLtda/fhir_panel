@@ -29,6 +29,14 @@ namespace LenelServices.Repositories.Interfaces
         Task<GetCardHolder_DTO> ObtenerPersona(string idBadge);
 
         /// <summary>
+        /// Obtiene una persona de lenel por medio de DataConduIT
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <param name="apellido"></param>
+        /// <returns></returns>
+        Task<GetCardHolder_DTO> ObtenerPersonaByName(string nombre, string apellido);
+
+        /// <summary>
         /// Obtiene un Visitante por medio de DataConduIT
         /// </summary>
         /// <param name="idLenel"></param>

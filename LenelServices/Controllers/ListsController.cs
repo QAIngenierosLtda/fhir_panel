@@ -27,12 +27,12 @@ namespace LenelServices.Controllers
 
         // GET: api/Lists
 
-        [HttpGet("/api/Lists/ListarInstalaciones")]
-        public async Task<object> ListarInstalaciones()
+        [HttpGet("/api/Lists/ListarInstalaciones/{instalacionId?}")]
+        public async Task<object> ListarInstalaciones(int? instalacionId)
         {
             try
             {
-                return await _lists_REP_LOCAL.ListarInstalaciones();
+                return await _lists_REP_LOCAL.ListarInstalaciones(instalacionId);
             }
             catch (Exception ex)
             {
@@ -40,12 +40,12 @@ namespace LenelServices.Controllers
             }
         }
 
-        [HttpGet("/api/Lists/ListarDivisiones")]
-        public async Task<object> ListarDivision()
+        [HttpGet("/api/Lists/ListarAreas/{areaId?}")]
+        public async Task<object> ListarDivision(int? areaId)
         {
             try
             {
-                return await _lists_REP_LOCAL.ListarDivisiones();
+                return await _lists_REP_LOCAL.ListarDivisiones(areaId);
             }
             catch (Exception ex)
             {
@@ -53,12 +53,12 @@ namespace LenelServices.Controllers
             }
         }
 
-        [HttpGet("/api/Lists/ListarCiudades")]
-        public async Task<object> ListarCiudad()
+        [HttpGet("/api/Lists/ListarCiudades/{ciudadId?}")]
+        public async Task<object> ListarCiudad(int? ciudadId)
         {
             try
             {
-                return await _lists_REP_LOCAL.ListarCiudades();
+                return await _lists_REP_LOCAL.ListarCiudades(ciudadId);
             }
             catch (Exception ex)
             {
@@ -66,12 +66,12 @@ namespace LenelServices.Controllers
             }
         }
 
-        [HttpGet("/api/Lists/ListarEmpresas")]
-        public async Task<object> ListarEmpresa()
+        [HttpGet("/api/Lists/ListarEmpresas/{empresaId?}")]
+        public async Task<object> ListarEmpresa(int? empresaId)
         {
             try
             {
-                return await _lists_REP_LOCAL.ListarEmpresas();
+                return await _lists_REP_LOCAL.ListarEmpresas(empresaId);
             }
             catch (Exception ex)
             {

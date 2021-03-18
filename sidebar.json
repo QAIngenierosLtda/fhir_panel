@@ -9,6 +9,36 @@
       "action": "Index",
       "icon": "fa fa-home",
       "text": "Enrolamiento"
+    },
+    {
+      "controller": "Device",
+      "action": "Index",
+      "icon": "fa fa-tablet",
+      "text": "Dispositivos"
+    },
+    {
+      "controller": "Employee",
+      "action": "Index",
+      "icon": "fa fa-users",
+      "text": "Registro"
+    },
+    {
+      "controller": "Reporte",
+      "action": "Index",
+      "icon": "fa fa-table",
+      "text": "Reportes"
+    },
+    {
+      "controller": "Image",
+      "action": "Index",
+      "icon": "fa fa-camera",
+      "text": "Imagenes"
+    },
+    {
+      "controller": "Sistema",
+      "action": "Index",
+      "icon": "fa fa-home",
+      "text": "Sistema"
     }
   ]
 }

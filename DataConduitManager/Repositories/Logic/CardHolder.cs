@@ -31,7 +31,10 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
             try { return getCardHolder; }
-            catch (Exception ex) { throw new Exception("error: " + ex. Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            catch (Exception ex) 
+            { 
+                throw new Exception(ex.Message); 
+            }
 
         }
 
@@ -42,8 +45,10 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
             try { return getCardHolder; }
-            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
-
+            catch (Exception ex) 
+            { 
+                throw new Exception(ex.Message); 
+            }
         }
 
         public async Task<ManagementObjectSearcher> GetCardHolderByName(string path, string user, string password, string nombre, string apellido) 
@@ -59,7 +64,10 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(cardHolderScope, cardHolderSearcher);
 
             try { return getCardHolder; }
-            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            catch (Exception ex) 
+            { 
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<object> AddCardHolder(AddCardHolder_DTO newCardHolder, string path, string user, string password)

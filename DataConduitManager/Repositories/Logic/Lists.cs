@@ -45,7 +45,7 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getDivisiones = new ManagementObjectSearcher(divisionScope, divisionSearcher);
 
             try { return getDivisiones; }
-            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            catch (Exception ex) { throw new Exception(ex.Message); }
 
         }
 
@@ -62,7 +62,10 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getCiudades = new ManagementObjectSearcher(ciudadScope, ciudadSearcher);
 
             try { return getCiudades; }
-            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            catch (Exception ex) 
+            { 
+                throw new Exception(ex.Message); 
+            }
 
         }
 
@@ -79,7 +82,7 @@ namespace DataConduitManager.Repositories.Logic
             ManagementObjectSearcher getEmpresas = new ManagementObjectSearcher(empresaScope, empresaSearcher);
 
             try { return getEmpresas; }
-            catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            catch (Exception ex) { throw new Exception(ex.Message); }
 
         }
     }

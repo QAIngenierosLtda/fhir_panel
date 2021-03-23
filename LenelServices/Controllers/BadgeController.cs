@@ -26,25 +26,26 @@ namespace LenelServices.Controllers
             _badge_REP_LOCAL = badge_REP_LOCAL;
         }
 
-        // GET: api/Badge
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Badge/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST: api/Badge
         [HttpPost("/api/Badge/CrearBadge")]
         public async Task<object> CrearBadge([FromBody] AddBadge_DTO newBadge)
         {
-            return await _badge_REP_LOCAL.CrearBadge(newBadge);
+            try 
+            { 
+                return await _badge_REP_LOCAL.CrearBadge(newBadge); 
+            }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    success = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return BadRequest(result);
+            }
         }
 
         // PUT: api/Badge/5
@@ -57,14 +58,15 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
-            }
-        }
+                object result = new
+                {
+                    success = false,
+                    status = 400,
+                    data = ex.Message
+                };
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                return BadRequest(result);
+            }
         }
     }
 }

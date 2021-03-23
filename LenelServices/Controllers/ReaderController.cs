@@ -39,7 +39,17 @@ namespace LenelServices.Controllers
             {
                 return await _reader_REP_LOCAL.ConfiguracionLectora(panelID, readerID);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         // POST: /api/Reader/AbrirPuerta
@@ -49,7 +59,17 @@ namespace LenelServices.Controllers
             try {
                 return await _reader_REP_LOCAL.AbrirPuerta(pathReader);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         [HttpPost("/api/Reader/BloquearPuerta")]
@@ -59,7 +79,17 @@ namespace LenelServices.Controllers
             {
                 return await _reader_REP_LOCAL.BloquearPuerta(pathReader);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -84,7 +114,17 @@ namespace LenelServices.Controllers
             {
                 return await _reader_REP_LOCAL.CambioEstadoPuerta(pathReader, estadoId);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         [HttpPost("/api/Reader/EnviarEvento")]
@@ -94,7 +134,17 @@ namespace LenelServices.Controllers
             {
                 return await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex)
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         [HttpPost("/api/Reader/AutorizacionIngreso")]
@@ -104,7 +154,7 @@ namespace LenelServices.Controllers
             {
                 EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
 
-                if (evento.badgeID != null)
+                if (evento.documento != null)
                     eval = GetDescripcion(tipoEvento.IB, evento);
                 else
                     eval = GetDescripcion(tipoEvento.IBNI, evento);
@@ -117,7 +167,17 @@ namespace LenelServices.Controllers
                 else
                     throw new Exception("No se pudo enviar el evento");
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         [HttpPost("/api/Reader/AutorizacionSalida")]
@@ -126,7 +186,7 @@ namespace LenelServices.Controllers
             try
             {
                 EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
-                if (evento.badgeID != null)
+                if (evento.documento != null)
                     eval = GetDescripcion(tipoEvento.SB, evento);
                 else
                     eval = GetDescripcion(tipoEvento.SBNI, evento);
@@ -140,7 +200,17 @@ namespace LenelServices.Controllers
                     throw new Exception("No se pudo enviar el evento");
 
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -164,7 +234,7 @@ namespace LenelServices.Controllers
             return new EvaluacionEvento_DTO
             {
                 descripcionEvento = descripcion[0] + "|" + descripcion[1] + "|" + descripcion[2] +
-                    "|" + evento.badgeID.ToString() + "|" + evento.temperatura.ToString() +
+                    "|" + evento.documento.ToString() + "|" + evento.temperatura.ToString() +
                     "|" + evento.tempRef.ToString(),
                 alarmaEvento = (descripcion[1] == "1" || descripcion[2] == "1")
             };

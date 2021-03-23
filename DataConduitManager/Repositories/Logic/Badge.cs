@@ -72,7 +72,7 @@ namespace DataConduitManager.Repositories.Logic
                 ManagementObjectSearcher getBadge = new ManagementObjectSearcher(badgeScope, badgeSearcher);
 
                 try { return getBadge; }
-                catch (Exception ex) { throw new Exception("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+                catch (Exception ex) { throw new Exception(ex.Message); }
             }
             catch (Exception ex)
             {

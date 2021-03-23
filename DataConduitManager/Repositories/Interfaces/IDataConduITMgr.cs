@@ -24,5 +24,7 @@ namespace DataConduitManager.Repositories.Interfaces
         ManagementScope GetManagementScope(string path, string user, string pass);
 
         string ReceiveEvent(ManagementScope scope);
+
+        string GetManager(ManagementScope scope);
     }
 }

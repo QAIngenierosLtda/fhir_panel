@@ -40,7 +40,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex) 
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); 
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -58,7 +65,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -72,7 +86,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -84,9 +105,21 @@ namespace LenelServices.Controllers
         [HttpPost("/api/CardHolder/CrearPersona")]
         public async Task<object> CrearPersona([FromBody] AddCardHolder_DTO newCardHolder)
         {
-            try { return await _cardHolder_REP_LOCAL.CrearPersona(newCardHolder); } 
+            try 
+            { 
+                return await _cardHolder_REP_LOCAL.CrearPersona(newCardHolder); 
+            } 
             catch(Exception ex) 
-            { return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException); }
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -98,8 +131,21 @@ namespace LenelServices.Controllers
         [HttpPut("/api/CardHolder/ActualizarPersona/{idPersona}")]
         public async Task<object> ActualizarPersona(string idPersona, [FromBody] UpdateCardHolder_DTO cardHolder)
         {
-            try { return await _cardHolder_REP_LOCAL.ActualizarPersona(cardHolder, idPersona); }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            try 
+            { 
+                return await _cardHolder_REP_LOCAL.ActualizarPersona(cardHolder, idPersona); 
+            }
+            catch (Exception ex) 
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
+            }
         }
     }
 }

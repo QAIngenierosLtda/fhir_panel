@@ -71,8 +71,38 @@ namespace DataConduitManager.Repositories.Logic
             }
             catch (ManagementException err)
             {
-                //MessageBox.Show("An error occurred while trying to receive an event: " + err.Message);
-                return "ERROR";
+                return err.Message;
+            }
+        }
+
+        public string GetManager(ManagementScope scope)
+        {
+            try
+            {
+                ObjectQuery readerSearcher = new ObjectQuery("SELECT * FROM Lnl_DataConduITManager");
+                ManagementObjectSearcher getreader = new ManagementObjectSearcher(scope, readerSearcher);
+
+                foreach (ManagementObject queryObj in getreader.Get())
+                {
+                    ManagementBaseObject outParamObject = queryObj.InvokeMethod("GetCurrentUser", null, null);
+
+                    if (outParamObject != null)
+                    {
+                        object outObj = outParamObject["UserID"];
+                        
+                        return outObj.ToString();
+                    }
+                    else
+                    {
+                        throw new Exception("No se pudo consultar");
+                    }
+                }
+
+                throw new Exception("No se pudo consultar");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("el dispositivo no existe " + ex.Message);
             }
         }
         #endregion

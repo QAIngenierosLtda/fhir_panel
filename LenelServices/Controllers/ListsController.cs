@@ -36,7 +36,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -49,7 +56,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -62,7 +76,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
 
@@ -75,7 +96,14 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("error: " + ex.Message + " " + ex.StackTrace + " " + ex.InnerException);
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return result;
             }
         }
     }

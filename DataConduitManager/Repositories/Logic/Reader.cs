@@ -66,7 +66,6 @@ namespace DataConduitManager.Repositories.Logic
             {
                 throw new Exception("el dispositivo no existe " + ex.Message);
             }
-
         }
 
         public async Task<bool> ReaderSetMode(string panelID, string readerID, IReader.readerMode modeID,
@@ -182,8 +181,8 @@ namespace DataConduitManager.Repositories.Logic
                 if (evento.isAccessDeny != null)
                     inParams.Properties["IsAccessDeny"].Value = evento.isAccessDeny;
                 
-                if (evento.badgeID != null)
-                    inParams.Properties["BadgeID"].Value = evento.badgeID;
+                if (evento.documento != null)
+                    inParams.Properties["BadgeID"].Value = evento.documento;
 
                 // Execute the method
                 eventClass.InvokeMethod("SendIncomingEvent", inParams, null);

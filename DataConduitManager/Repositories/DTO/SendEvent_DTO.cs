@@ -12,7 +12,7 @@ namespace DataConduitManager.Repositories.DTO
         public string description { get; set; }
         public bool? isAccessGranted { get; set; }
         public bool? isAccessDeny { get; set; }
-        public int? badgeID { get; set; }
+        public string documento { get; set; }
         public bool? tapabocas { get; set; }
         public float? temperatura { get; set; }
         public float? tempRef { get; set; }

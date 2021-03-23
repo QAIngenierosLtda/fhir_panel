@@ -84,9 +84,7 @@ namespace LenelServices.Repositories.Logic
             }
             catch (Exception ex)
             {
-                throw new Exception("message: " + ex.Message + "|||query: " + badge.Query.QueryString +
-                "|||path: " + badge.Scope.Path + "|||st: " + ex.StackTrace + "|||inne: " + ex.InnerException + "|||data: " +
-                ex.Data + "|||helplink: " + ex.HelpLink + "|||Hresult: " + ex.HResult);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -104,9 +102,7 @@ namespace LenelServices.Repositories.Logic
             }
             catch (Exception ex)
             {
-                throw new Exception("message: " + ex.Message + "|||query: " + badge.Query.QueryString +
-                "|||path: " + badge.Scope.Path + "|||st: " + ex.StackTrace + "|||inne: " + ex.InnerException + "|||data: " +
-                ex.Data + "|||helplink: " + ex.HelpLink + "|||Hresult: " + ex.HResult);
+                throw new Exception(ex.Message);
             }
         }
 

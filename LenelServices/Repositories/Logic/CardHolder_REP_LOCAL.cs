@@ -43,7 +43,10 @@ namespace LenelServices.Repositories.Logic
                 await _cardHolder_REP.AddCardHolder(newCardHolder, _path, _user, _pass);
                 return await ObtenerPersona(newCardHolder.nroDocumento, newCardHolder.ssno);
             }
-            catch { throw new Exception("No fue posible completar la operación"); } 
+            catch (Exception ex) 
+            { 
+                throw new Exception("No fue posible completar la operación " + ex.Message); 
+            } 
         }
 
         public async Task<GetCardHolder_DTO> ObtenerPersona(string documento, string ssno) 
@@ -77,9 +80,10 @@ namespace LenelServices.Repositories.Logic
                     throw new Exception("no se encontró una persona registrada con esos datos");
                 return persona;
             }
-            catch (Exception ex) { throw new Exception ( "message: " + ex.Message + "|||query: " + cardHolder.Query.QueryString + 
-                "|||path: " + cardHolder.Scope.Path + "|||st: " + ex.StackTrace + "|||inne: " + ex.InnerException + "|||data: " + 
-                ex.Data + "|||helplink: " + ex.HelpLink + "|||Hresult: " + ex.HResult); } 
+            catch (Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            } 
         }
 
         public async Task<GetCardHolder_DTO> ObtenerPersona(string idBadge)
@@ -120,9 +124,7 @@ namespace LenelServices.Repositories.Logic
             }
             catch (Exception ex)
             {
-                throw new Exception("message: " + ex.Message + "|||query: " + cardHolder.Query.QueryString +
-                "|||path: " + cardHolder.Scope.Path + "|||st: " + ex.StackTrace + "|||inne: " + ex.InnerException + "|||data: " +
-                ex.Data + "|||helplink: " + ex.HelpLink + "|||Hresult: " + ex.HResult);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -159,9 +161,7 @@ namespace LenelServices.Repositories.Logic
             }
             catch (Exception ex)
             {
-                throw new Exception("message: " + ex.Message + "|||query: " + cardHolder.Query.QueryString +
-"|||path: " + cardHolder.Scope.Path + "|||st: " + ex.StackTrace + "|||inne: " + ex.InnerException + "|||data: " +
-ex.Data + "|||helplink: " + ex.HelpLink + "|||Hresult: " + ex.HResult);
+                throw new Exception(ex.Message);
             }
         }
 

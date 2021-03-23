@@ -48,7 +48,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -57,7 +57,15 @@ namespace LenelServices.Controllers
         public async Task<object> AbrirPuerta([FromBody] ReaderPath_DTO pathReader)
         {
             try {
-                return await _reader_REP_LOCAL.AbrirPuerta(pathReader);
+
+                object result = new
+                {
+                    sucess = await _reader_REP_LOCAL.AbrirPuerta(pathReader),
+                    status = 200,
+                    data = "Done"
+                };
+
+                return result;
             }
             catch (Exception ex) 
             {
@@ -68,7 +76,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -76,8 +84,15 @@ namespace LenelServices.Controllers
         public async Task<object> BloquearPuerta([FromBody] ReaderPath_DTO pathReader)
         {
             try
-            {
-                return await _reader_REP_LOCAL.BloquearPuerta(pathReader);
+            { 
+                object result = new
+                {
+                    sucess = await _reader_REP_LOCAL.BloquearPuerta(pathReader),
+                    status = 200,
+                    data = "Done"
+                };
+
+                return result;
             }
             catch (Exception ex) 
             {
@@ -88,7 +103,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -112,7 +127,14 @@ namespace LenelServices.Controllers
         {
             try
             {
-                return await _reader_REP_LOCAL.CambioEstadoPuerta(pathReader, estadoId);
+                object result = new
+                {
+                    sucess = await _reader_REP_LOCAL.CambioEstadoPuerta(pathReader, estadoId),
+                    status = 200,
+                    data = "Done"
+                };
+
+                return result;
             }
             catch (Exception ex) 
             {
@@ -123,7 +145,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -132,7 +154,14 @@ namespace LenelServices.Controllers
         {
             try
             {
-                return await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
+                object result = new
+                {
+                    sucess = await _reader_REP_LOCAL.EnviarEventoGenerico(evento),
+                    status = 200,
+                    data = "Done"
+                };
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -143,7 +172,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -176,7 +205,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -209,7 +238,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 

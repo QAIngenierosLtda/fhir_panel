@@ -43,7 +43,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -63,7 +63,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -83,7 +83,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
 
@@ -103,7 +103,7 @@ namespace LenelServices.Controllers
                     data = ex.Message
                 };
 
-                return result;
+                return BadRequest(result);
             }
         }
     }

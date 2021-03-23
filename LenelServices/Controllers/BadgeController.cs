@@ -33,7 +33,13 @@ namespace LenelServices.Controllers
         {
             try 
             { 
-                return await _badge_REP_LOCAL.CrearBadge(newBadge); 
+                object result = new
+                {
+                    success = true,
+                    status = 200,
+                    data = await _badge_REP_LOCAL.CrearBadge(newBadge)
+                };
+                return result;
             }
             catch (Exception ex) 
             {
@@ -54,7 +60,13 @@ namespace LenelServices.Controllers
         {
             try
             {
-                return await _badge_REP_LOCAL.ActualizarEstadoBadge(idStatus, nuevoStatus);
+                object result = new
+                {
+                    success = await _badge_REP_LOCAL.ActualizarEstadoBadge(idStatus, nuevoStatus),
+                    status = 200,
+                    data = "Done"
+                };
+                return result;
             }
             catch (Exception ex)
             {

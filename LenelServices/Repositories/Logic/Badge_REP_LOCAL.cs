@@ -15,6 +15,8 @@ namespace LenelServices.Repositories.Logic
     {
         #region PROPIEDADES
         private readonly IBadge _badge_REP;
+        private readonly ICardHolder _cardHolder_REP;
+        private readonly IReader _reader_REP;
         private readonly IConfiguration _config;
         private string _path;
         private string _user;
@@ -22,9 +24,11 @@ namespace LenelServices.Repositories.Logic
         #endregion
 
         #region CONSTRUCTOR
-        public Badge_REP_LOCAL(IBadge badge_REP, IConfiguration config)
+        public Badge_REP_LOCAL(IBadge badge_REP, ICardHolder cardHolder_REP, IReader reader_REP, IConfiguration config)
         {
             _badge_REP = badge_REP;
+            _cardHolder_REP = cardHolder_REP;
+            _reader_REP = reader_REP;
             _config = config;
             _path = _config.GetSection("SERVER_PATH").Value.ToString();
             _user = _config.GetSection("SERVER_USER").Value.ToString();
@@ -33,6 +37,65 @@ namespace LenelServices.Repositories.Logic
         #endregion
 
         #region METODOS
+
+        public async Task<object> LastEvent(string documento) 
+        {
+            int personaId = 0;
+            string readerName = string.Empty;
+            LastLocation_DTO lastLocation = new LastLocation_DTO();
+            ManagementObjectSearcher cardHolder = await _cardHolder_REP.GetCardHolder(documento, "", _path, _user, _pass);
+
+            try
+            {
+                foreach (ManagementObject queryObj in cardHolder.Get())
+                {
+                    personaId = int.Parse(queryObj["ID"].ToString());
+                }
+
+                if (personaId == 0)
+                    throw new Exception("no se encontró una persona registrada con esos datos");
+                else {
+                    ManagementObjectSearcher LastLocation = await _badge_REP.GetLastLocation(personaId, _path, _user, _pass);
+
+                    foreach (ManagementObject queryObj in LastLocation.Get())
+                    {
+                        try { lastLocation.badgeId = (int)queryObj["BADGEID"]; } catch { lastLocation.badgeId = 0; }
+                        try { lastLocation.eventTime = queryObj["EVENTTIME"].ToString(); } catch { lastLocation.eventTime = null; }
+                        try { lastLocation.panelId = (int)queryObj["PANELID"]; } catch { lastLocation.panelId = 0; }
+                        try { lastLocation.readerId = (int)queryObj["READERID"]; } catch { lastLocation.readerId = 0; }
+                    }
+
+                    if (string.IsNullOrEmpty(lastLocation.eventTime))
+                        throw new Exception("no se encontró un evento asociado");
+                    else
+                    {
+                        ManagementObjectSearcher readerData = await _reader_REP.GetReaderData
+                            (lastLocation.panelId.ToString(), lastLocation.readerId.ToString(), _path, _user, _pass);
+
+                        foreach (ManagementObject queryObj in readerData.Get())
+                        {
+                            readerName = queryObj["Name"].ToString();
+                        }
+                    }
+                }
+
+                object result = new
+                {
+                    badgeId = lastLocation.badgeId,
+                    eventTime = lastLocation.eventTime,
+                    panelId = lastLocation.panelId,
+                    readerId = lastLocation.readerId,
+                    name = readerName
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<object> CrearBadge(AddBadge_DTO newBadge)
         {
             return await _badge_REP.AddBadge(newBadge, _path, _user, _pass);

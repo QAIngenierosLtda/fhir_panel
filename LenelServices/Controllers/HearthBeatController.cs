@@ -3,10 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DataConduitManager.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using DataConduitManager.Repositories.DTO;
 using Microsoft.AspNetCore.Http;
+using LenelServices.Repositories.Interfaces;
 using LenelServices.Attributes;
 
 namespace LenelServices.Controllers
@@ -17,12 +17,13 @@ namespace LenelServices.Controllers
     public class HearthBeatController : ControllerBase
     {
         #region PROPIEDADES
+        private readonly ICardHolder_REP_LOCAL _cardHolder_REP_LOCAL;
         #endregion
 
         #region CONSTRUCTOR
-        public HearthBeatController()
+        public HearthBeatController(ICardHolder_REP_LOCAL cardHolder_REP_LOCAL)
         {
-
+            _cardHolder_REP_LOCAL = cardHolder_REP_LOCAL;
         }
         #endregion
 
@@ -30,13 +31,30 @@ namespace LenelServices.Controllers
         [HttpGet("/api/HearthBeat/GetStatus")]
         public async Task<object> GetStatusAsync()
         {
-            object result = new { 
-                sucess = true, 
-                status = 200,
-                data = "LenelServices se encuentra en linea" 
-            };
+            try
+            {
+                var data = await _cardHolder_REP_LOCAL.ObtenerPersona("1", "");
 
-            return result;
+                object result = new
+                {
+                    sucess = true,
+                    status = 200,
+                    data = "LenelServices se encuentra en linea"
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                object result = new
+                {
+                    sucess = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return BadRequest(result);
+            }
         }
     }
 }

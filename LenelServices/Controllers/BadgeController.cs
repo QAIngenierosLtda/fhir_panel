@@ -26,6 +26,31 @@ namespace LenelServices.Controllers
             _badge_REP_LOCAL = badge_REP_LOCAL;
         }
 
+        // GET: api/Badge
+        [HttpGet("/api/Badge/UltimaMarcacion/{documento}")]
+        public async Task<object> UltimaMarcacion(string documento) {
+            try
+            {
+                object result = new
+                {
+                    success = true,
+                    status = 200,
+                    data = await _badge_REP_LOCAL.LastEvent(documento)
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                object result = new
+                {
+                    success = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return BadRequest(result);
+            }
+        }
 
         // POST: api/Badge
         [HttpPost("/api/Badge/CrearBadge")]

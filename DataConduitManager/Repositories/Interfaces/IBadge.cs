@@ -57,5 +57,15 @@ namespace DataConduitManager.Repositories.Interfaces
         /// <param name="pass"></param>
         /// <returns></returns>
         Task<bool> UpdateStatusBadge(string badgeId, badgeStatus status, DateTime deactivationDate, string path, string user, string pass);
+
+        /// <summary>
+        /// obtiene la ultima ubicacion del cardholder
+        /// </summary>
+        /// <param name="personaId"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<ManagementObjectSearcher> GetLastLocation(int personaId, string path, string user, string password);
     }
 }

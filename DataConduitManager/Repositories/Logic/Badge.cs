@@ -127,6 +127,23 @@ namespace DataConduitManager.Repositories.Logic
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<ManagementObjectSearcher> GetLastLocation(int personaId, string path, string user, string pass) 
+        {
+            try
+            {
+                ManagementScope badgeScope = _dataConduITMgr.GetManagementScope(path, user, pass);
+                ObjectQuery badgeSearcher = new ObjectQuery(@"SELECT * FROM Lnl_BadgeLastLocation WHERE PERSONID = '" + personaId + "' AND ACCESSFLAG = 1");
+                ManagementObjectSearcher getBadge = new ManagementObjectSearcher(badgeScope, badgeSearcher);
+
+                try { return getBadge; }
+                catch (Exception ex) { throw new Exception(ex.Message); }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
     }
 }

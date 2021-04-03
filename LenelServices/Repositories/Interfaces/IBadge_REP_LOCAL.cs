@@ -10,6 +10,13 @@ namespace LenelServices.Repositories.Interfaces
     public interface IBadge_REP_LOCAL
     {
         /// <summary>
+        /// Obtiene el ultimo evento de una tarjeta
+        /// </summary>
+        /// <param name="documento"></param>
+        /// <returns></returns>
+        Task<object> LastEvent(string documento);
+
+        /// <summary>
         /// Crea una nueva tarjeta a una persona creada en el sistema por medio de DataCoduIT
         /// </summary>
         /// <param name="newBadge"></param>

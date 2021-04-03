@@ -33,7 +33,7 @@ namespace LenelServices.Controllers
         {
             try
             {
-                var data = await _cardHolder_REP_LOCAL.ObtenerPersona("1", "");
+                var data = await _cardHolder_REP_LOCAL.ObtenerPersona("heartbeat", "");
 
                 object result = new
                 {
@@ -46,14 +46,28 @@ namespace LenelServices.Controllers
             }
             catch (Exception ex)
             {
-                object result = new
+                if (ex.Message == "no se encontró una persona registrada con esos datos")
                 {
-                    sucess = false,
-                    status = 400,
-                    data = ex.Message
-                };
+                    object result = new
+                    {
+                        sucess = true,
+                        status = 200,
+                        data = "LenelServices se encuentra en linea"
+                    };
 
-                return BadRequest(result);
+                    return result;
+                }
+                else 
+                {
+                    object result = new
+                    {
+                        sucess = false,
+                        status = 400,
+                        data = "La conexión con DataConduIT fallo"
+                    };
+
+                    return BadRequest(result);
+                }
             }
         }
     }

@@ -31,13 +31,7 @@ namespace LenelServices.Controllers
         public async Task<object> UltimaMarcacion(string documento) {
             try
             {
-                object result = new
-                {
-                    success = true,
-                    status = 200,
-                    data = await _badge_REP_LOCAL.LastEvent(documento)
-                };
-                return result;
+                return await _badge_REP_LOCAL.LastEvent(documento);
             }
             catch (Exception ex)
             {

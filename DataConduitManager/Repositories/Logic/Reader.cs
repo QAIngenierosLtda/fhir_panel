@@ -181,8 +181,8 @@ namespace DataConduitManager.Repositories.Logic
                 if (evento.isAccessDeny != null)
                     inParams.Properties["IsAccessDeny"].Value = evento.isAccessDeny;
                 
-                if (evento.documento != null)
-                    inParams.Properties["BadgeID"].Value = evento.documento;
+                if (evento.badgeId != null)
+                    inParams.Properties["BadgeID"].Value = evento.badgeId;
 
                 // Execute the method
                 eventClass.InvokeMethod("SendIncomingEvent", inParams, null);

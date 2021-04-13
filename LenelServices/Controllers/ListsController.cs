@@ -23,7 +23,6 @@ namespace LenelServices.Controllers
         public ListsController(ILists_REP_LOCAL lists_REP_LOCAL)
         {
             _lists_REP_LOCAL = lists_REP_LOCAL;
-            //<julinas 2021-04-13 08:34
         }
 
         // GET: api/Lists

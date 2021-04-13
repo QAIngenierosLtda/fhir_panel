@@ -18,6 +18,7 @@ namespace LenelServices.Controllers
     public class ReaderController : ControllerBase
     {
         private readonly IReader_REP_LOCAL _reader_REP_LOCAL;
+        private readonly ICardHolder_REP_LOCAL _cardHolder_REP_LOCAL;
         enum tipoEvento : ushort
         {
             IB, //INGRESO BIOMETRICO
@@ -26,9 +27,10 @@ namespace LenelServices.Controllers
             SBNI  //SALIDA BIOMETRICO PERSONA NO IDENTIFICADA
         }
 
-        public ReaderController(IReader_REP_LOCAL reader_REP_LOCAL)
+        public ReaderController(IReader_REP_LOCAL reader_REP_LOCAL, ICardHolder_REP_LOCAL cardHolder_REP_LOCAL)
         {
             _reader_REP_LOCAL = reader_REP_LOCAL;
+            _cardHolder_REP_LOCAL = cardHolder_REP_LOCAL;
         }
 
         //GET: api/Reader/5
@@ -181,7 +183,35 @@ namespace LenelServices.Controllers
         {
             try
             {
+                //Obtiene la información de la persona que esta ingresando 
+                int badgekey = 0;
+                string badgeID = "";
+                GetCardHolder_DTO persona = await _cardHolder_REP_LOCAL.ObtenerPersona(evento.documento, "");
+
+                //obtiene un badgekey de la persona
+                foreach (GetBadge_DTO badge in persona.Badges) {
+                    if (badge.estado == "1")
+                    {
+                        badgekey = badge.badgekey;
+                        badgeID = badge.badgeID;
+                    }
+                        
+                }
+
+                if (badgekey == 0)
+                    throw new Exception("no se encontro un badge activo");
+
                 EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
+                SendEvent_DTO acceso = new SendEvent_DTO { 
+                    source = evento.source,
+                    device = evento.device,
+                    subdevice = evento.subdevice
+                };
+                ReaderPath_DTO lectora = new ReaderPath_DTO {
+                    panelID = evento.panelId,
+                    readerID = evento.readerId,
+                };
+
 
                 if (evento.documento != null)
                     eval = GetDescripcion(tipoEvento.IB, evento);
@@ -189,7 +219,24 @@ namespace LenelServices.Controllers
                     eval = GetDescripcion(tipoEvento.IBNI, evento);
 
                 evento.description = eval.descripcionEvento;
+                //ENVIO DE EVENTO A LA PGR
                 bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
+                //EVENTO REGISTRO DE MARCACION Y ACCION
+                if (eval.alarmaEvento == false)
+                {
+                    acceso.isAccessGranted = true;
+                    acceso.isAccessDeny = null;
+                    acceso.badgeId = int.Parse(badgeID);
+                    await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
+                    await _reader_REP_LOCAL.AbrirPuerta(lectora);
+                }
+                else {
+                    acceso.isAccessGranted = null;
+                    acceso.isAccessDeny = true;
+                    acceso.badgeId = evento.badgeId;
+                    await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
+                    //await _reader_REP_LOCAL.BloquearPuerta(lectora);
+                }
 
                 if (enviado)
                     return eval;
@@ -214,14 +261,52 @@ namespace LenelServices.Controllers
         {
             try
             {
+                //Obtiene la información de la persona que esta ingresando 
+                int badgekey = 0;
+                string badgeID = "";
+                GetCardHolder_DTO persona = await _cardHolder_REP_LOCAL.ObtenerPersona(evento.documento, "");
+
+                //obtiene un badgekey de la persona
+                foreach (GetBadge_DTO badge in persona.Badges)
+                {
+                    if (badge.estado == "1")
+                    {
+                        badgekey = badge.badgekey;
+                        badgeID = badge.badgeID;
+                    }
+                        
+                }
+
+                if (badgekey == 0)
+                    throw new Exception("no se encontro un badge activo");
+
                 EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
+                SendEvent_DTO acceso = new SendEvent_DTO
+                {
+                    source = evento.source,
+                    device = evento.device,
+                    subdevice = evento.subdevice
+                };
+                ReaderPath_DTO lectora = new ReaderPath_DTO
+                {
+                    panelID = evento.panelId,
+                    readerID = evento.readerId,
+                };
+
                 if (evento.documento != null)
                     eval = GetDescripcion(tipoEvento.SB, evento);
                 else
                     eval = GetDescripcion(tipoEvento.SBNI, evento);
 
                 evento.description = eval.descripcionEvento;
+                //ENVIO DE EVENTO A LA PGR
                 bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
+                //EVENTO REGISTRO DE MARCACION Y ACCION
+                acceso.isAccessGranted = true;
+                acceso.isAccessDeny = false;
+                acceso.badgeId = int.Parse(badgeID);
+                await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
+                await _reader_REP_LOCAL.AbrirPuerta(lectora);
 
                 if (enviado)
                     return eval;

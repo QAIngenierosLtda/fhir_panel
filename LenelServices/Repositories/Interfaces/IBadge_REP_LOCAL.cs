@@ -14,7 +14,7 @@ namespace LenelServices.Repositories.Interfaces
         /// </summary>
         /// <param name="documento"></param>
         /// <returns></returns>
-        Task<object> LastEvent(string documento);
+        Task<object> LastEvent(string documento,int gap, int intentos, int timeout);
 
         /// <summary>
         /// Crea una nueva tarjeta a una persona creada en el sistema por medio de DataCoduIT

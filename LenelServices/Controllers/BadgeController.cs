@@ -27,11 +27,11 @@ namespace LenelServices.Controllers
         }
 
         // GET: api/Badge
-        [HttpGet("/api/Badge/UltimaMarcacion/{documento}")]
-        public async Task<object> UltimaMarcacion(string documento) {
+        [HttpGet("/api/Badge/UltimaMarcacion/{documento}/{gap}/{intentos}/{timeout}")]
+        public async Task<object> UltimaMarcacion(string documento,int gap, int intentos, int timeout) {
             try
             {
-                return await _badge_REP_LOCAL.LastEvent(documento);
+                return await _badge_REP_LOCAL.LastEvent(documento, gap, intentos, timeout);
             }
             catch (Exception ex)
             {

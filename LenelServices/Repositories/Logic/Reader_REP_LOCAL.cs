@@ -58,8 +58,7 @@ namespace LenelServices.Repositories.Logic
         public async Task<bool> AbrirPuerta(ReaderPath_DTO readerPath) 
         {
             try{
-                return await _reader_REP.ReaderSetMode(readerPath.panelID, readerPath.readerID, IReader.readerMode.CARDONLY,
-                     _path, _user, _pass);
+                return await _reader_REP.OpenDoor(readerPath.panelID, readerPath.readerID, _path, _user, _pass);
             }
             catch (Exception ex){
                 throw new Exception(ex.Message);

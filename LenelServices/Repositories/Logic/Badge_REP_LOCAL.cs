@@ -38,8 +38,10 @@ namespace LenelServices.Repositories.Logic
 
         #region METODOS
 
-        public async Task<object> LastEvent(string documento) 
+        public async Task<object> LastEvent(string documento,int gap, int intentos, int timeout) 
         {
+            bool salir = false;
+            DateTime tiempoEvento = new DateTime();
             int personaId = 0;
             string readerName = string.Empty;
             LastLocation_DTO lastLocation = new LastLocation_DTO();
@@ -55,28 +57,36 @@ namespace LenelServices.Repositories.Logic
                 if (personaId == 0)
                     throw new Exception("no se encontró una persona registrada con esos datos");
                 else {
-                    ManagementObjectSearcher LastLocation = await _badge_REP.GetLastLocation(personaId, _path, _user, _pass);
+                    int intento = 1;
+                    do {
+                        ManagementObjectSearcher LastLocation = await _badge_REP.GetLastLocation(personaId, _path, _user, _pass);
 
-                    foreach (ManagementObject queryObj in LastLocation.Get())
-                    {
-                        try { lastLocation.badgeId = (int)queryObj["BADGEID"]; } catch { lastLocation.badgeId = 0; }
-                        try { lastLocation.eventTime = queryObj["EVENTTIME"].ToString(); } catch { lastLocation.eventTime = null; }
-                        try { lastLocation.panelId = (int)queryObj["PANELID"]; } catch { lastLocation.panelId = 0; }
-                        try { lastLocation.readerId = (int)queryObj["READERID"]; } catch { lastLocation.readerId = 0; }
-                    }
-
-                    if (string.IsNullOrEmpty(lastLocation.eventTime))
-                        throw new Exception("no se encontró un evento asociado");
-                    else
-                    {
-                        ManagementObjectSearcher readerData = await _reader_REP.GetReaderData
-                            (lastLocation.panelId.ToString(), lastLocation.readerId.ToString(), _path, _user, _pass);
-
-                        foreach (ManagementObject queryObj in readerData.Get())
+                        foreach (ManagementObject queryObj in LastLocation.Get())
                         {
-                            readerName = queryObj["Name"].ToString();
+                            try { lastLocation.badgeId = queryObj["BADGEID"].ToString(); } catch { lastLocation.badgeId = "0"; }
+                            try { lastLocation.eventTime = queryObj["EVENTTIME"].ToString(); } catch { lastLocation.eventTime = null; }
+                            try { lastLocation.panelId = (int)queryObj["PANELID"]; } catch { lastLocation.panelId = 0; }
+                            try { lastLocation.readerId = (int)queryObj["READERID"]; } catch { lastLocation.readerId = 0; }
                         }
-                    }
+
+                        if (string.IsNullOrEmpty(lastLocation.eventTime))
+                            throw new Exception("no se encontró un evento asociado");
+                        else
+                        {
+                            tiempoEvento = DateTime.ParseExact(lastLocation.eventTime.Substring(0,14),"yyyyMMddHHmmss",null);
+                            TimeSpan difTime = tiempoEvento - DateTime.Now;
+
+                            if (difTime.Duration() < new TimeSpan(0, gap,0))
+                                salir = true;
+                            else if (intento == intentos)
+                                throw new Exception("No se presento un evento en la ventana de tiempo requerida");
+                            else { 
+                                System.Threading.Thread.Sleep(timeout);
+                                intento++;
+                            }
+                                
+                        }
+                    } while (salir == false);
                 }
 
                 object result = new
@@ -85,7 +95,6 @@ namespace LenelServices.Repositories.Logic
                     eventTime = lastLocation.eventTime,
                     panelId = lastLocation.panelId,
                     readerId = lastLocation.readerId,
-                    name = readerName
                 };
 
                 return result;
@@ -140,6 +149,8 @@ namespace LenelServices.Repositories.Logic
                     }
                     try { item.type = int.Parse(queryObj["TYPE"].ToString()); }
                     catch { item.type = null; }
+                    try { item.badgekey = int.Parse(queryObj["BADGEKEY"].ToString()); }
+                    catch { item.badgekey = 0; }
 
                     tarjetas.Add(item);
                 }

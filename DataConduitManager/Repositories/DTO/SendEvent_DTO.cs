@@ -17,5 +17,7 @@ namespace DataConduitManager.Repositories.DTO
         public bool? tapabocas { get; set; }
         public float? temperatura { get; set; }
         public float? tempRef { get; set; }
+        public string panelId { get; set;}
+        public string readerId { get; set; }
     }
 }

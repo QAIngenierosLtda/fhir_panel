@@ -353,5 +353,26 @@ namespace LenelServices.Controllers
                 alarmaEvento = (descripcion[1] == "1" || descripcion[2] == "1")
             };
         }
+
+        // GET: api/Reader
+        [HttpGet("/api/Reader/UltimaMarcacion/{panelID}/{readerID}/{gap}/{intentos}/{timeout}")]
+        public async Task<object> UltimaMarcacionLectora(int panelID, int readerID, int gap, int intentos, int timeout)
+        {
+            try
+            {
+                return await _reader_REP_LOCAL.LastEventDoor(panelID, readerID, gap, intentos, timeout);
+            }
+            catch (Exception ex)
+            {
+                object result = new
+                {
+                    success = false,
+                    status = 400,
+                    data = ex.Message
+                };
+
+                return BadRequest(result);
+            }
+        }
     }
 }

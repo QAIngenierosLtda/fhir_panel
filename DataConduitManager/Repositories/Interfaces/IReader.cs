@@ -86,5 +86,16 @@ namespace DataConduitManager.Repositories.Interfaces
         /// <param name="pass"></param>
         /// <returns></returns>
         Task<bool> SendIncomingEvent(SendEvent_DTO evento, string path, string user, string pass);
+
+        /// <summary>
+        /// obtiene la ultima marcacion de una puerta
+        /// </summary>
+        /// <param name="panelID"></param>
+        /// <param name="readerID"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
+        Task<ManagementObjectSearcher> GetLastLocationByDoor(int panelID, int readerID, int gap, string path, string user, string pass);
     }
 }

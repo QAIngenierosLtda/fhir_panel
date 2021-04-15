@@ -42,5 +42,16 @@ namespace LenelServices.Repositories.Interfaces
         /// <param name="evento"></param>
         /// <returns></returns>
         Task<bool> EnviarEventoGenerico(SendEvent_DTO evento);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="panelID"></param>
+        /// <param name="readerID"></param>
+        /// <param name="gap"></param>
+        /// <param name="intentos"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        Task<object> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout);
     }
 }

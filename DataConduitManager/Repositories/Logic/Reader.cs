@@ -194,6 +194,40 @@ namespace DataConduitManager.Repositories.Logic
                 throw new Exception( ex.Message );
             }
         }
+
+        public async Task<ManagementObjectSearcher> GetLastLocationByDoor(int panelID, int readerID, int gap, string path, string user, string pass)
+        {
+            try
+            {
+                DateTime minDate = DateTime.Now - new TimeSpan(0, 0, gap);
+                DateTime maxDate = DateTime.Now + new TimeSpan(0, 0, gap);
+
+                StringBuilder query = new StringBuilder();
+
+                query.Append("SELECT * FROM Lnl_BadgeLastLocation WHERE PANELID = ");
+                query.Append(panelID);
+                query.Append(" AND READERID = ");
+                query.Append(readerID);
+                query.Append(" AND ACCESSFLAG = 1 AND EVENTTIME >= '");
+                query.Append(minDate.ToString("yyyyMMddHHmmss"));
+                query.Append(".000000-300'");
+                query.Append(" AND EVENTTIME <= '");
+                query.Append(maxDate.ToString("yyyyMMddHHmmss"));
+                query.Append(".000000-300'");
+
+                ManagementScope badgeScope = _dataConduITMgr.GetManagementScope(path, user, pass);
+                ObjectQuery badgeSearcher = new ObjectQuery(query.ToString());
+
+                ManagementObjectSearcher getBadge = new ManagementObjectSearcher(badgeScope, badgeSearcher);
+
+                try { return getBadge; }
+                catch (Exception ex) { throw new Exception(ex.Message); }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
     }
 }

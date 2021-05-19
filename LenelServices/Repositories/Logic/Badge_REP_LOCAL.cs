@@ -43,8 +43,9 @@ namespace LenelServices.Repositories.Logic
             bool salir = false;
             DateTime tiempoEvento = new DateTime();
             int personaId = 0;
-            string readerName = string.Empty;
-            LastLocation_DTO lastLocation = new LastLocation_DTO();
+            string resultado = "OK";
+            
+            List<LastLocation_DTO> listLocations = new List<LastLocation_DTO>();
             ManagementObjectSearcher cardHolder = await _cardHolder_REP.GetCardHolder(documento, "", _path, _user, _pass);
 
             try
@@ -60,41 +61,53 @@ namespace LenelServices.Repositories.Logic
                     int intento = 1;
                     do {
                         ManagementObjectSearcher LastLocation = await _badge_REP.GetLastLocation(personaId, _path, _user, _pass);
+                        listLocations.Clear();
 
                         foreach (ManagementObject queryObj in LastLocation.Get())
                         {
+                            LastLocation_DTO lastLocation = new LastLocation_DTO();
                             try { lastLocation.badgeId = queryObj["BADGEID"].ToString(); } catch { lastLocation.badgeId = "0"; }
                             try { lastLocation.eventTime = queryObj["EVENTTIME"].ToString(); } catch { lastLocation.eventTime = null; }
                             try { lastLocation.panelId = (int)queryObj["PANELID"]; } catch { lastLocation.panelId = 0; }
                             try { lastLocation.readerId = (int)queryObj["READERID"]; } catch { lastLocation.readerId = 0; }
+                            listLocations.Add(lastLocation);
+                        }
+                        
+                        foreach (LastLocation_DTO location in listLocations) {
+                            if (string.IsNullOrEmpty(location.eventTime))
+                                throw new Exception("no se encontró un evento asociado");
+                            else
+                            {
+                                tiempoEvento = DateTime.ParseExact(location.eventTime.Substring(0, 14), "yyyyMMddHHmmss", null);
+                                TimeSpan difTime = tiempoEvento - DateTime.Now;
+
+                                if (difTime.Duration() < new TimeSpan(0, 0, gap)) 
+                                {
+                                    salir = true;
+                                    break;
+                                }
+                            }
                         }
 
-                        if (string.IsNullOrEmpty(lastLocation.eventTime))
-                            throw new Exception("no se encontró un evento asociado");
+                        if (intento == intentos && salir != true)
+                        {
+                            resultado = "No se presento un evento en la ventana de tiempo requerida";
+                            salir = true;
+                        }
+
                         else
                         {
-                            tiempoEvento = DateTime.ParseExact(lastLocation.eventTime.Substring(0,14),"yyyyMMddHHmmss",null);
-                            TimeSpan difTime = tiempoEvento - DateTime.Now;
-
-                            if (difTime.Duration() < new TimeSpan(0, gap,0))
-                                salir = true;
-                            else if (intento == intentos)
-                                throw new Exception("No se presento un evento en la ventana de tiempo requerida");
-                            else { 
-                                System.Threading.Thread.Sleep(timeout);
-                                intento++;
-                            }
-                                
+                            System.Threading.Thread.Sleep(timeout);
+                            intento++;
                         }
+
                     } while (salir == false);
                 }
 
                 object result = new
                 {
-                    badgeId = lastLocation.badgeId,
-                    eventTime = lastLocation.eventTime,
-                    panelId = lastLocation.panelId,
-                    readerId = lastLocation.readerId,
+                    locations = listLocations,
+                    result = resultado
                 };
 
                 return result;

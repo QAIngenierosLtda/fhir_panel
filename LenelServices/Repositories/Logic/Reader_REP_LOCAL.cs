@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Management;
 using LenelServices.Repositories.DTO;
@@ -100,6 +101,68 @@ namespace LenelServices.Repositories.Logic
                 return await _reader_REP.SendIncomingEvent(evento, _path, _user, _pass);
             } 
             catch (Exception ex){ throw new Exception("no se pudo crear el evento " + ex.Message); }
+        }
+
+        public async Task<object> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout)
+        {
+            bool salir = false;
+            bool success = false;
+            DateTime tiempoEvento = new DateTime();
+            string resultado = "OK";
+            List<LastLocation_DTO> listLocations = new List<LastLocation_DTO>();
+
+            try
+            {
+                int intento = 1;
+                do
+                {
+                    ManagementObjectSearcher LastLocation = await _reader_REP.GetLastLocationByDoor(panelID, readerID, gap, _path, _user, _pass);
+
+                    foreach (ManagementObject queryObj in LastLocation.Get())
+                    {
+                        LastLocation_DTO lastLocation = new LastLocation_DTO();
+                        try { lastLocation.badgeId = queryObj["BADGEID"].ToString(); } catch { lastLocation.badgeId = "0"; }
+                        try { lastLocation.eventTime = queryObj["EVENTTIME"].ToString(); } catch { lastLocation.eventTime = null; }
+                        try { lastLocation.panelId = (int)queryObj["PANELID"]; } catch { lastLocation.panelId = 0; }
+                        try { lastLocation.readerId = (int)queryObj["READERID"]; } catch { lastLocation.readerId = 0; }
+                        listLocations.Add(lastLocation);
+                    }
+
+                    if (listLocations.Count > 0)
+                    {
+                        resultado = "OK";
+                        salir = true;
+                    }                        
+
+                    if (intento == intentos && salir != true)
+                    {
+                        resultado = "No se presento un evento en la ventana de tiempo requerida";
+                        salir = true;
+                    }
+                    else
+                    {
+                        System.Threading.Thread.Sleep(timeout);
+                        intento++;
+                    }
+
+                } while (salir == false);
+
+                if (resultado == "OK")
+                    success = true;
+
+                object result = new
+                {
+                    locations = listLocations,
+                    result = resultado,
+                    success
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         #endregion
     }

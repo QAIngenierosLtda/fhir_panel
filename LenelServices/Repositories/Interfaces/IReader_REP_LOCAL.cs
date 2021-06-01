@@ -52,6 +52,16 @@ namespace LenelServices.Repositories.Interfaces
         /// <param name="intentos"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        Task<object> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout);
+        Task<ResLastLocation_DTO> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout);
+
+        /// <summary>
+        /// Transaccion de autorizacion de ingreso OnGuard 
+        /// </summary>
+        /// <param name="evento"></param>
+        /// <param name="gap"></param>
+        /// <param name="intentos"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut);
     }
 }

@@ -178,72 +178,113 @@ namespace LenelServices.Controllers
             }
         }
 
+        //[HttpPost("/api/Reader/AutorizacionIngreso")]
+        //public async Task<object> AutorizarIngreso([FromBody] SendEvent_DTO evento)
+        //{
+        //    try
+        //    {
+        //        //Obtiene la información de la persona que esta ingresando 
+        //        int badgekey = 0;
+        //        string badgeID = "";
+        //        GetCardHolder_DTO persona = await _cardHolder_REP_LOCAL.ObtenerPersona(evento.documento, "");
+
+        //        //obtiene un badgekey activo de la persona
+        //        foreach (GetBadge_DTO badge in persona.Badges)
+        //        {
+        //            if (badge.estado == "1")
+        //            {
+        //                badgekey = badge.badgekey;
+        //                badgeID = badge.badgeID;
+        //            }
+        //        }
+
+        //        if (badgekey == 0)
+        //            throw new Exception("no se encontro un badge activo");
+
+        //        EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
+        //        SendEvent_DTO acceso = new SendEvent_DTO
+        //        {
+        //            source = evento.source,
+        //            device = evento.device,
+        //            subdevice = evento.subdevice
+        //        };
+        //        ReaderPath_DTO lectora = new ReaderPath_DTO
+        //        {
+        //            panelID = evento.panelId,
+        //            readerID = evento.readerId,
+        //        };
+
+
+        //        if (evento.documento != null)
+        //            eval = GetDescripcion(tipoEvento.IB, evento);
+        //        else
+        //            eval = GetDescripcion(tipoEvento.IBNI, evento);
+
+        //        evento.description = eval.descripcionEvento;
+        //        //ENVIO DE EVENTO A LA PGR
+        //        bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
+        //        //EVENTO REGISTRO DE MARCACION Y ACCION
+        //        if (eval.alarmaEvento == false)
+        //        {
+        //            acceso.isAccessGranted = true;
+        //            acceso.isAccessDeny = null;
+        //            acceso.badgeId = int.Parse(badgeID);
+        //            await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
+        //            await _reader_REP_LOCAL.AbrirPuerta(lectora);
+        //        }
+        //        else
+        //        {
+        //            acceso.isAccessGranted = null;
+        //            acceso.isAccessDeny = true;
+        //            acceso.badgeId = evento.badgeId;
+        //            await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
+
+        //            if ((bool)evento.validaIdentidad == false)
+        //            {
+        //                ResLastLocation_DTO lastEvent = await _reader_REP_LOCAL.LastEventDoor(int.Parse(evento.panelId),
+        //                int.Parse(evento.readerId), 15, 3, 2000);
+
+        //                if (lastEvent.success)
+        //                {
+        //                    //GetCardHolder_DTO lastperson = await _cardHolder_REP_LOCAL.ObtenerPersona(lastEvent.locations[0].badgeId);
+        //                    eval.descripcionEvento = eval.descripcionEvento + "|" + evento.documentoRfId;
+        //                }
+        //                else
+        //                    eval.descripcionEvento = eval.descripcionEvento + "|NA";
+        //            }
+        //        }
+
+        //        if (enviado)
+        //            return eval;
+        //        else
+        //            throw new Exception("No se pudo enviar el evento");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        object result = new
+        //        {
+        //            sucess = false,
+        //            status = 400,
+        //            data = ex.Message
+        //        };
+
+        //        return BadRequest(result);
+        //    }
+        //}
         [HttpPost("/api/Reader/AutorizacionIngreso")]
         public async Task<object> AutorizarIngreso([FromBody] SendEvent_DTO evento)
         {
             try
             {
-                //Obtiene la información de la persona que esta ingresando 
-                int badgekey = 0;
-                string badgeID = "";
-                GetCardHolder_DTO persona = await _cardHolder_REP_LOCAL.ObtenerPersona(evento.documento, "");
-
-                //obtiene un badgekey de la persona
-                foreach (GetBadge_DTO badge in persona.Badges) {
-                    if (badge.estado == "1")
-                    {
-                        badgekey = badge.badgekey;
-                        badgeID = badge.badgeID;
-                    }
-                        
-                }
-
-                if (badgekey == 0)
-                    throw new Exception("no se encontro un badge activo");
-
-                EvaluacionEvento_DTO eval = new EvaluacionEvento_DTO();
-                SendEvent_DTO acceso = new SendEvent_DTO { 
-                    source = evento.source,
-                    device = evento.device,
-                    subdevice = evento.subdevice
-                };
-                ReaderPath_DTO lectora = new ReaderPath_DTO {
-                    panelID = evento.panelId,
-                    readerID = evento.readerId,
-                };
-
-
-                if (evento.documento != null)
-                    eval = GetDescripcion(tipoEvento.IB, evento);
-                else
-                    eval = GetDescripcion(tipoEvento.IBNI, evento);
-
-                evento.description = eval.descripcionEvento;
-                //ENVIO DE EVENTO A LA PGR
-                bool enviado = await _reader_REP_LOCAL.EnviarEventoGenerico(evento);
-                //EVENTO REGISTRO DE MARCACION Y ACCION
-                if (eval.alarmaEvento == false)
+                object result = new
                 {
-                    acceso.isAccessGranted = true;
-                    acceso.isAccessDeny = null;
-                    acceso.badgeId = int.Parse(badgeID);
-                    await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
-                    await _reader_REP_LOCAL.AbrirPuerta(lectora);
-                }
-                else {
-                    acceso.isAccessGranted = null;
-                    acceso.isAccessDeny = true;
-                    acceso.badgeId = evento.badgeId;
-                    await _reader_REP_LOCAL.EnviarEventoGenerico(acceso);
-                    //await _reader_REP_LOCAL.BloquearPuerta(lectora);
-                }
-
-                if (enviado)
-                    return eval;
-                else
-                    throw new Exception("No se pudo enviar el evento");
+                    sucess = await _reader_REP_LOCAL.AutorizacionIngreso(evento, 15, 3, 2000),
+                    status = 200,
+                    data = "Done"
+                };
+                return result;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 object result = new
                 {
@@ -327,33 +368,6 @@ namespace LenelServices.Controllers
             }
         }
 
-        /// <summary>
-        /// Devuelve resultado del analisis de temperatura y tapabocas
-        /// </summary>
-        /// <param name="tipo">
-        /// 0-Ingreso Biometrico, 1-Ingreso Biometrico No Identificado,
-        /// 2-Salida Biometrico, 3-Salida Biometrico No identificado
-        /// </param>
-        /// <param name="evento"></param>
-        /// <returns></returns>
-        private EvaluacionEvento_DTO GetDescripcion(tipoEvento tipo, SendEvent_DTO evento)
-        {
-            List<string> descripcion = new List<string>
-            {
-                tipo.ToString(), //NOMBRE DEL EVENTO
-                (bool)evento.tapabocas ? "0" : "1", //ALERTA DE TAPABOCAS
-                (evento.temperatura <= evento.tempRef) ? "0" : "1", //ALERTA DE TEMPERATURA
-            };
-
-            return new EvaluacionEvento_DTO
-            {
-                descripcionEvento = descripcion[0] + "|" + descripcion[1] + "|" + descripcion[2] +
-                    "|" + evento.documento.ToString() + "|" + evento.temperatura.ToString() +
-                    "|" + evento.tempRef.ToString(),
-                alarmaEvento = (descripcion[1] == "1" || descripcion[2] == "1")
-            };
-        }
-
         // GET: api/Reader
         [HttpGet("/api/Reader/UltimaMarcacion/{panelID}/{readerID}/{gap}/{intentos}/{timeout}")]
         public async Task<object> UltimaMarcacionLectora(int panelID, int readerID, int gap, int intentos, int timeout)
@@ -374,5 +388,34 @@ namespace LenelServices.Controllers
                 return BadRequest(result);
             }
         }
+
+        /// <summary>
+        /// Devuelve resultado del analisis de temperatura y tapabocas
+        /// </summary>
+        /// <param name="tipo">
+        /// 0-Ingreso Biometrico, 1-Ingreso Biometrico No Identificado,
+        /// 2-Salida Biometrico, 3-Salida Biometrico No identificado
+        /// </param>
+        /// <param name="evento"></param>
+        /// <returns></returns>
+        private EvaluacionEvento_DTO GetDescripcion(tipoEvento tipo, SendEvent_DTO evento)
+        {
+            List<string> descripcion = new List<string>
+            {
+                tipo.ToString(), //NOMBRE DEL EVENTO
+                (bool)evento.tapabocas ? "0" : "1", //ALERTA DE TAPABOCAS
+                (evento.temperatura <= evento.tempRef) ? "0" : "1", //ALERTA DE TEMPERATURA
+                (bool)evento.validaIdentidad? "0" : "1" //ALERTA DOCUMENTO Y BADGE NO COINCIDEN
+            };
+
+            return new EvaluacionEvento_DTO
+            {
+                descripcionEvento = descripcion[0] + "|" + descripcion[1] + "|" + descripcion[2] +
+                    "|" + evento.documento.ToString() + "|" + evento.temperatura.ToString() +
+                    "|" + evento.tempRef.ToString() + "|" + descripcion[3],
+                alarmaEvento = (descripcion[1] == "1" || descripcion[2] == "1" || descripcion[3] == "1")
+            };
+        }
+
     }
 }

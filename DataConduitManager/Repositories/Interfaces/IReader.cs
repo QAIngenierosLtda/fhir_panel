@@ -97,5 +97,19 @@ namespace DataConduitManager.Repositories.Interfaces
         /// <param name="pass"></param>
         /// <returns></returns>
         Task<ManagementObjectSearcher> GetLastLocationByDoor(int panelID, int readerID, int gap, string path, string user, string pass);
+
+        /// <summary>
+        /// Transaccion Completa de autorizacion de ingreso a una persona en OnGuard
+        /// </summary>
+        /// <param name="evento"></param>
+        /// <param name="gap"></param>
+        /// <param name="intentos"></param>
+        /// <param name="timeOut"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut,
+            string path, string user, string password);
     }
 }

@@ -259,84 +259,91 @@ namespace DataConduitManager.Repositories.Logic
             ManagementScope IngresoScope = _dataConduITMgr.GetManagementScope(path, user, password);
 
             #region OBTENER PERSONA
-
-            ObjectQuery cardHolderSearcher =
-                new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + evento.documento + /*"' AND SSNO = '" + ssno +*/ "'");
-            ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(IngresoScope, cardHolderSearcher);
-
-            try
+            if (evento.documento != null || evento.esVisitante == true)
             {
-                foreach (ManagementObject queryObj in getCardHolder.Get())
+                ObjectQuery cardHolderSearcher =
+                    new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + evento.documento + /*"' AND SSNO = '" + ssno +*/ "'");
+                ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(IngresoScope, cardHolderSearcher);
+
+                try
                 {
-                    persona.id = int.Parse(queryObj["ID"].ToString());
-                    try { persona.apellidos = queryObj["LASTNAME"].ToString(); } catch { persona.apellidos = null; }
-                    try { persona.nombres = queryObj["FIRSTNAME"].ToString(); } catch { persona.nombres = null; }
-                    try { persona.ssno = queryObj["SSNO"].ToString(); } catch { persona.ssno = null; }
-                    try { persona.status = queryObj["STATE"].ToString(); } catch { persona.status = null; }
-                    try { persona.documento = queryObj["OPHONE"].ToString(); } catch { persona.documento = null; }
-                    try { persona.empresa = queryObj["TITLE"].ToString(); } catch { persona.empresa = null; }
-                    try { persona.ciudad = queryObj["DEPT"].ToString(); } catch { persona.ciudad = null; }
-                    try { persona.instalacion = queryObj["BUILDING"].ToString(); } catch { persona.instalacion = null; }
-                    try { persona.piso = queryObj["FLOOR"].ToString(); } catch { persona.piso = null; }
-                    try { persona.area = queryObj["DIVISION"].ToString(); } catch { persona.area = null; }
-                    try { persona.email = queryObj["EMAIL"].ToString(); } catch { persona.email = null; }
-                    persona.permiteVisitantes = (bool)queryObj["ALLOWEDVISITORS"];
-
-                    #region OBTENER BADGE ACTIVO
-                    ObjectQuery badgeSearcher = new ObjectQuery(@"SELECT * FROM Lnl_Badge WHERE PERSONID = '" + queryObj["ID"].ToString() + "'  AND STATUS = 1");
-                    ManagementObjectSearcher getBadge = new ManagementObjectSearcher(IngresoScope, badgeSearcher);
-
-                    foreach (ManagementObject queryObjBadge in getBadge.Get())
+                    foreach (ManagementObject queryObj in getCardHolder.Get())
                     {
-                        GetBadgeDC_DTO item = new GetBadgeDC_DTO();
-                        item.badgeID = queryObj["ID"].ToString();
-                        try
-                        {
-                            item.activacion = DateTime.ParseExact(queryObjBadge["ACTIVATE"].ToString().Substring(0, 14),
-                                "yyyyMMddHHmmss", null);
-                        }
-                        catch
-                        {
-                            item.activacion = null;
-                        }
-                        try
-                        {
-                            item.desactivacion = DateTime.ParseExact(queryObjBadge["DEACTIVATE"].ToString().Substring(0, 14),
-                                "yyyyMMddHHmmss", null);
-                        }
-                        catch
-                        {
-                            item.desactivacion = null;
-                        }
-                        try
-                        {
-                            item.estado = queryObjBadge["STATUS"].ToString();
-                        }
-                        catch
-                        {
-                            item.desactivacion = null;
-                        }
-                        try { item.type = int.Parse(queryObjBadge["TYPE"].ToString()); }
-                        catch { item.type = null; }
-                        try { item.badgekey = int.Parse(queryObjBadge["BADGEKEY"].ToString()); }
-                        catch { item.badgekey = 0; }
+                        persona.id = int.Parse(queryObj["ID"].ToString());
+                        try { persona.apellidos = queryObj["LASTNAME"].ToString(); } catch { persona.apellidos = null; }
+                        try { persona.nombres = queryObj["FIRSTNAME"].ToString(); } catch { persona.nombres = null; }
+                        try { persona.ssno = queryObj["SSNO"].ToString(); } catch { persona.ssno = null; }
+                        try { persona.status = queryObj["STATE"].ToString(); } catch { persona.status = null; }
+                        try { persona.documento = queryObj["OPHONE"].ToString(); } catch { persona.documento = null; }
+                        try { persona.empresa = queryObj["TITLE"].ToString(); } catch { persona.empresa = null; }
+                        try { persona.ciudad = queryObj["DEPT"].ToString(); } catch { persona.ciudad = null; }
+                        try { persona.instalacion = queryObj["BUILDING"].ToString(); } catch { persona.instalacion = null; }
+                        try { persona.piso = queryObj["FLOOR"].ToString(); } catch { persona.piso = null; }
+                        try { persona.area = queryObj["DIVISION"].ToString(); } catch { persona.area = null; }
+                        try { persona.email = queryObj["EMAIL"].ToString(); } catch { persona.email = null; }
+                        persona.permiteVisitantes = (bool)queryObj["ALLOWEDVISITORS"];
 
-                        tarjetas.Add(item);
+                        #region OBTENER BADGE ACTIVO
+                        ObjectQuery badgeSearcher = new ObjectQuery(@"SELECT * FROM Lnl_Badge WHERE PERSONID = '" + queryObj["ID"].ToString() + "'  AND STATUS = 1");
+                        ManagementObjectSearcher getBadge = new ManagementObjectSearcher(IngresoScope, badgeSearcher);
+
+                        foreach (ManagementObject queryObjBadge in getBadge.Get())
+                        {
+                            GetBadgeDC_DTO item = new GetBadgeDC_DTO();
+                            item.badgeID = queryObj["ID"].ToString();
+                            try
+                            {
+                                item.activacion = DateTime.ParseExact(queryObjBadge["ACTIVATE"].ToString().Substring(0, 14),
+                                    "yyyyMMddHHmmss", null);
+                            }
+                            catch
+                            {
+                                item.activacion = null;
+                            }
+                            try
+                            {
+                                item.desactivacion = DateTime.ParseExact(queryObjBadge["DEACTIVATE"].ToString().Substring(0, 14),
+                                    "yyyyMMddHHmmss", null);
+                            }
+                            catch
+                            {
+                                item.desactivacion = null;
+                            }
+                            try
+                            {
+                                item.estado = queryObjBadge["STATUS"].ToString();
+                            }
+                            catch
+                            {
+                                item.desactivacion = null;
+                            }
+                            try { item.type = int.Parse(queryObjBadge["TYPE"].ToString()); }
+                            catch { item.type = null; }
+                            try { item.badgekey = int.Parse(queryObjBadge["BADGEKEY"].ToString()); }
+                            catch { item.badgekey = 0; }
+
+                            tarjetas.Add(item);
+                        }
+                        #endregion
+
+                        persona.Badges = tarjetas;
                     }
-                    #endregion
 
-                    persona.Badges = tarjetas;
-                }
-
-                if (persona.id == 0)
-                    evento.Desconocido = true;
+                    if (persona.id == 0)
+                        evento.Desconocido = true;
                     //throw new Exception("no se encontró una persona registrada con esos datos");
 
+                }
+                catch (Exception ex)
+                {
+                    evento.Desconocido = true;
+                    //throw new Exception(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                evento.Desconocido = true;
-                //throw new Exception(ex.Message);
+                if ((bool)!evento.esVisitante)
+                    evento.Desconocido = true;
             }
             #endregion
 

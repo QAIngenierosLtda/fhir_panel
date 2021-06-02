@@ -278,9 +278,9 @@ namespace LenelServices.Controllers
             {
                 object result = new
                 {
-                    sucess = await _reader_REP_LOCAL.AutorizacionIngreso(evento, 15, 3, 2000),
+                    sucess = true,
                     status = 200,
-                    data = "Done"
+                    data = await _reader_REP_LOCAL.AutorizacionIngreso(evento, 15, 3, 2000),
                 };
                 return result;
             }

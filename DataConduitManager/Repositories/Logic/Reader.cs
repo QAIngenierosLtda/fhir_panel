@@ -239,7 +239,7 @@ namespace DataConduitManager.Repositories.Logic
         #endregion
 
         #region METODOS TRANSACCIONALES
-        public async Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut,
+        public async Task<object> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut,
             string path, string user, string password) 
         {
             
@@ -460,7 +460,7 @@ namespace DataConduitManager.Repositories.Logic
                 }
             }
             if (enviado)
-                return enviado;
+                return eval;
             else
                 throw new Exception("No se pudo enviar el evento");
 

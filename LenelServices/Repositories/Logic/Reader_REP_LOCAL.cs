@@ -165,7 +165,7 @@ namespace LenelServices.Repositories.Logic
             }
         }
 
-        public async Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut) 
+        public async Task<object> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut) 
         {
             return await _reader_REP.AutorizacionIngreso(evento, gap, intentos, gap, _path, _user, _pass);
         }

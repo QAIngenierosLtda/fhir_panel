@@ -62,6 +62,6 @@ namespace LenelServices.Repositories.Interfaces
         /// <param name="intentos"></param>
         /// <param name="timeOut"></param>
         /// <returns></returns>
-        Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut);
+        Task<object> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut);
     }
 }

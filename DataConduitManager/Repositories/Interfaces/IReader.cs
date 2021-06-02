@@ -109,7 +109,7 @@ namespace DataConduitManager.Repositories.Interfaces
         /// <param name="user"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<bool> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut,
+        Task<object> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut,
             string path, string user, string password);
     }
 }

@@ -330,20 +330,20 @@ namespace DataConduitManager.Repositories.Logic
                     }
 
                     if (persona.id == 0)
-                        evento.Desconocido = true;
+                        evento.PersonaConocida = true;
                     //throw new Exception("no se encontró una persona registrada con esos datos");
 
                 }
                 catch (Exception ex)
                 {
-                    evento.Desconocido = true;
+                    evento.PersonaConocida = true;
                     //throw new Exception(ex.Message);
                 }
             }
             else
             {
                 if ((bool)!evento.esVisitante)
-                    evento.Desconocido = true;
+                    evento.PersonaConocida = true;
             }
             #endregion
 
@@ -476,9 +476,9 @@ namespace DataConduitManager.Repositories.Logic
                 (bool)evento.tapabocas ? "0" : "1", //ALERTA DE TAPABOCAS
                 (evento.temperatura <= evento.tempRef) ? "0" : "1", //ALERTA DE TEMPERATURA
                 (bool)evento.validaIdentidad? "0" : "1", //ALERTA DOCUMENTO Y BADGE NO COINCIDEN
-                (bool)evento.ecoPassVencido? "0" : "1",
-                (bool)evento.Desconocido? "0" : "1",
-                (bool)evento.BiomeDesconectado? "0" : "1"
+                (bool)evento.ecoPassVigente? "0" : "1",
+                (bool)evento.PersonaConocida? "0" : "1",
+                (bool)evento.BiomeConectado? "0" : "1"
             };
 
             for (int i = 1; i < descripcion.Count; i++) 

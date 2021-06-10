@@ -259,14 +259,16 @@ namespace DataConduitManager.Repositories.Logic
             ManagementScope IngresoScope = _dataConduITMgr.GetManagementScope(path, user, password);
 
             #region OBTENER PERSONA
-            if (evento.documento != null || evento.esVisitante == true)
+            if (evento.documento != "" || evento.esVisitante == true)
             {
-                ObjectQuery cardHolderSearcher =
-                    new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + evento.documento + /*"' AND SSNO = '" + ssno +*/ "'");
-                ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(IngresoScope, cardHolderSearcher);
+                
 
                 try
                 {
+                    ObjectQuery cardHolderSearcher =
+                        new ObjectQuery(@"SELECT * FROM Lnl_CardHolder WHERE OPHONE = '" + evento.documento + /*"' AND SSNO = '" + ssno +*/ "'");
+                    ManagementObjectSearcher getCardHolder = new ManagementObjectSearcher(IngresoScope, cardHolderSearcher);
+
                     foreach (ManagementObject queryObj in getCardHolder.Get())
                     {
                         persona.id = int.Parse(queryObj["ID"].ToString());
@@ -333,26 +335,28 @@ namespace DataConduitManager.Repositories.Logic
                         evento.PersonaConocida = true;
                     //throw new Exception("no se encontró una persona registrada con esos datos");
 
+                    if (persona.Badges.Count > 0)
+                        {
+                            badgekey = persona.Badges[0].badgekey;
+                            badgeID = persona.Badges[0].badgeID;
+                        }
+                        else { throw new Exception("la persona no tiene un badge activo"); }
+
                 }
                 catch (Exception ex)
                 {
-                    evento.PersonaConocida = true;
+                    evento.PersonaConocida = false;
                     //throw new Exception(ex.Message);
                 }
             }
             else
             {
                 if ((bool)!evento.esVisitante)
-                    evento.PersonaConocida = true;
+                    evento.PersonaConocida = false;
             }
             #endregion
 
-            if (persona.Badges.Count > 0)
-            {
-                badgekey = persona.Badges[0].badgekey;
-                badgeID = persona.Badges[0].badgeID;
-            }
-            else { throw new Exception("la persona no tiene un badge activo"); }
+            
 
             #region EVENTO
             EvaluacionEventoDC_DTO eval = new EvaluacionEventoDC_DTO();
@@ -368,7 +372,7 @@ namespace DataConduitManager.Repositories.Logic
                 readerID = evento.readerId,
             };
 
-            if (evento.documento != null)
+            if (evento.documento != null && evento.documento != "")
                 eval = GetDescripcion(tipoEvento.IB, evento);
             else
                 eval = GetDescripcion(tipoEvento.IBNI, evento);

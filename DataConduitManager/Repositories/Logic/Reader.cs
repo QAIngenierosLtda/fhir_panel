@@ -259,10 +259,10 @@ namespace DataConduitManager.Repositories.Logic
             ManagementScope IngresoScope = _dataConduITMgr.GetManagementScope(path, user, password);
 
             #region OBTENER PERSONA
-            if (evento.documento != "" || evento.esVisitante == true)
+            
+            if (evento.documento != "" && evento.documento != null && evento.esVisitante == false)
             {
                 
-
                 try
                 {
                     ObjectQuery cardHolderSearcher =
@@ -332,7 +332,7 @@ namespace DataConduitManager.Repositories.Logic
                     }
 
                     if (persona.id == 0)
-                        evento.PersonaConocida = true;
+                        evento.PersonaConocida = false;
                     //throw new Exception("no se encontró una persona registrada con esos datos");
 
                     if (persona.Badges.Count > 0)
@@ -351,7 +351,7 @@ namespace DataConduitManager.Repositories.Logic
             }
             else
             {
-                if ((bool)!evento.esVisitante)
+                if (evento.documento == "" || evento.documento == null )
                     evento.PersonaConocida = false;
             }
             #endregion

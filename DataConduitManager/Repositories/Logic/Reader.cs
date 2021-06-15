@@ -209,6 +209,8 @@ namespace DataConduitManager.Repositories.Logic
             {
                 DateTime minDate = DateTime.Now - new TimeSpan(0, 0, gap);
                 DateTime maxDate = DateTime.Now + new TimeSpan(0, 0, gap);
+                System.Console.WriteLine(minDate);
+                System.Console.WriteLine(maxDate);
 
                 StringBuilder query = new StringBuilder();
 

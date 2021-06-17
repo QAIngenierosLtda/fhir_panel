@@ -68,7 +68,7 @@ namespace DataConduitManager.Repositories.Logic
             try
             {
                 ManagementScope badgeScope = _dataConduITMgr.GetManagementScope(path, user, pass);
-                ObjectQuery badgeSearcher = new ObjectQuery(@"SELECT * FROM Lnl_Badge WHERE PERSONID = '" + personId + "'");
+                ObjectQuery badgeSearcher = new ObjectQuery(@"SELECT * FROM Lnl_Badge WHERE PERSONID = '" + personId + "'  AND STATUS = 1");
                 ManagementObjectSearcher getBadge = new ManagementObjectSearcher(badgeScope, badgeSearcher);
 
                 try { return getBadge; }

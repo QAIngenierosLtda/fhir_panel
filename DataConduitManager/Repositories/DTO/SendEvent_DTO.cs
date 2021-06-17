@@ -19,5 +19,11 @@ namespace DataConduitManager.Repositories.DTO
         public float? tempRef { get; set; }
         public string panelId { get; set;}
         public string readerId { get; set; }
+        public bool? validaIdentidad { get; set; }
+        public string documentoRfId { get; set; }
+        public bool? esVisitante { get; set; }
+        public bool? ecoPassVigente { get; set; }
+        public bool? PersonaConocida { get; set; }
+        public bool? BiomeConectado { get; set; }
     }
 }

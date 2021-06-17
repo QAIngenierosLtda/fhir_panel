@@ -103,7 +103,7 @@ namespace LenelServices.Repositories.Logic
             catch (Exception ex){ throw new Exception("no se pudo crear el evento " + ex.Message); }
         }
 
-        public async Task<object> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout)
+        public async Task<ResLastLocation_DTO> LastEventDoor(int panelID, int readerID, int gap, int intentos, int timeout)
         {
             bool salir = false;
             bool success = false;
@@ -150,11 +150,11 @@ namespace LenelServices.Repositories.Logic
                 if (resultado == "OK")
                     success = true;
 
-                object result = new
+                ResLastLocation_DTO result = new ResLastLocation_DTO
                 {
                     locations = listLocations,
                     result = resultado,
-                    success
+                    success = success
                 };
 
                 return result;
@@ -163,6 +163,11 @@ namespace LenelServices.Repositories.Logic
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<object> AutorizacionIngreso(SendEvent_DTO evento, int gap, int intentos, int timeOut) 
+        {
+            return await _reader_REP.AutorizacionIngreso(evento, gap, intentos, gap, _path, _user, _pass);
         }
         #endregion
     }
